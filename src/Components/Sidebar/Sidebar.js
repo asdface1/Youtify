@@ -1,18 +1,50 @@
 import React from 'react';
 import { connect } from 'react-redux';
-
-import { update } from '../../Actions/UserActions';
+import './Sidebar.css';
 
 class Sidebar extends React.Component {
-  update() {
-    this.props.dispatch(update('Viktor'));
+  constructor() {
+    super();
+    this.state = { active: 0, width: 300 };
+  }
+
+  componentDidMount() {
+    window.addEventListener('mouseup', this.stopDrag);
+  }
+
+  startDrag = (e) => {
+    e.preventDefault();
+    window.addEventListener('mousemove', this.drag);
+  }
+
+  stopDrag = (e) => {
+    e.preventDefault();
+    window.removeEventListener('mousemove', this.drag);
+  }
+
+  pos = (x, min, max) => {
+    return Math.max(min, Math.min(x, max))
+  }
+
+  drag = (e) => {
+    this.setState({ width: this.pos(e.pageX, 200, 600) })
   }
 
   render() {
     return (
-      <div>
-        <h1>Welcome {this.props.user.name}</h1>
-        <button onClick={this.update.bind(this)}>Update</button>
+      <div id='Sidebar' style={{ width: this.state.width + 'px'}}>
+        <div className="flex flex-col flex-fill justify-content-between">
+          <div style={{ overflowY: 'auto' }}>
+            <Menu header="Playlists" active={this.state.active} setActive={(i) => {this.setState({active: i})}}
+              items={[...Array(5).keys()].map(i => 'Playlist ' + i)} />
+          </div>
+          <button className="ui large black fluid right labeled icon button" style={{borderRadius: 0}}>
+            New playlist
+            <i className="ui large plus circle icon" />
+          </button>
+        </div>
+        <img src='http://www.roadtovr.com/wp-content/uploads/2015/03/youtube-logo2.jpg' alt="" />
+        <div id='dragbar' onMouseDown={this.startDrag}></div>
       </div>
     )
   }
@@ -20,6 +52,24 @@ class Sidebar extends React.Component {
 
 export default connect(store => {
   return {
-    user: store.user
+    app: store.app,
+    user: store.user,
   }
 })(Sidebar);
+
+const Menu = ({ header, items, active, setActive }) => {
+  return (
+    <div className="ui secondary vertical fluid inverted pointing menu" style={{ background: 'none' }}>
+      <p></p>
+      <div className="header item">{ header }</div>
+      {
+        items.map((item, i) => {
+          return (
+            <a className={"item " + (i === active ? "active" : "")}
+              onClick={() => setActive(i)} key={i}>{ item }</a>
+          )
+        })
+      }
+    </div>
+  )
+};

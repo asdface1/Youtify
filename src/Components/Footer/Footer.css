@@ -1,0 +1,16 @@
+#Footer {
+  background-color: #282828;
+  display: flex;
+  align-items: center;
+  flex: 0 0 88px;
+  box-sizing: border-box; }
+
+#Footer .segment {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 20%;
+  padding: 0 20px;
+  color: white; }
+
+#Footer .segment.large {
+  flex: 1; }
