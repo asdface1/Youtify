@@ -7,14 +7,14 @@ import * as AppActions from '../../Actions/AppActions';
 class Footer extends React.Component {
   constructor() {
     super();
-    this.state = { play: true };
+    this.state = { play: false };
   }
 
   toggle = () => {
     if (this.state.play === true) {
       this.props.dispatch(AppActions.pauseVideo());
     } else {
-      this.props.dispatch(AppActions.pauseVideo());
+      this.props.dispatch(AppActions.playVideo());
     }
     this.setState({ play: !this.state.play });
   }
@@ -31,7 +31,7 @@ class Footer extends React.Component {
             <i className="large random icon" />
             <i className="large step backward icon" />
             <a onClick={this.toggle}>
-              <i className={"huge " + (this.state.play ? "play" : "pause") + " circle icon"} />
+              <i className={"huge " + (this.state.play ? "pause" : "play") + " circle icon"} />
             </a>
             <i className="large step forward icon" />
             <i className="large repeat icon" />
