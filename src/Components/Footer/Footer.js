@@ -1,13 +1,21 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import './Footer.css';
 
-export default class Footer extends React.Component {
+import * as AppActions from '../../Actions/AppActions';
+
+class Footer extends React.Component {
   constructor() {
     super();
     this.state = { play: true };
   }
 
   toggle = () => {
+    if (this.state.play === true) {
+      this.props.dispatch(AppActions.pauseVideo());
+    } else {
+      this.props.dispatch(AppActions.pauseVideo());
+    }
     this.setState({ play: !this.state.play });
   }
 
@@ -36,3 +44,9 @@ export default class Footer extends React.Component {
     )
   }
 }
+
+export default connect(store => {
+  return {
+    player: store.player
+  }
+})(Footer);
