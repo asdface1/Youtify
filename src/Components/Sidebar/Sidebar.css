@@ -4,14 +4,12 @@
   flex-direction: column;
   position: relative;
   justify-content: space-between; }
-
-#Sidebar img {
-  width: 100%;
-  height: auto; }
-
-#Sidebar #dragbar {
-  position: absolute;
-  right: -5px;
-  height: 100%;
-  width: 10px;
-  cursor: col-resize; }
+  #Sidebar img {
+    width: 100%;
+    height: auto; }
+  #Sidebar #dragbar {
+    position: absolute;
+    right: -5px;
+    height: 100%;
+    width: 10px;
+    cursor: col-resize; }

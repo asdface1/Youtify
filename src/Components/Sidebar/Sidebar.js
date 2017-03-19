@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import './Sidebar.css';
 
+import Player from '../Player/Player';
+
 class Sidebar extends React.Component {
   constructor() {
     super();
@@ -43,7 +45,8 @@ class Sidebar extends React.Component {
             <i className="ui large plus circle icon" />
           </button>
         </div>
-        <img src='http://www.roadtovr.com/wp-content/uploads/2015/03/youtube-logo2.jpg' alt="" />
+        <Player />
+        {/*<img src='http://www.roadtovr.com/wp-content/uploads/2015/03/youtube-logo2.jpg' alt="" />*/}
         <div id='dragbar' onMouseDown={this.startDrag}></div>
       </div>
     )
