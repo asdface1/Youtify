@@ -1,32 +1,26 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import "./Player.css";
+
 import Youtube from 'react-youtube';
 
-export default class player extends React.Component {
+import * as AppActions from '../../Actions/AppActions';
+
+class Player extends React.Component {
   constructor(){
       super()
       this.state = {player: {}, duration: 0};
   }
-  playVideo = () =>{
-    this.state.player.playVideo();
-  }
-  pauseVideo = () =>{
-    this.state.player.pauseVideo();
-  }
-  volume = (event) => {
-    this.state.player.setVolume(event.target.value);
-  }
+
   _onReady(event) {
-    // access to player in all event handlers via event.target
-  	this.setState({ player: event.target, duration: event.target.getDuration() })
-    this.state.player.setVolume(10);
+  	this.props.dispatch(AppActions.setPlayer(event.target));
     console.log(event.target)
   }
   render() {
 
   	const opts = {
       playerVars: {
-        autoplay: 1,
+        autoplay: 0,
         showinfo: 0,
         controls: 0
       }
@@ -48,3 +42,9 @@ export default class player extends React.Component {
 
   }
 }
+
+export default connect(store => {
+  return {
+    player: store.app.player,
+  }
+})(Player);
