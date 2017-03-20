@@ -13,6 +13,9 @@ export default function reducer(state=initialState, action) {
     case 'SET_VOLUME':
       state.player.setVolume(action.payload.volume);
       return state; 
+    case 'SET_TIME':
+      state.player.seekTo(action.payload.time);
+      return state; 
     default:
       return state;
   }

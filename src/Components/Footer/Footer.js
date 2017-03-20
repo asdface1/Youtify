@@ -10,7 +10,7 @@ import * as AppActions from '../../Actions/AppActions';
 class Footer extends React.Component {
   constructor() {
     super();
-    this.state = { isPlaying: false, value: 30, duration: 241, volume: 50 };
+    this.state = { isPlaying: false, time: 30, duration: 241, volume: 50 };
   }
 
   toggle = () => {
@@ -23,13 +23,15 @@ class Footer extends React.Component {
   }
 
   handleChange = (value) => {
-    this.setState({ value: value });
+    this.setState({ time: value });
+    this.props.dispatch(AppActions.seekTo(value))
+
   }
 
 
-  handleVolume = (event) => {
-    this.setState({volume: event});
-    this.props.dispatch(AppActions.setVolume(event))
+  handleVolume = (value) => {
+    this.setState({volume: value});
+    this.props.dispatch(AppActions.setVolume(value))
   }
 
 
@@ -59,11 +61,11 @@ class Footer extends React.Component {
             <a><i className="large refresh icon" /></a>
           </div>
           <div className="slider">
-            <span className="label">{this.format(this.state.value)}</span>
+            <span className="label">{this.format(this.state.time)}</span>
             <InputRange
               minValue={0}
               maxValue={this.state.duration}
-              value={this.state.value}
+              value={this.state.time}
               onChange={this.handleChange} />
             <span className="label">{this.format(this.state.duration)}</span>
           </div>

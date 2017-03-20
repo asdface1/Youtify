@@ -24,3 +24,11 @@ export function setVolume(value){
     }
   }
 }
+export function seekTo(value){
+  return {
+    type: 'SET_TIME',
+    payload: {
+      time: value,
+    }
+  }
+}
