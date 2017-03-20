@@ -11,9 +11,8 @@ class Footer extends React.Component {
   constructor() {
     super();
     this.state = { isPlaying: false, time: 0, duration: 241, volume: 50 };
-    this.handleTime();
   }
-
+  
   toggle = () => {
     if (this.state.isPlaying === true) {
       this.props.dispatch(AppActions.pauseVideo());
@@ -42,16 +41,16 @@ class Footer extends React.Component {
   }
 
 
-  handleTime = () => {
-    setInterval(() => {
-      console.log("props.player: ", this.props.player);
-      console.log("state:", this.state);
-      if(this.props.player && this.state.isPlaying && this.state.duration>(this.state.time+0.25)){
+  
+  componentDidMount() {
+    //TODO: only run if video is playing
+    var intervalId = setInterval(() => {
+      if(this.props.player && this.state.time!=this.props.player.getDuration()){
         this.setState({time: this.props.player.getCurrentTime()});
       }
-      /*else if(this.state && this.state.isPlaying){
-        this.setState({time: this.state.duration})
-      }*/
+      else if(this.props.player && this.state.time==this.props.player.getDuration()){
+        clearInterval(intervalId);
+      }
     }, 250);
   }
 
@@ -103,6 +102,6 @@ class Footer extends React.Component {
 
 export default connect(store => {
   return {
-    player: store.player
+    player: store.app.player
   }
 })(Footer);
