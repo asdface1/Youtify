@@ -11,6 +11,7 @@ class Footer extends React.Component {
   constructor() {
     super();
     this.state = { isPlaying: false, time: 30, duration: 241, volume: 50 };
+    this.handleTime();
   }
 
   toggle = () => {
@@ -25,15 +26,13 @@ class Footer extends React.Component {
   handleChange = (value) => {
     this.setState({ time: value });
     this.props.dispatch(AppActions.seekTo(value))
-
   }
-
 
   handleVolume = (value) => {
     this.setState({volume: value});
     this.props.dispatch(AppActions.setVolume(value))
+    this.setState({time: 37});
   }
-
 
   format = (seconds) => {
     var min = Math.floor(seconds / 60);
@@ -41,6 +40,16 @@ class Footer extends React.Component {
     sec = sec < 10 ? '0' + sec : sec;
     return min + ':' + sec
   }
+
+
+  handleTime = () => {
+    setInterval(() => {
+      if(this.state && this.state.isPlaying){
+        this.setState({time: (this.state.time+0.25)});
+      }
+    }, 250);
+  }
+
 
   render() {
     const volumeIcon = this.state.volume > 0 ? (this.state.volume >= 50 ? 'up' : 'down') : 'off';

@@ -32,3 +32,10 @@ export function seekTo(value){
     }
   }
 }
+/*
+export function getCurrentTime(){
+  console.log("action::retard");
+  return {
+    type: 'GET_TIME',
+  }
+}*/
