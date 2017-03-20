@@ -10,7 +10,7 @@ import * as AppActions from '../../Actions/AppActions';
 class Footer extends React.Component {
   constructor() {
     super();
-    this.state = { isPlaying: false, time: 30, duration: 241, volume: 50 };
+    this.state = { isPlaying: false, time: 0, duration: 241, volume: 50 };
     this.handleTime();
   }
 
@@ -44,9 +44,14 @@ class Footer extends React.Component {
 
   handleTime = () => {
     setInterval(() => {
-      if(this.state && this.state.isPlaying){
-        this.setState({time: (this.state.time+0.25)});
+      console.log("props.player: ", this.props.player);
+      console.log("state:", this.state);
+      if(this.props.player && this.state.isPlaying && this.state.duration>(this.state.time+0.25)){
+        this.setState({time: this.props.player.getCurrentTime()});
       }
+      /*else if(this.state && this.state.isPlaying){
+        this.setState({time: this.state.duration})
+      }*/
     }, 250);
   }
 
