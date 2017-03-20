@@ -16,11 +16,6 @@ export default function reducer(state=initialState, action) {
     case 'SET_TIME':
       state.player.seekTo(action.payload.time);
       return state; 
-    /*case 'GET_TIME': 
-      console.log("reducer::state ", state.player.getCurrentTime());
-      //return state.player.getCurrentTime(); 
-      return { ...state, time: state.player.getCurrentTime() };
-*/
     default:
       return state;
   }
