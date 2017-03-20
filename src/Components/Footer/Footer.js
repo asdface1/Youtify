@@ -26,10 +26,12 @@ class Footer extends React.Component {
     this.setState({ value: value });
   }
 
-  handleVolume = (value) => {
-    this.setState({ volume: value });
-    this.props.dispatch(AppActions.setVolume(value));
+
+  handleVolume = (event) => {
+    this.setState({volume: event});
+    this.props.dispatch(AppActions.setVolume(event))
   }
+
 
   format = (seconds) => {
     var min = Math.floor(seconds / 60);

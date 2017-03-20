@@ -18,7 +18,6 @@ export function pauseVideo(){
 }
 export function setVolume(value){
   return {
-
     type: 'SET_VOLUME',
     payload: {
       volume: value,

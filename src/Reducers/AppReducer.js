@@ -11,7 +11,7 @@ export default function reducer(state=initialState, action) {
       state.player.pauseVideo();
       return state;
     case 'SET_VOLUME':
-      state.player.setVolume(action.payload.value);
+      state.player.setVolume(action.payload.volume);
       return state; 
     default:
       return state;
