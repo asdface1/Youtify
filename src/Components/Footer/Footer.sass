@@ -7,10 +7,120 @@
 
   .segment
     display: flex
-    flex-direction: column
     flex: 0 1 20%
-    padding: 0 20px
+    padding: 0 30px
     color: white
+    flex-direction: column
 
     &.large
       flex: 1
+
+  .controllers
+    display: flex
+    justify-content: center
+    align-items: center
+    font-size: 80%
+
+    a
+      margin: 0 10px
+      color: #A0A0A0
+      transition: 0.1s
+
+      &:hover
+        color: white
+
+      &.scale:hover
+        transform: scale(1.05)
+
+      &.scale:active
+        color: #A0A0A0
+        transform: none
+
+      i
+        margin: 0
+
+  .slider
+    display: flex
+    justify-content: center
+
+    &.volume
+      max-width: 150px
+
+    .label
+      color: #A0A0A0
+      font-size: 0.9em
+      position: relative
+      top: 2px
+
+      &:first-child
+        margin-right: 12px
+      &:last-child
+        margin-left: 12px
+
+    .input-range
+      .input-range__label
+        bottom: -2px!important
+        width: 50px!important
+        font-family: inherit!important
+        font-size: inherit!important
+        display: none!important
+
+        &.input-range__label--value, &.input-range__label--min
+          display: none!important
+        &.input-range__label--min
+          left: -58px!important
+          text-align: right
+          .input-range__label-container
+            right: 0!important
+        &.input-range__label--max
+          right: -58px!important
+          text-align: left
+          .input-range__label-container
+            left: 0!important
+
+      .input-range__slider-container
+        top: 14px!important
+
+      .input-range__track, .input-range__slider-container
+        transition: none!important
+        margin-top: 0!important
+
+        &.input-range__track--background
+          background: none
+          height: 28px
+          top: -3px
+
+          &::before
+            content: ' '
+            width: 100%
+            height: 4px
+            top: 12px
+            position: absolute
+            background: #404040
+            border-radius: 0.3rem
+
+        &.input-range__track--active
+          background: #A0A0A0
+          top: 12px
+          height: 4px
+
+        .input-range__slider
+          width: .8rem!important
+          height: .8rem!important
+          top: 0!important
+          margin-left: -0.4rem!important
+          margin-top: -0.4rem!important
+          background: #FFFFFF!important
+          border-color: #FFFFFF!important
+          transition: none!important
+          display: none
+
+          &:active
+            transform: none!important
+
+    &:hover, &:active
+      .input-range__slider
+        display: block!important
+
+      .input-range__track--active
+        background: #1DB954!important

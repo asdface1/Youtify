@@ -6,9 +6,96 @@
   box-sizing: border-box; }
   #Footer .segment {
     display: flex;
-    flex-direction: column;
     flex: 0 1 20%;
-    padding: 0 20px;
-    color: white; }
+    padding: 0 30px;
+    color: white;
+    flex-direction: column; }
     #Footer .segment.large {
       flex: 1; }
+  #Footer .controllers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 80%; }
+    #Footer .controllers a {
+      margin: 0 10px;
+      color: #A0A0A0;
+      transition: 0.1s; }
+      #Footer .controllers a:hover {
+        color: white; }
+      #Footer .controllers a.scale:hover {
+        transform: scale(1.05); }
+      #Footer .controllers a.scale:active {
+        color: #A0A0A0;
+        transform: none; }
+      #Footer .controllers a i {
+        margin: 0; }
+  #Footer .slider {
+    display: flex;
+    justify-content: center; }
+    #Footer .slider.volume {
+      max-width: 150px; }
+    #Footer .slider .label {
+      color: #A0A0A0;
+      font-size: 0.9em;
+      position: relative;
+      top: 2px; }
+      #Footer .slider .label:first-child {
+        margin-right: 12px; }
+      #Footer .slider .label:last-child {
+        margin-left: 12px; }
+    #Footer .slider .input-range .input-range__label {
+      bottom: -2px !important;
+      width: 50px !important;
+      font-family: inherit !important;
+      font-size: inherit !important;
+      display: none !important; }
+      #Footer .slider .input-range .input-range__label.input-range__label--value, #Footer .slider .input-range .input-range__label.input-range__label--min {
+        display: none !important; }
+      #Footer .slider .input-range .input-range__label.input-range__label--min {
+        left: -58px !important;
+        text-align: right; }
+        #Footer .slider .input-range .input-range__label.input-range__label--min .input-range__label-container {
+          right: 0 !important; }
+      #Footer .slider .input-range .input-range__label.input-range__label--max {
+        right: -58px !important;
+        text-align: left; }
+        #Footer .slider .input-range .input-range__label.input-range__label--max .input-range__label-container {
+          left: 0 !important; }
+    #Footer .slider .input-range .input-range__slider-container {
+      top: 14px !important; }
+    #Footer .slider .input-range .input-range__track, #Footer .slider .input-range .input-range__slider-container {
+      transition: none !important;
+      margin-top: 0 !important; }
+      #Footer .slider .input-range .input-range__track.input-range__track--background, #Footer .slider .input-range .input-range__slider-container.input-range__track--background {
+        background: none;
+        height: 28px;
+        top: -3px; }
+        #Footer .slider .input-range .input-range__track.input-range__track--background::before, #Footer .slider .input-range .input-range__slider-container.input-range__track--background::before {
+          content: ' ';
+          width: 100%;
+          height: 4px;
+          top: 12px;
+          position: absolute;
+          background: #404040;
+          border-radius: 0.3rem; }
+      #Footer .slider .input-range .input-range__track.input-range__track--active, #Footer .slider .input-range .input-range__slider-container.input-range__track--active {
+        background: #A0A0A0;
+        top: 12px;
+        height: 4px; }
+      #Footer .slider .input-range .input-range__track .input-range__slider, #Footer .slider .input-range .input-range__slider-container .input-range__slider {
+        width: 0.8rem !important;
+        height: 0.8rem !important;
+        top: 0 !important;
+        margin-left: -0.4rem !important;
+        margin-top: -0.4rem !important;
+        background: #FFFFFF !important;
+        border-color: #FFFFFF !important;
+        transition: none !important;
+        display: none; }
+        #Footer .slider .input-range .input-range__track .input-range__slider:active, #Footer .slider .input-range .input-range__slider-container .input-range__slider:active {
+          transform: none !important; }
+    #Footer .slider:hover .input-range__slider, #Footer .slider:active .input-range__slider {
+      display: block !important; }
+    #Footer .slider:hover .input-range__track--active, #Footer .slider:active .input-range__track--active {
+      background: #1DB954 !important; }
