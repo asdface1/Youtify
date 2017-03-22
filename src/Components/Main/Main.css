@@ -18,7 +18,7 @@
     #Main > .header .header-content {
       padding: 2em;
       color: white;
-      z-index: 10; }
+      z-index: 1; }
       #Main > .header .header-content h1 {
         font-size: 3em;
         font-weight: 400; }

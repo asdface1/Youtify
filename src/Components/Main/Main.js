@@ -1,10 +1,13 @@
 import React from 'react';
 import './Main.css';
 
+import Navbar from '../Navbar/Navbar';
+
 export default class Main extends React.Component {
   render() {
     return (
       <div id="Main">
+        <Navbar user={{ name: 'Jorge Iglesias' }} />
         <div className="header" style={{backgroundImage: 'url("http://img.wennermedia.com/social/rs-216958-GettyImages-74253358.jpg")'}}>
           <div className="header-content">
             <h1>Beach Boys</h1>

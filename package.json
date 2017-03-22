@@ -11,7 +11,8 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.8.2",
     "redux-promise-middleware": "^4.2.0",
-    "redux-thunk": "^2.2.0"
+    "redux-thunk": "^2.2.0",
+    "semantic-ui-react": "^0.67.1"
   },
   "devDependencies": {
     "node-sass": "^4.5.0",

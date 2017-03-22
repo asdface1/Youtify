@@ -32,7 +32,6 @@ class Footer extends React.Component {
 
   handleTimeChange = (value) => {
     this.setState({ dragging: true, time: value });
-
   }
 
   handleTimeChangeComplete = (value) => {
