@@ -26,10 +26,9 @@ export function setVolume(value){
 }
 export function seekTo(value){
   return {
-    type: 'SET_TIME',
+    type: 'SEEK_TO',
     payload: {
       time: value,
     }
   }
 }
-

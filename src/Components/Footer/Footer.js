@@ -12,7 +12,15 @@ class Footer extends React.Component {
     super();
     this.state = { isPlaying: false, time: 0, duration: 241, volume: 50 };
   }
-  
+
+  componentDidMount() {
+    setInterval(() => {
+      if (this.props.player && this.state.isPlaying && !this.state.dragging){
+        this.setState({ time: this.props.player.getCurrentTime() });
+      }
+    }, 250);
+  }
+
   toggle = () => {
     if (this.state.isPlaying === true) {
       this.props.dispatch(AppActions.pauseVideo());
@@ -22,12 +30,17 @@ class Footer extends React.Component {
     this.setState({ isPlaying: !this.state.isPlaying });
   }
 
-  handleChange = (value) => {
-    this.setState({ time: value });
+  handleTimeChange = (value) => {
+    this.setState({ dragging: true, time: value });
+
+  }
+
+  handleTimeChangeComplete = (value) => {
+    this.setState({ dragging: false });
     this.props.dispatch(AppActions.seekTo(value))
   }
 
-  handleVolume = (value) => {
+  handleVolumeChange = (value) => {
     this.setState({volume: value});
     this.props.dispatch(AppActions.setVolume(value))
   }
@@ -38,21 +51,6 @@ class Footer extends React.Component {
     sec = sec < 10 ? '0' + sec : sec;
     return min + ':' + sec
   }
-
-
-  
-  componentDidMount() {
-    //TODO: only run if video is playing
-    var intervalId = setInterval(() => {
-      if(this.props.player && this.state.time!=this.props.player.getDuration()){
-        this.setState({time: this.props.player.getCurrentTime()});
-      }
-      else if(this.props.player && this.state.time==this.props.player.getDuration()){
-        clearInterval(intervalId);
-      }
-    }, 250);
-  }
-
 
   render() {
     const volumeIcon = this.state.volume > 0 ? (this.state.volume >= 50 ? 'up' : 'down') : 'off';
@@ -78,7 +76,8 @@ class Footer extends React.Component {
               minValue={0}
               maxValue={this.state.duration}
               value={this.state.time}
-              onChange={this.handleChange} />
+              onChange={this.handleTimeChange}
+              onChangeComplete={this.handleTimeChangeComplete} />
             <span className="label">{this.format(this.state.duration)}</span>
           </div>
         </div>
@@ -91,7 +90,7 @@ class Footer extends React.Component {
               minValue={0}
               maxValue={100}
               value={this.state.volume}
-              onChange={this.handleVolume} />
+              onChange={this.handleVolumeChange} />
           </div>
         </div>
       </div>

@@ -26,15 +26,19 @@
       color: #A0A0A0
       transition: 0.1s
 
+      &.active
+        color: #1DB954
+
       &:hover
         color: white
-
-      &.scale:hover
-        transform: scale(1.05)
-
-      &.scale:active
+      &:active
         color: #A0A0A0
-        transform: none
+
+      &.scale
+        &:hover
+          transform: scale(1.05)
+        &:active
+          transform: none
 
       i
         margin: 0
