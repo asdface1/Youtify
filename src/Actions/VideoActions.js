@@ -6,17 +6,17 @@ export function setPlayer(player) {
     }
   }
 }
-export function playVideo(){
+export function play() {
     return {
-    type: 'PLAY_VIDEO',
+    type: 'PLAY',
   }
 }
-export function pauseVideo(){
+export function pause() {
   return {
-    type: 'PAUSE_VIDEO'
+    type: 'PAUSE'
   }
 }
-export function setVolume(value){
+export function setVolume(value) {
   return {
     type: 'SET_VOLUME',
     payload: {
@@ -24,7 +24,7 @@ export function setVolume(value){
     }
   }
 }
-export function seekTo(value){
+export function seekTo(value) {
   return {
     type: 'SEEK_TO',
     payload: {
@@ -47,6 +47,14 @@ export function setDuration(duration) {
     type: 'SET_DURATION',
     payload: {
       duration
+    }
+  }
+}
+export function playById(id) {
+  return {
+    type: 'PLAY_BY_ID',
+    payload: {
+      song: id
     }
   }
 }
