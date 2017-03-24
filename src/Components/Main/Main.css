@@ -6,7 +6,7 @@
   background-color: #181818;
   overflow-y: auto;
   overflow-x: hidden; }
-  #Main > .header {
+  #Main .header {
     display: flex;
     flex-direction: column;
     justify-content: flex-end;
@@ -15,14 +15,14 @@
     position: relative;
     background-size: cover;
     background-position: center; }
-    #Main > .header .header-content {
+    #Main .header .header-content {
       padding: 2em;
       color: white;
       z-index: 1; }
-      #Main > .header .header-content h1 {
+      #Main .header .header-content h1 {
         font-size: 3em;
         font-weight: 400; }
-    #Main > .header::after {
+    #Main .header::after {
       position: absolute;
       content: ' ';
       height: 100%;

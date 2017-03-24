@@ -14,12 +14,14 @@ export default class Navbar extends React.Component {
     return (
       <nav id="Navbar">
         <div className="content">
-          <div className="ui left icon input">
+          <div className="ui inverted left icon input">
             <input type="text" placeholder="Search..." />
             <i className="search icon" />
           </div>
           <Dropdown trigger={trigger} pointing>
             <Dropdown.Menu>
+              <Dropdown.Item
+                text="Settings" icon="settings" />
               <Dropdown.Item
                 text="Sign out" icon="sign out" />
             </Dropdown.Menu>

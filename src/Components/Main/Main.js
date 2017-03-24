@@ -2,34 +2,18 @@ import React from 'react';
 import './Main.css';
 
 import Navbar from '../Navbar/Navbar';
+import Search from '../Search/Search';
 
 export default class Main extends React.Component {
   render() {
     return (
       <div id="Main">
         <Navbar user={{ name: 'Jorge Iglesias' }} />
-        <div className="header" style={{backgroundImage: 'url("http://img.wennermedia.com/social/rs-216958-GettyImages-74253358.jpg")'}}>
-          <div className="header-content">
-            <h1>Beach Boys</h1>
-          </div>
-        </div>
-        <div className="ui inverted divided items" style={{ padding: '2em', color: 'lightgrey' }}>
-          {
-            [...Array(12).keys()].map(i => {
-              return (
-                <div className="item justify-content-center" key={i} draggable>
-                  <div className="ui tiny image">
-                    <img src="http://www.roadtovr.com/wp-content/uploads/2015/03/youtube-logo2.jpg" alt="" />
-                  </div>
-                  <div className="middle aligned content">
-                    Song {i}
-                  </div>
-                  <div className="flex align-items-center justify-content-center">3:{14 + i}</div>
-                </div>
-              )
-            })
-          }
-        </div>
+        <Search
+          label="Search results for:"
+          title="Katy Perry"
+          image="//yt3.ggpht.com/GPTRffZJ1dgjac5CN90pwxhMzYjZSh5iC5JnlQVPickZiW3gP6B6GiUsGnjoMkbz8kXu1CpZOjs=w2120-fcrop64=1,00005a57ffffa5a8-nd-c0xffffffff-rj-k-no"
+          results={[...Array(12).keys()]} />
       </div>
     )
   }
