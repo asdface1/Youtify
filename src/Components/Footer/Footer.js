@@ -14,8 +14,6 @@ class Footer extends React.Component {
   }
 
   componentDidMount() {
-    console.log("footer::song", this.props.video.song.duration);
-
     setInterval(() => {
       if (this.props.video.player && this.state.isPlaying && !this.state.dragging){
         this.setState({ time: this.props.video.player.getCurrentTime() });
@@ -24,12 +22,12 @@ class Footer extends React.Component {
   }
 
   toggle = () => {
-    if (this.state.isPlaying === true) {
+    if (this.props.video.isPlaying === true) {
       this.props.dispatch(VideoActions.pauseVideo());
     } else {
       this.props.dispatch(VideoActions.playVideo());
     }
-    this.setState({ isPlaying: !this.state.isPlaying });
+    this.setState({ isPlaying: !this.props.video.isPlaying });
   }
 
   handleTimeChange = (value) => {
@@ -54,7 +52,7 @@ class Footer extends React.Component {
   }
 
   render() {
-    const volumeIcon = this.state.volume > 0 ? (this.state.volume >= 50 ? 'up' : 'down') : 'off';
+    const volumeIcon = this.props.video.volume > 0 ? (this.props.video.volume >= 50 ? 'up' : 'down') : 'off';
     return (
       <div id="Footer">
         <div className="segment justify-content-start">
@@ -64,11 +62,15 @@ class Footer extends React.Component {
         <div className="large segment flex flex-col justify-content-center">
           <div className="controllers">
             <a><i className="large random icon" /></a>
-            <a><i className="large step backward icon" /></a>
-            <a onClick={this.toggle} className="scale">
-              <i className={`huge ${this.state.isPlaying ? "pause circle" : "video play"} outline icon`} />
+            <a onClick={() => this.props.dispatch(VideoActions.prev())}>
+              <i className="large step backward icon" />
             </a>
-            <a><i className="large step forward icon" /></a>
+            <a onClick={this.toggle} className="scale">
+              <i className={`huge ${this.props.video.isPlaying ? "pause circle" : "video play"} outline icon`} />
+            </a>
+            <a onClick={() => this.props.dispatch(VideoActions.next())}>
+              <i className="large step forward icon" />
+            </a>
             <a><i className="large refresh icon" /></a>
           </div>
           <div className="slider">

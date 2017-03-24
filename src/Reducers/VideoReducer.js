@@ -3,7 +3,7 @@ const initialState = {
   isPlaying: false,
   song: {
     id: 0,
-    duration: 0,
+    duration: 241,
     src: 'Um7pMggPnug'
   },
   volume: 50,
@@ -23,13 +23,13 @@ export default function reducer(state=initialState, action) {
       return { ...state, player: action.payload.player };
     case 'PLAY_VIDEO':
       state.player.playVideo();
-      return state;
+      return { ...state, isPlaying: true };
     case 'PAUSE_VIDEO':
       state.player.pauseVideo();
-      return state;
+      return { ...state, isPlaying: false };
     case 'SET_VOLUME':
       state.player.setVolume(action.payload.volume);
-      return state;
+      return { ...state, volume: action.payload.volume };
     case 'SEEK_TO':
       state.player.seekTo(action.payload.time);
       return state;
