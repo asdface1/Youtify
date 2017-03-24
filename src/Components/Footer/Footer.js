@@ -10,10 +10,12 @@ import * as VideoActions from '../../Actions/VideoActions';
 class Footer extends React.Component {
   constructor() {
     super();
-    this.state = {draggin: false, time: 0};
+    this.state = {dragging: false, time: 0};
   }
 
   componentDidMount() {
+    console.log("footer::song", this.props.video.song.duration);
+
     setInterval(() => {
       if (this.props.video.player && this.state.isPlaying && !this.state.dragging){
         this.setState({ time: this.props.video.player.getCurrentTime() });
@@ -73,11 +75,11 @@ class Footer extends React.Component {
             <span className="label">{this.format(this.state.time)}</span>
             <InputRange
               minValue={0}
-              maxValue={this.state.duration}
+              maxValue={this.props.video.song.duration}
               value={this.state.time}
               onChange={this.handleTimeChange}
               onChangeComplete={this.handleTimeChangeComplete} />
-            <span className="label">{this.format(this.state.duration)}</span>
+            <span className="label">{this.format(this.props.video.song.duration)}</span>
           </div>
         </div>
         <div className="segment flex-row justify-content-end">
@@ -88,7 +90,7 @@ class Footer extends React.Component {
             <InputRange
               minValue={0}
               maxValue={100}
-              value={this.state.volume}
+              value={this.props.video.volume}
               onChange={this.handleVolumeChange} />
           </div>
         </div>
