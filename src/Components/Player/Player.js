@@ -8,17 +8,17 @@ import * as AppActions from '../../Actions/AppActions';
 
 class Player extends React.Component {
   constructor(){
-    super()
-    this.state = {player: {}, duration: 0};
+      super()
+      this.state = {player: {}, duration: 0};
   }
 
   _onReady(event) {
-    this.props.dispatch(AppActions.setPlayer(event.target));
+  	this.props.dispatch(AppActions.setPlayer(event.target));
     console.log(event.target)
   }
-
   render() {
-    const opts = {
+
+  	const opts = {
       playerVars: {
         autoplay: 0,
         showinfo: 0,
@@ -27,11 +27,11 @@ class Player extends React.Component {
     };
     return (
       <div id="Player">
-        <Youtube
-          videoId="Um7pMggPnug"
-          opts={opts}
-          onReady={this._onReady.bind(this)}
-        />
+      	<Youtube
+	      	videoId="Um7pMggPnug"
+	      	opts={opts}
+	      	onReady={this._onReady.bind(this)}
+      	/>
       </div>
     );
 

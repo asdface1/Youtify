@@ -1,9 +1,9 @@
 import { combineReducers } from 'redux';
 
 import user from './UserReducer';
-import app from './AppReducer';
+import video from './VideoReducer';
 
 export default combineReducers({
   user,
-  app
+  video
 });

@@ -5,27 +5,27 @@ import 'react-input-range/lib/css/index.css';
 
 import InputRange from 'react-input-range';
 
-import * as AppActions from '../../Actions/AppActions';
+import * as VideoActions from '../../Actions/VideoActions';
 
 class Footer extends React.Component {
   constructor() {
     super();
-    this.state = { isPlaying: false, time: 0, duration: 241, volume: 50 };
+    this.state = {draggin: false};
   }
 
   componentDidMount() {
     setInterval(() => {
-      if (this.props.player && this.state.isPlaying && !this.state.dragging){
-        this.setState({ time: this.props.player.getCurrentTime() });
+      if (this.props.video.player && this.state.isPlaying && !this.state.dragging){
+        this.setState({ time: this.props.video.player.getCurrentTime() });
       }
     }, 250);
   }
 
   toggle = () => {
     if (this.state.isPlaying === true) {
-      this.props.dispatch(AppActions.pauseVideo());
+      this.props.dispatch(VideoActions.pauseVideo());
     } else {
-      this.props.dispatch(AppActions.playVideo());
+      this.props.dispatch(VideoActions.playVideo());
     }
     this.setState({ isPlaying: !this.state.isPlaying });
   }
@@ -36,12 +36,12 @@ class Footer extends React.Component {
 
   handleTimeChangeComplete = (value) => {
     this.setState({ dragging: false });
-    this.props.dispatch(AppActions.seekTo(value))
+    this.props.dispatch(VideoActions.seekTo(value))
   }
 
   handleVolumeChange = (value) => {
     this.setState({volume: value});
-    this.props.dispatch(AppActions.setVolume(value))
+    this.props.dispatch(VideoActions.setVolume(value))
   }
 
   format = (seconds) => {
@@ -99,6 +99,6 @@ class Footer extends React.Component {
 
 export default connect(store => {
   return {
-    player: store.app.player
+    video: store.video
   }
 })(Footer);
