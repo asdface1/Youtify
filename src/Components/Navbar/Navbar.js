@@ -30,8 +30,8 @@ class Navbar extends React.Component {
     return (
       <nav id="Navbar">
         <div className="content">
-          <div className="ui inverted left icon input">
-            <input type="text" placeholder="Search..." onChange={this.handleChange}/>
+          <div className="ui inverted left icon action input">
+            <input type="text" placeholder="Search..." onChange={this.handleChange} value={this.state.query} />
             <i className="search icon" />
             <button className="ui button" onClick={this.onSearch}>Search</button>
           </div>
