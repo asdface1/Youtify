@@ -48,10 +48,10 @@ class Search extends React.Component {
               return (
                 <div className="item justify-content-center" key={item.id.videoId} draggable onDoubleClick={() => this.play(item.id.videoId)}>
                   <div className="ui tiny image">
-                    <img src={item.snippet.thumbnails.high.url} alt="" />
+                    <img src={item.snippet.thumbnails.medium.url} alt="" />
                   </div>
                   <div className="middle aligned content">
-                    Song {item.snippet.title}
+                    {item.snippet.title}
                   </div>
                   <div className="flex align-items-center justify-content-center"></div>
                 </div>
