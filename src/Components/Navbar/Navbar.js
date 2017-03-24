@@ -1,7 +1,10 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import './Navbar.css';
 
 import { Dropdown } from 'semantic-ui-react';
+
+import * as YoutubeActions from '../../Actions/YoutubeActions';
 
 class Navbar extends React.Component {
   constructor() {
@@ -13,8 +16,8 @@ class Navbar extends React.Component {
     this.setState({ query: target.value });
   }
 
-  onSearch = (event) => {
-    this.props.dispatch(YoutubeActions.next(event.target.value));
+  onSearch = () => {
+    this.props.dispatch(YoutubeActions.next(this.state.query));
   }
 
   render() {
@@ -50,4 +53,4 @@ export default connect(store => {
   return {
     youtube: store.youtube,
   }
-})(Player);
+})(Navbar);
