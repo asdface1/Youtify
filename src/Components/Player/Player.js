@@ -24,6 +24,12 @@ class Player extends React.Component {
     this.props.dispatch(VideoActions.next());
   }
 
+  onStateChange = ({ data }) => {
+    if (data === 1) {
+      this.props.dispatch(VideoActions.setDuration(this.props.video.player.getDuration()));
+    }
+  }
+
   render() {
   	const opts = {
       playerVars: {
@@ -37,6 +43,7 @@ class Player extends React.Component {
         <Youtube
           videoId={this.props.video.song.src}
           opts={opts}
+          onStateChange={this.onStateChange}
           onReady={this._onReady.bind(this)}
           onPlay={this.onPlay}
           onPause={this.onPause}
