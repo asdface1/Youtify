@@ -16,8 +16,6 @@ class Player extends React.Component {
   	this.props.dispatch(AppActions.setPlayer(event.target));
     console.log(event.target)
   }
-<<<<<<< HEAD
-=======
 
   onPlay = () => {
     this.props.dispatch(VideoActions.playVideo());
@@ -31,9 +29,7 @@ class Player extends React.Component {
     this.props.dispatch(VideoActions.next());
   }
 
->>>>>>> 07495951619123383e51f660f7cb7986a35bfe64
   render() {
-
   	const opts = {
       playerVars: {
         autoplay: 0,
@@ -43,13 +39,6 @@ class Player extends React.Component {
     };
     return (
       <div id="Player">
-<<<<<<< HEAD
-      	<Youtube
-	      	videoId="Um7pMggPnug"
-	      	opts={opts}
-	      	onReady={this._onReady.bind(this)}
-      	/>
-=======
         <Youtube
           videoId={this.props.video.song.src}
           opts={opts}
@@ -57,10 +46,8 @@ class Player extends React.Component {
           onPlay={this.onPlay}
           onPause={this.onPause}
           onEnd={this.onEnd} />
->>>>>>> 07495951619123383e51f660f7cb7986a35bfe64
       </div>
     );
-
   }
 }
 
