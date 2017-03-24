@@ -40,9 +40,9 @@ class Search extends React.Component {
           {
             this.props.results.map(item => {
               return (
-                <div className="item justify-content-center" key={item} draggable>
+                <div className="item justify-content-center" key={item.id.videoId} draggable>
                   <div className="ui tiny image">
-                    <img src={item.snippet.thumbnails.default.url} alt="" />
+                    <img src={item.snippet.thumbnails.high.url} alt="" />
                   </div>
                   <div className="middle aligned content">
                     Song {item.snippet.title}

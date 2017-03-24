@@ -6,32 +6,39 @@
   background-color: #181818;
   overflow-y: auto;
   overflow-x: hidden; }
-  #Main .header {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    flex: 0 0 360px;
-    overflow: hidden;
-    position: relative;
-    background-size: cover;
-    background-position: center; }
-    #Main .header .header-content {
-      padding: 2em;
-      color: white;
-      z-index: 1; }
-      #Main .header .header-content h1 {
-        font-size: 3em;
-        font-weight: 400; }
-    #Main .header::after {
-      position: absolute;
-      content: ' ';
-      height: 100%;
-      width: 100%;
-      background: linear-gradient(transparent 40%, #181818); }
-  #Main .ui.items .item {
-    padding: 1em !important;
-    border-color: #222; }
-    #Main .ui.items .item:hover {
-      background-color: rgba(255, 255, 255, 0.05); }
-    #Main .ui.items .item .header {
-      color: white; }
+
+#Main .header {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  flex: 0 0 360px;
+  overflow: hidden;
+  position: relative;
+  background-size: cover;
+  background-position: center; }
+
+#Main .header .header-content {
+  padding: 2em;
+  color: white;
+  z-index: 1; }
+
+#Main .header .header-content h1 {
+  font-size: 3em;
+  font-weight: 400; }
+
+#Main .header::after {
+  position: absolute;
+  content: ' ';
+  height: 100%;
+  width: 100%;
+  background: linear-gradient(transparent 40%, #181818); }
+
+#Main .ui.items .item {
+  padding: 1em !important;
+  border-color: #222; }
+
+#Main .ui.items .item:hover {
+  background-color: rgba(255, 255, 255, 0.05); }
+
+#Main .ui.items .item .header {
+  color: white; }
