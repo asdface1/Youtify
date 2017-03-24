@@ -1,5 +1,7 @@
 const initialState = {
-  results: []
+  results: {
+    items: []
+  }
 };
 
 export default function reducer(state=initialState, action) {

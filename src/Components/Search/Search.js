@@ -38,16 +38,16 @@ class Search extends React.Component {
         </div>
         <div className="ui inverted divided items" style={{ padding: '2em', color: 'lightgrey' }}>
           {
-            this.props.results.map(i => {
+            this.props.results.map(item => {
               return (
-                <div className="item justify-content-center" key={i} draggable>
+                <div className="item justify-content-center" key={item} draggable>
                   <div className="ui tiny image">
-                    <img src="http://www.roadtovr.com/wp-content/uploads/2015/03/youtube-logo2.jpg" alt="" />
+                    <img src={item.snippet.thumbnails.default.url} alt="" />
                   </div>
                   <div className="middle aligned content">
-                    Song {i}
+                    Song {item.snippet.title}
                   </div>
-                  <div className="flex align-items-center justify-content-center">3:{14 + i}</div>
+                  <div className="flex align-items-center justify-content-center"></div>
                 </div>
               )
             })
