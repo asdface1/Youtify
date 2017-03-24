@@ -7,11 +7,6 @@ import Youtube from 'react-youtube';
 import * as VideoActions from '../../Actions/VideoActions';
 
 class Player extends React.Component {
-  constructor(){
-      super()
-      this.state = {player: {}, duration: 0};
-  }
-
   _onReady(event) {
   	this.props.dispatch(VideoActions.setPlayer(event.target));
     console.log(event.target)
