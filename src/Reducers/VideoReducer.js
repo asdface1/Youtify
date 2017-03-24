@@ -1,4 +1,4 @@
-const initialState = {player: undefined, isPlaying: false, time: 0, song: {id: 0, duration: 241}, volume: 50 };
+const initialState = {player: undefined, isPlaying: false, song: {id: 0, duration: 241}, volume: 50 };
 
 export default function reducer(state=initialState, action) {
   switch (action.type) {

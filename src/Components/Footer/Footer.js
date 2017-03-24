@@ -10,7 +10,7 @@ import * as VideoActions from '../../Actions/VideoActions';
 class Footer extends React.Component {
   constructor() {
     super();
-    this.state = {draggin: false};
+    this.state = {draggin: false, time: 0};
   }
 
   componentDidMount() {

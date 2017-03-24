@@ -4,7 +4,7 @@ import "./Player.css";
 
 import Youtube from 'react-youtube';
 
-import * as AppActions from '../../Actions/AppActions';
+import * as VideoActions from '../../Actions/VideoActions';
 
 class Player extends React.Component {
   constructor(){
@@ -13,7 +13,7 @@ class Player extends React.Component {
   }
 
   _onReady(event) {
-  	this.props.dispatch(AppActions.setPlayer(event.target));
+  	this.props.dispatch(VideoActions.setPlayer(event.target));
     console.log(event.target)
   }
 
