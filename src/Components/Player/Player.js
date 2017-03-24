@@ -17,6 +17,18 @@ class Player extends React.Component {
     console.log(event.target)
   }
 
+  onPlay = () => {
+    this.props.dispatch(VideoActions.playVideo());
+  }
+
+  onPause = () => {
+    this.props.dispatch(VideoActions.pauseVideo());
+  }
+
+  onEnd = () => {
+    this.props.dispatch(VideoActions.next());
+  }
+
   render() {
     const opts = {
       playerVars: {
@@ -28,10 +40,12 @@ class Player extends React.Component {
     return (
       <div id="Player">
         <Youtube
-          videoId="Um7pMggPnug"
+          videoId={this.props.video.song.src}
           opts={opts}
           onReady={this._onReady.bind(this)}
-        />
+          onPlay={this.onPlay}
+          onPause={this.onPause}
+          onEnd={this.onEnd} />
       </div>
     );
 
@@ -40,6 +54,6 @@ class Player extends React.Component {
 
 export default connect(store => {
   return {
-    player: store.app.player,
+    video: store.video,
   }
 })(Player);
