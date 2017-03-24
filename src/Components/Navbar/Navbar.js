@@ -4,6 +4,15 @@ import './Navbar.css';
 import { Dropdown } from 'semantic-ui-react';
 
 export default class Navbar extends React.Component {
+  constructor() {
+    super();
+    this.state = { query: '' };
+  }
+
+  handleChange = ({ target }) => {
+    this.setState({ query: target.value });
+  }
+
   render() {
     const trigger = (
       <span>
@@ -15,8 +24,9 @@ export default class Navbar extends React.Component {
       <nav id="Navbar">
         <div className="content">
           <div className="ui inverted left icon input">
-            <input type="text" placeholder="Search..." />
+            <input type="text" placeholder="Search..." onChange={this.handleChange}/>
             <i className="search icon" />
+            <button className="ui button">Search</button>
           </div>
           <Dropdown trigger={trigger} pointing>
             <Dropdown.Menu>
