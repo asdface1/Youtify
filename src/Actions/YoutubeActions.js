@@ -1,4 +1,4 @@
-export function setPlayer(value) {
+export function search(value) {
   return {
     type: 'SEARCH',
     payload: {
