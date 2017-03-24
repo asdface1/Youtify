@@ -13,6 +13,10 @@ class Search extends React.Component {
     this.setState({ top: -(header.clientHeight - headerContent.clientHeight - 64) });
   }
 
+  play = (id) => {
+    this.props.dispatch(VideoAction.playById(id));
+  }
+
   render() {
     const headerStyle = {
       backgroundImage: `url(${this.props.image})`,
@@ -40,7 +44,7 @@ class Search extends React.Component {
           {
             this.props.results.map(item => {
               return (
-                <div className="item justify-content-center" key={item.id.videoId} draggable>
+                <div className="item justify-content-center" key={item.id.videoId} draggable onDoubleClick={() => this.play(item.id.videoId)}>
                   <div className="ui tiny image">
                     <img src={item.snippet.thumbnails.high.url} alt="" />
                   </div>
