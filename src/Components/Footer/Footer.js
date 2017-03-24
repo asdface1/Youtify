@@ -45,6 +45,7 @@ class Footer extends React.Component {
   }
 
   format = (seconds) => {
+    if (seconds === undefined) return '0:00';
     var min = Math.floor(seconds / 60);
     var sec = Math.floor(seconds % 60);
     sec = sec < 10 ? '0' + sec : sec;
@@ -77,7 +78,7 @@ class Footer extends React.Component {
             <span className="label">{this.format(this.state.time)}</span>
             <InputRange
               minValue={0}
-              maxValue={this.props.video.song.duration}
+              maxValue={Math.max(1, this.props.video.song.duration)}
               value={this.state.time}
               onChange={this.handleTimeChange}
               onChangeComplete={this.handleTimeChangeComplete} />
