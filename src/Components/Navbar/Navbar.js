@@ -17,7 +17,7 @@ class Navbar extends React.Component {
   }
 
   onSearch = () => {
-    this.props.dispatch(YoutubeActions.next(this.state.query));
+    this.props.dispatch(YoutubeActions.search(this.state.query));
   }
 
   render() {
