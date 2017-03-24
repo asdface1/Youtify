@@ -34,13 +34,13 @@ export default function reducer(state=initialState, action) {
       state.player.seekTo(action.payload.time);
       return state;
     case 'PREV':
-      var songId = (state.song - 1).mod(state.queue.length);
-      var song = { id: songId, src: state.queue[songId] };
+      var songId = (state.song.id - 1).mod(state.queue.length);
+      var song = { id: songId, src: state.queue[songId], duration: 241 };
       state.player.loadVideoById(song.src);
       return { ...state, song: song, isPlaying: false };
     case 'NEXT':
-      var songId = (state.song + 1) % state.queue.length;
-      var song = { id: songId, src: state.queue[songId] };
+      var songId = (state.song.id + 1) % state.queue.length;
+      var song = { id: songId, src: state.queue[songId], duration: 241 };
       state.player.loadVideoById(song.src);
       return { ...state, song: song, isPlaying: false };
     default:

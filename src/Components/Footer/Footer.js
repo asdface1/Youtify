@@ -15,7 +15,7 @@ class Footer extends React.Component {
 
   componentDidMount() {
     setInterval(() => {
-      if (this.props.video.player && this.state.isPlaying && !this.state.dragging){
+      if (this.props.video.player && this.props.video.isPlaying && !this.state.dragging){
         this.setState({ time: this.props.video.player.getCurrentTime() });
       }
     }, 250);
