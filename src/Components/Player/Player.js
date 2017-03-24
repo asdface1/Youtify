@@ -33,7 +33,7 @@ class Player extends React.Component {
   render() {
   	const opts = {
       playerVars: {
-        autoplay: 1,
+        autoplay: 0,
         showinfo: 0,
         controls: 0
       }

@@ -1,3 +1,4 @@
+const { apiKey } = require('../../config.js');
 export function search(value) {
   return function(dispatch) {
     const { apiKey } = require('../../config.js');
