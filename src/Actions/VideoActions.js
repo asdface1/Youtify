@@ -32,3 +32,13 @@ export function seekTo(value){
     }
   }
 }
+export function prev() {
+  return {
+    type: 'PREV'
+  }
+}
+export function next() {
+  return {
+    type: 'NEXT'
+  }
+}
