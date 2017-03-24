@@ -3,7 +3,10 @@ import './Navbar.css';
 
 import { Dropdown } from 'semantic-ui-react';
 
-export default class Navbar extends React.Component {
+class Navbar extends React.Component {
+  onSearch = (event) => {
+    this.props.dispatch(YoutubeActions.next(event.target.value));
+  }
   render() {
     const trigger = (
       <span>
@@ -14,9 +17,10 @@ export default class Navbar extends React.Component {
     return (
       <nav id="Navbar">
         <div className="content">
-          <div className="ui inverted left icon input">
+          <div className="ui inverted left icon action input">
             <input type="text" placeholder="Search..." />
             <i className="search icon" />
+            <button className="ui button" onClick={this.onSearch}>Search</button>
           </div>
           <Dropdown trigger={trigger} pointing>
             <Dropdown.Menu>
@@ -31,3 +35,9 @@ export default class Navbar extends React.Component {
     )
   }
 }
+
+export default connect(store => {
+  return {
+    youtube: store.youtube,
+  }
+})(Player);
