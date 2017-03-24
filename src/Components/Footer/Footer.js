@@ -23,9 +23,9 @@ class Footer extends React.Component {
 
   toggle = () => {
     if (this.props.video.isPlaying === true) {
-      this.props.dispatch(VideoActions.pauseVideo());
+      this.props.dispatch(VideoActions.pause());
     } else {
-      this.props.dispatch(VideoActions.playVideo());
+      this.props.dispatch(VideoActions.play());
     }
     this.setState({ isPlaying: !this.props.video.isPlaying });
   }

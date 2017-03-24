@@ -21,10 +21,10 @@ export default function reducer(state=initialState, action) {
   switch (action.type) {
     case 'SET_PLAYER':
       return { ...state, player: action.payload.player };
-    case 'PLAY_VIDEO':
+    case 'PLAY':
       state.player.playVideo();
       return { ...state, isPlaying: true };
-    case 'PAUSE_VIDEO':
+    case 'PAUSE':
       state.player.pauseVideo();
       return { ...state, isPlaying: false };
     case 'SET_VOLUME':
@@ -46,6 +46,7 @@ export default function reducer(state=initialState, action) {
       state.player.loadVideoById(song.src);
       return { ...state, song: song, isPlaying: false };
     case 'PLAY_BY_ID':
+      state.player.loadVideoById(action.payload.song);
       return {
         ...state,
         queue: [action.payload.song],

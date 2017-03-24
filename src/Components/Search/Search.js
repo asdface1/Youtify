@@ -2,6 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import './Search.css';
 
+import * as VideoActions from '../../Actions/VideoActions';
+
 class Search extends React.Component {
   constructor(props) {
     super(props);
@@ -14,7 +16,7 @@ class Search extends React.Component {
   }
 
   play = (id) => {
-    this.props.dispatch(VideoAction.playById(id));
+    this.props.dispatch(VideoActions.playById(id));
   }
 
   render() {

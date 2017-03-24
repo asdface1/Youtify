@@ -13,11 +13,11 @@ class Player extends React.Component {
   }
 
   onPlay = () => {
-    this.props.dispatch(VideoActions.playVideo());
+    this.props.dispatch(VideoActions.play());
   }
 
   onPause = () => {
-    this.props.dispatch(VideoActions.pauseVideo());
+    this.props.dispatch(VideoActions.pause());
   }
 
   onEnd = () => {
@@ -33,7 +33,7 @@ class Player extends React.Component {
   render() {
   	const opts = {
       playerVars: {
-        autoplay: 0,
+        autoplay: 1,
         showinfo: 0,
         controls: 0
       }
