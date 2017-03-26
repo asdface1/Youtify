@@ -58,9 +58,9 @@ export default function reducer(state=initialState, action) {
         }
       };
     case 'ADD_TO_QUEUE':
-      var index = state.current + 1;
+      var index = state.song.current + 1;
       for (var i = index; i < state.queue.length; i++) {
-        if (state.queue[index].prio) {
+        if (!state.queue[index].prio) {
           index = i;
           break;
         }

@@ -22,7 +22,6 @@ class Search extends React.Component {
     this.props.dispatch(VideoActions.setQueue(this.props.youtube.results.items, i));
   }
   addToQueue = (item) => {
-    item.prio = true;
     this.props.dispatch(VideoActions.addToQueue(item));
   }
 
