@@ -19,11 +19,7 @@ class Search extends React.Component {
 
   play = (item, i) => {
     this.props.dispatch(VideoActions.playSong(item));
-    var endQueue = this.props.youtube.results.items.slice(0, i);
-    var beginQueue = this.props.youtube.results.items.slice(i);
-    beginQueue.push("end_of_queue");
-    var queue = beginQueue.concat(endQueue);
-    this.props.dispatch(VideoActions.setQueue(queue));
+    this.props.dispatch(VideoActions.setQueue(this.props.youtube.results.items, i));
   }
 
   render() {

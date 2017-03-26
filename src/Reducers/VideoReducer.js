@@ -50,7 +50,13 @@ export default function reducer(state=initialState, action) {
         song: { ...action.payload.song, current: 0 }
       }
     case 'SET_QUEUE':
-      return { ...state, queue: action.payload.queue };
+      return {
+        ...state,
+        queue: action.payload.queue,
+        song: {
+          ...state.song, current: action.payload.current
+        }
+      };
     case 'ADD_TO_QUEUE':
       return { ...state, queue: [ ...state.queue, action.payload.item ] };
     default:
