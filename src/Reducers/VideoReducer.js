@@ -42,7 +42,7 @@ export default function reducer(state=initialState, action) {
       var song = state.queue[currentSong];
       song.current = currentSong;
       state.player.loadVideoById(song.id.videoId);
-      return { ...state, song: song, isPlaying: false, current: currentSong };
+      return { ...state, song: song, isPlaying: false};
     case 'PLAY_SONG':
       state.player.loadVideoById(action.payload.song);
       return {
