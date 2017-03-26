@@ -21,6 +21,10 @@ class Search extends React.Component {
     this.props.dispatch(VideoActions.playSong(item));
     this.props.dispatch(VideoActions.setQueue(this.props.youtube.results.items, i));
   }
+  addToQueue = (item) => {
+    item.prio = true;
+    this.props.dispatch(VideoActions.addToQueue(item));
+  }
 
   render() {
     const headerStyle = {
@@ -60,7 +64,7 @@ class Search extends React.Component {
                   <div className="flex align-items-center justify-content-center">
                     <Dropdown pointing="right" icon="ellipsis horizontal">
                       <Dropdown.Menu>
-                        <Dropdown.Item text='Add to queue' icon="plus" />
+                        <Dropdown.Item text='Add to queue' icon="plus" onClick={() => this.addToQueue(item)} />
                         <Dropdown.Item text='Add to playlist' icon="list" />
                       </Dropdown.Menu>
                     </Dropdown>
