@@ -17,18 +17,12 @@ class Search extends React.Component {
     this.setState({ top: -(header.clientHeight - Math.ceil(headerContent.clientHeight) - 66) });
   }
 
-  play = (id, i) => {
-    this.props.dispatch(VideoActions.playById(id));
-
+  play = (item, i) => {
+    this.props.dispatch(VideoActions.playSong(item));
     var endQueue = this.props.youtube.results.items.slice(0, i);
     var beginQueue = this.props.youtube.results.items.slice(i);
     beginQueue.push("end_of_queue");
-    var queue = beginQueue.concat(endQueue).map(item => {
-      if(item==="end_of_queue") 
-        return item; 
-      else 
-        return item.id.videoId;
-    });
+    var queue = beginQueue.concat(endQueue);
     this.props.dispatch(VideoActions.setQueue(queue));
   }
 
@@ -59,7 +53,7 @@ class Search extends React.Component {
           {
             this.props.results.map((item, i) => {
               return (
-                <div className="item justify-content-center" key={item.id.videoId} draggable onDoubleClick={() => this.play(item.id.videoId, i)}>
+                <div className="item justify-content-center" key={item.id.videoId} draggable onDoubleClick={() => this.play(item, i)}>
                   <div className="ui tiny image" onClick={() => this.play(item.id.videoId)}>
                     <img className="ui small image" src={item.snippet.thumbnails.medium.url} />
                     <div className="overlay"><i className="big play icon"/></div>
