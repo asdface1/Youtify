@@ -41,7 +41,7 @@ class Player extends React.Component {
     return (
       <div id="Player">
         <Youtube
-          videoId={this.props.video.song.id.videoId}
+          videoId={this.props.video.song.id.videoId ? this.props.video.song.id.videoId : ""}
           opts={opts}
           onStateChange={this.onStateChange}
           onReady={this._onReady.bind(this)}
