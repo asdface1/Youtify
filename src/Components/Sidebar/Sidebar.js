@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './Sidebar.css';
+import * as firebase from 'firebase';
 
 import Player from '../Player/Player';
 
@@ -12,6 +13,11 @@ class Sidebar extends React.Component {
 
   componentDidMount() {
     window.addEventListener('mouseup', this.stopDrag);
+    const rootRef = firebase.database().ref().child('youtify');
+    const playlistsRef = rootRef.child('playlists');
+    playlistsRef.on('value', snap => {
+      console.log('playlists', snap.val());
+    });
   }
 
   startDrag = (e) => {
@@ -37,8 +43,11 @@ class Sidebar extends React.Component {
       <div id='Sidebar' style={{ width: this.state.width + 'px'}}>
         <div className="flex flex-col flex-fill justify-content-between">
           <div style={{ overflowY: 'auto' }}>
-            <Menu header="Playlists" active={this.state.active} setActive={(i) => {this.setState({active: i})}}
-              items={[...Array(5).keys()].map(i => 'Playlist ' + i)} />
+            <Menu
+              header="Playlists"
+              active={this.state.active}
+              setActive={(i) => {this.setState({active: i})}}
+              items={[{name: 'playlist1'}, {name: 'playlist2'}] /*this.props.user.playlists*/} />
           </div>
           <button className="ui large black fluid right labeled icon button" style={{borderRadius: 0}}>
             New playlist
@@ -55,8 +64,7 @@ class Sidebar extends React.Component {
 
 export default connect(store => {
   return {
-    app: store.app,
-    user: store.user,
+    user: store.user
   }
 })(Sidebar);
 
@@ -69,7 +77,7 @@ const Menu = ({ header, items, active, setActive }) => {
         items.map((item, i) => {
           return (
             <a className={"item " + (i === active ? "active" : "")}
-              onClick={() => setActive(i)} key={i}>{ item }</a>
+              onClick={() => setActive(i)} key={i}>{ item.name }</a>
           )
         })
       }
