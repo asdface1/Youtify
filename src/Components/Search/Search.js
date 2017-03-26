@@ -17,8 +17,13 @@ class Search extends React.Component {
     this.setState({ top: -(header.clientHeight - Math.ceil(headerContent.clientHeight) - 66) });
   }
 
-  play = (id) => {
+  play = (id, i) => {
     this.props.dispatch(VideoActions.playById(id));
+    var endQueue = this.props.youtube.results.slice(0, i);
+    var beginQueue = this.props.youtube.results.slice(i);
+    beginQueue.push("end_of_queue");
+    var queue = beginQueue.concat(endQueue);
+    this.props.dispatch(VideoActions.setQueue(queue));
   }
 
   render() {
@@ -76,6 +81,6 @@ class Search extends React.Component {
 
 export default connect(store => {
   return {
-
+    youtube: store.youtube,
   }
 })(Search);
