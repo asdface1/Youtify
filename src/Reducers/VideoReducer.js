@@ -38,13 +38,9 @@ export default function reducer(state=initialState, action) {
       state.player.loadVideoById(song.id.videoId);
       return { ...state, song: song, isPlaying: false };
     case 'NEXT':
-      console.log("videoReducer::next");
-      console.log("videoReducer::state.song", state.song);
       var currentSong = (state.song.current + 1) % state.queue.length;
-      console.log("videoReducer::currentSong", currentSong);
       var song = state.queue[currentSong];
       song.current = currentSong;
-      console.log("videoReducer::song", song);
       state.player.loadVideoById(song.id.videoId);
       return { ...state, song: song, isPlaying: false, current: currentSong };
     case 'PLAY_SONG':
