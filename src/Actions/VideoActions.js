@@ -50,11 +50,11 @@ export function setDuration(duration) {
     }
   }
 }
-export function playById(id) {
+export function playSong(song) {
   return {
-    type: 'PLAY_BY_ID',
+    type: 'PLAY_SONG',
     payload: {
-      song: id
+      song
     }
   }
 }
