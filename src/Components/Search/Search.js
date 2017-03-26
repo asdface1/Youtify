@@ -15,8 +15,13 @@ class Search extends React.Component {
     this.setState({ top: -(header.clientHeight - headerContent.clientHeight - 64) });
   }
 
-  play = (id) => {
+  play = (id, i) => {
     this.props.dispatch(VideoActions.playById(id));
+    var endQueue = this.props.youtube.results.slice(0, i);
+    var beginQueue = this.props.youtube.results.slice(i);
+    beginQueue.push("end_of_queue");
+    var queue = beginQueue.concat(endQueue);
+    this.props.dispatch(VideoActions.setQueue(queue));
   }
 
   render() {
@@ -44,9 +49,9 @@ class Search extends React.Component {
         </div>
         <div className="ui inverted divided items" style={{ padding: '2em', color: 'lightgrey' }}>
           {
-            this.props.results.map(item => {
+            this.props.results.map((item, i) => {
               return (
-                <div className="item justify-content-center" key={item.id.videoId} draggable onDoubleClick={() => this.play(item.id.videoId)}>
+                <div className="item justify-content-center" key={item.id.videoId} draggable onDoubleClick={() => this.play(item.id.videoId, i)}>
                   <div className="ui tiny image">
                     <img src={item.snippet.thumbnails.medium.url} alt="" />
                   </div>
@@ -66,6 +71,6 @@ class Search extends React.Component {
 
 export default connect(store => {
   return {
-
+    youtube: store.youtube,
   }
 })(Search);
