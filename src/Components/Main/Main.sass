@@ -1,45 +1,6 @@
 #Main
   position: relative
-  display: flex
-  flex-direction: column
   flex: 1
   background-color: #181818
   overflow-y: auto
   overflow-x: hidden
-
-  .header
-    display: flex
-    flex-direction: column
-    justify-content: flex-end
-    flex: 0 0 360px
-    overflow: hidden
-    position: relative
-    background-size: cover
-    background-position: center
-
-    .header-content
-      padding: 2em
-      color: white
-      z-index: 1
-
-      h1
-        font-size: 3em
-        font-weight: 400
-
-    &::after
-      position: absolute
-      content: ' '
-      height: 100%
-      width: 100%
-      background: linear-gradient(transparent 40%, #181818)
-
-  .ui.items
-    .item
-      padding: 1em!important
-      border-color: #222
-
-      &:hover
-        background-color: rgba(255,255,255,0.05)
-
-      .header
-        color: white

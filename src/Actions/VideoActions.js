@@ -58,3 +58,19 @@ export function playById(id) {
     }
   }
 }
+export function setQueue(queue) {
+  return {
+    type: 'SET_QUEUE',
+    payload: {
+      queue
+    }
+  }
+}
+export function addToQueue(item) {
+  return {
+    type: 'ADD_TO_QUEUE',
+    payload: {
+      item
+    }
+  }
+}

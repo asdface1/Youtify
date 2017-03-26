@@ -55,6 +55,10 @@ export default function reducer(state=initialState, action) {
           src: action.payload.song
         }
       }
+    case 'SET_QUEUE':
+      return { ...state, queue: action.payload.queue };
+    case 'ADD_TO_QUEUE':
+      return { ...state, queue: [ ...state.queue, action.payload.item ] };
     default:
       return state;
   }
