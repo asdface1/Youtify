@@ -7,7 +7,8 @@ const initialState = {
     src: 'Um7pMggPnug'
   },
   volume: 50,
-  queue: []
+  queue: [],
+  prioQueue: []
 };
 
 export default function reducer(state=initialState, action) {
@@ -38,11 +39,17 @@ export default function reducer(state=initialState, action) {
       state.player.loadVideoById(song.id.videoId);
       return { ...state, song: song, isPlaying: false };
     case 'NEXT':
-      var currentSong = (state.song.current + 1) % state.queue.length;
-      var song = state.queue[currentSong];
-      song.current = currentSong;
-      state.player.loadVideoById(song.id.videoId);
-      return { ...state, song: song, isPlaying: false};
+      if (state.prioQueue.length) {
+        song = state.prioQueue[0];
+        state.player.loadVideoById(song.id.videoId);
+        return { ...state, song: song, isPlaying: false, prioQueue: state.prioQueue.slice(1) };
+      } else {
+        var currentSong = (state.song.current + 1) % state.queue.length;
+        var song = state.queue[currentSong];
+        song.current = currentSong;
+        state.player.loadVideoById(song.id.videoId);
+        return { ...state, song: song, isPlaying: false};
+      }
     case 'PLAY_SONG':
       state.player.loadVideoById(action.payload.song);
       return {
@@ -58,17 +65,7 @@ export default function reducer(state=initialState, action) {
         }
       };
     case 'ADD_TO_QUEUE':
-      var index = state.song.current + 1;
-      for (var i = index; i < state.queue.length; i++) {
-        if (!state.queue[index].prio) {
-          index = i;
-          break;
-        }
-      }
-      var head = state.queue.slice(0, index);
-      var tail = state.queue.slice(index);
-      var newQueue = head.concat(action.payload.item).concat(tail);
-      return { ...state, queue: newQueue };
+      return { ...state, prioQueue: [ ...state.prioQueue, action.payload.item ] };
     default:
       return state;
   }
