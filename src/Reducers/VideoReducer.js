@@ -58,7 +58,17 @@ export default function reducer(state=initialState, action) {
         }
       };
     case 'ADD_TO_QUEUE':
-      return { ...state, queue: [ ...state.queue, action.payload.item ] };
+      var index = state.current + 1;
+      for (var i = index; i < state.queue.length; i++) {
+        if (state.queue[index].prio) {
+          index = i;
+          break;
+        }
+      }
+      var head = state.queue.slice(0, index);
+      var tail = state.queue.slice(index);
+      var newQueue = head.concat(action.payload.item).concat(tail);
+      return { ...state, queue: newQueue };
     default:
       return state;
   }
