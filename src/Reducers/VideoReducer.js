@@ -41,6 +41,7 @@ export default function reducer(state=initialState, action) {
     case 'NEXT':
       if (state.prioQueue.length) {
         song = state.prioQueue[0];
+        song.current = state.song.current;
         state.player.loadVideoById(song.id.videoId);
         return { ...state, song: song, isPlaying: false, prioQueue: state.prioQueue.slice(1) };
       } else {
