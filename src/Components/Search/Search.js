@@ -57,7 +57,7 @@ class Search extends React.Component {
             this.props.results.map((item, i) => {
               return (
                 <div className="item justify-content-center" key={item.id.videoId} draggable onDoubleClick={() => this.play(item, i)}>
-                  <div className="ui tiny image" onClick={() => this.play(item.id.videoId)}>
+                  <div className="ui tiny image" onClick={() => this.play(item, i)}>
                     <img className="ui small image" src={item.snippet.thumbnails.medium.url} />
                     <div className="overlay"><i className="big play icon"/></div>
                   </div>

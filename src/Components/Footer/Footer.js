@@ -57,8 +57,8 @@ class Footer extends React.Component {
     return (
       <div id="Footer">
         <div className="segment justify-content-start">
-          <div>Beach Boys - Kokomo</div>
-          <a>BeachBoysVEVO</a>
+          <div>{this.props.video.song.snippet.title}</div>
+          <a>{this.props.video.song.snippet.channelTitle}</a>
         </div>
         <div className="large segment flex flex-col justify-content-center">
           <div className="controllers">

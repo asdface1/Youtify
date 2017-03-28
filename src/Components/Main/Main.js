@@ -52,7 +52,6 @@ class Main extends React.Component {
         });
         this.props.dispatch(UserActions.setFavorites(favorites));
       });
-      
     });
   }
 
