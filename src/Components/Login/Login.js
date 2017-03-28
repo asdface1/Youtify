@@ -2,11 +2,13 @@ import React from 'react';
 import './Login.css';
 import * as firebase from 'firebase';
 
+import * as UserActions from '../../Actions/UserActions';
 export default class Login extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
         console.log('firebase user:', user);
+        this.props.dispatch(UserActions.signIn(user));
       } else {
         console.log('not logged in');
       }
