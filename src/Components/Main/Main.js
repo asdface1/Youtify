@@ -33,7 +33,7 @@ class Main extends React.Component {
       console.log('snap', snap.val());
       const snapVal = snap.val();
       const playlists = Object.keys(snapVal).map(key => {
-        return snapVal[key];
+        return { ...snapVal[key], id: key };
       });
       console.log('playlists', playlists);
       this.props.dispatch(UserActions.setPlaylists(playlists));
