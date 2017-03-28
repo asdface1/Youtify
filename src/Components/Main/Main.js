@@ -37,6 +37,21 @@ class Main extends React.Component {
       });
       console.log('playlists', playlists);
       this.props.dispatch(UserActions.setPlaylists(playlists));
+
+      const usersRef = rootRef.child('users').child(this.props.user.uid).child('favorites').on('value', snap => {
+              console.log("main::userFavorites: ", snap.val());
+              const userFavorites = snap.val();
+              var favoriter = userFavorites.map(listId => {
+                rootRef.child('playlists').child(listId).on('value', snap1 => {
+                  console.log("snap1.val()", snap1.val());
+                  snap1.val();
+                })
+              })
+              console.log("favoriter: ", favoriter);
+      });  
+      
+
+
     })
   }
 
