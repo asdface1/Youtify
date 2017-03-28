@@ -11,7 +11,7 @@ class Login extends React.Component {
       if (user) {
         console.log('firebase user:', user);
         this.props.dispatch(UserActions.signIn(user));
-        this.getPlaylists();
+        this.props.onSignIn();
       } else {
         console.log('not logged in');
       }
@@ -44,10 +44,6 @@ class Login extends React.Component {
       var credential = error.credential;
       // ...
     });
-  }
-
-  getPlaylists = () => {
-    
   }
 
   render() {

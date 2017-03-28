@@ -7,6 +7,8 @@ import Login from '../Login/Login';
 import Navbar from '../Navbar/Navbar';
 import Search from '../Search/Search';
 
+import * as UserActions from '../../Actions/UserActions';
+
 class Main extends React.Component {
   constructor() {
     super();
@@ -18,6 +20,24 @@ class Main extends React.Component {
       console.log('user', user);
       this.setState({ user: user ? true : false });
     });
+  }
+
+  onSignIn = () => {
+    const rootRef = firebase.database().ref().child('youtify');
+    const listRef = rootRef.child('playlists');
+    listRef
+        .orderByChild('ownerId')
+        .startAt(this.props.user.uid)
+        .endAt(this.props.user.uid)
+        .on('value', snap => {
+      console.log('snap', snap.val());
+      const snapVal = snap.val();
+      const playlists = Object.keys(snapVal).map(key => {
+        return snapVal[key];
+      });
+      console.log('playlists', playlists);
+      this.props.dispatch(UserActions.setPlaylists(playlists));
+    })
   }
 
   render() {
@@ -35,7 +55,7 @@ class Main extends React.Component {
     } else {
       return (
         <div id="Main">
-          <Login />
+          <Login onSignIn={this.onSignIn} />
         </div>
       )
     }

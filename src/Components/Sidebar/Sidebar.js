@@ -7,26 +7,11 @@ import * as firebase from 'firebase';
 class Sidebar extends React.Component {
   constructor() {
     super();
-    this.state = { active: 0, width: 300, list: [], listRef: undefined };
+    this.state = { active: 0, width: 300 };
   }
 
   componentDidMount() {
     window.addEventListener('mouseup', this.stopDrag);
-    const rootRef = firebase.database().ref().child('youtify');
-    this.setState({ listRef: rootRef.child('playlists') });
-  }
-
-  componentWillReceiveProps(props) {
-    this.state.listRef
-        .orderByChild('ownerId')
-        .startAt(props.user.uid)
-        .endAt(props.user.uid)
-        .on('value', snap => {
-      console.log('snap', snap.val());
-      this.setState({
-        list: snap.val()
-      })
-    })
   }
 
   startDrag = (e) => {
@@ -55,7 +40,7 @@ class Sidebar extends React.Component {
             <Menu header="Playlists"
               active={this.state.active}
               setActive={(i) => {this.setState({active: i})}}
-              items={this.state.list} />
+              items={[]} />
           </div>
           <button className="ui large black fluid right labeled icon button" style={{borderRadius: 0}}>
             New playlist
