@@ -19,3 +19,12 @@ export function setPlaylists(array) {
     }
   }
 }
+export function setFavorites(array) {
+  return {
+    type: 'SET_FAVORITES',
+    payload: {
+      favorites: array
+    }
+  }
+}
+

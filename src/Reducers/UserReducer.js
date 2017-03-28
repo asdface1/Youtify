@@ -1,7 +1,8 @@
 import * as firebase from 'firebase';
 
 const initialState = {
-  playlists: []
+  playlists: [],
+  favorites: []
 };
 
 export default function reducer(state=initialState, action) {
@@ -13,6 +14,8 @@ export default function reducer(state=initialState, action) {
       return initialState;
     case 'SET_PLAYLISTS':
       return { ...state, playlists: action.payload.playlists };
+    case 'SET_FAVORITES':
+      return { ...state, playlists: action.payload.favorites };
     default:
       return state;
   }
