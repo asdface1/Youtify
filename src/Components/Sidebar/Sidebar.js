@@ -3,16 +3,23 @@ import { connect } from 'react-redux';
 import './Sidebar.css';
 
 import Player from '../Player/Player';
-
+import * as firebase from 'firebase';
 class Sidebar extends React.Component {
   constructor() {
     super();
-    this.state = { active: 0, width: 300 };
+    this.state = { active: 0, width: 300, list: [] };
   }
 
   componentDidMount() {
     window.addEventListener('mouseup', this.stopDrag);
-  }
+    const rootRef = firebase.database().ref().child('youtify');
+    const listRef = rootRef.child('playlists');
+    listRef.on('value', snap => {
+      this.setState({
+        list: snap.val()
+      })
+    })
+    }
 
   startDrag = (e) => {
     e.preventDefault();
@@ -33,12 +40,13 @@ class Sidebar extends React.Component {
   }
 
   render() {
+    console.log("sidebar::lists", this.state.list)
     return (
       <div id='Sidebar' style={{ width: this.state.width + 'px'}}>
         <div className="flex flex-col flex-fill justify-content-between">
           <div style={{ overflowY: 'auto' }}>
             <Menu header="Playlists" active={this.state.active} setActive={(i) => {this.setState({active: i})}}
-              items={[...Array(5).keys()].map(i => 'Playlist ' + i)} />
+              items={this.state.list.map(i => i.name)} />
           </div>
           <button className="ui large black fluid right labeled icon button" style={{borderRadius: 0}}>
             New playlist

@@ -9,7 +9,7 @@ import store from './store';
 
 var config = require('../config.js').firebaseConfig;
 
-firebase.intializeApp(config);
+firebase.initializeApp(config);
 
 ReactDOM.render(
   <Provider store={store}>
