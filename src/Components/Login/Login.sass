@@ -1,0 +1,31 @@
+#Login
+  display: flex
+  flex-direction: column
+  height: 100%
+  align-items: center
+  justify-content: center
+  color: white
+
+  h1
+    text-align: center
+    font-size: 3em
+    font-weight: 400
+    letter-spacing: .05em
+
+  h2
+    font-size: 2em
+    font-weight: 400
+
+  .ui.grid
+    .column
+      display: flex
+      align-items: center
+
+  .ui.toggle
+    label::before
+      background-color: rgba(255,255,255,0.1)!important
+    input:checked ~ label::before
+      background-color: #1DB954!important
+    label
+      color: rgba(255,255,255,0.95)!important
+      font-size: 1.1em

@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './Navbar.css';
+import * as firebase from 'firebase';
 
 import { Dropdown } from 'semantic-ui-react';
 
@@ -19,6 +20,10 @@ class Navbar extends React.Component {
   onSearch = (event) => {
     event.preventDefault();
     this.props.dispatch(YoutubeActions.search(this.state.query));
+  }
+
+  signOut = () => {
+    firebase.auth().signOut();
   }
 
   render() {
@@ -43,7 +48,7 @@ class Navbar extends React.Component {
               <Dropdown.Item
                 text="Settings" icon="settings" />
               <Dropdown.Item
-                text="Sign out" icon="sign out" />
+                text="Sign out" icon="sign out" onClick={this.signOut}/>
             </Dropdown.Menu>
           </Dropdown>
         </div>
