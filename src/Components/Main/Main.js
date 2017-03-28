@@ -24,7 +24,7 @@ class Main extends React.Component {
     if (this.state.user) {
       return (
         <div id="Main">
-          <Navbar user={{ name: 'Jorge Iglesias' }} />
+          <Navbar user={{ name: this.props.user.displayName || this.props.user.email }} />
           <Search
             label="Search results for:"
             title="Katy Perry"
@@ -44,6 +44,7 @@ class Main extends React.Component {
 
 export default connect(store => {
   return {
+    user: store.user,
     youtube: store.youtube,
   }
 })(Main);
