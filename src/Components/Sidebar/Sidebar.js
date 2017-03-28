@@ -41,6 +41,10 @@ class Sidebar extends React.Component {
               active={this.state.active}
               setActive={(i) => {this.setState({active: i})}}
               items={this.props.user.playlists} />
+            <Menu header="Favorites"
+              active={this.state.active}
+              setActive={(i) => {this.setState({active: i})}}
+              items={this.props.user.favorites} />
           </div>
           <button className="ui large black fluid right labeled icon button" style={{borderRadius: 0}}>
             New playlist

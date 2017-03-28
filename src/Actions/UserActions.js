@@ -27,4 +27,14 @@ export function setFavorites(array) {
     }
   }
 }
+export function addToPlaylist(song, playlistId) {
+  console.log("UserAction.js::song", song);
+  return {
+    type: 'ADD_TO_PLAYLIST',
+    payload: {
+      song: song,
+      playlistId: playlistId
+    }
+  }
+}
 

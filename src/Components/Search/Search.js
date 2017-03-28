@@ -5,7 +5,7 @@ import './Search.css';
 import { Dropdown } from 'semantic-ui-react';
 
 import * as VideoActions from '../../Actions/VideoActions';
-
+import * as UserActions from '../../Actions/UserActions';
 class Search extends React.Component {
   constructor(props) {
     super(props);
@@ -23,6 +23,10 @@ class Search extends React.Component {
   }
   addToQueue = (item) => {
     this.props.dispatch(VideoActions.addToQueue(item));
+  }
+  addToPlaylist = (item, playlistId) => {
+    console.log("search.js::item", item);
+    this.props.dispatch(UserActions.addToPlaylist(item, playlistId));
   }
 
   render() {
@@ -64,7 +68,7 @@ class Search extends React.Component {
                     <Dropdown pointing="right" icon="ellipsis horizontal">
                       <Dropdown.Menu>
                         <Dropdown.Item text='Add to queue' icon="plus" onClick={() => this.addToQueue(item)} />
-                        <Dropdown.Item text='Add to playlist' icon="list" />
+                        <Dropdown.Item text='Add to playlist' icon="list" onClick={() => this.addToPlaylist(item, this.props.user.playlists[0].id)} />
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>
@@ -81,5 +85,6 @@ class Search extends React.Component {
 export default connect(store => {
   return {
     youtube: store.youtube,
+    user: store.user,
   }
 })(Search);
