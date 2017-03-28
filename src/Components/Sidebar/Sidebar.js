@@ -40,7 +40,7 @@ class Sidebar extends React.Component {
             <Menu header="Playlists"
               active={this.state.active}
               setActive={(i) => {this.setState({active: i})}}
-              items={[]} />
+              items={this.props.user.playlists} />
           </div>
           <button className="ui large black fluid right labeled icon button" style={{borderRadius: 0}}>
             New playlist
@@ -68,10 +68,10 @@ const Menu = ({ header, items, active, setActive }) => {
       <p></p>
       <div className="header item">{ header }</div>
       {
-        Object.keys(items).map((key, i) => {
+        items.map((item, i) => {
           return (
             <a className={"item " + (i === active ? "active" : "")}
-              onClick={() => setActive(i)} key={i}>{ items[key].name }</a>
+              onClick={() => setActive(i)} key={i}>{ item.name }</a>
           )
         })
       }

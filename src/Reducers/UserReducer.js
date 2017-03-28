@@ -1,4 +1,8 @@
-export default function reducer(state={}, action) {
+const initialState = { 
+  playlists: [] 
+};
+
+export default function reducer(state=initialState, action) {
   switch (action.type) {
     case 'SIGN_IN':
       return { ...state, ...action.payload.user };
