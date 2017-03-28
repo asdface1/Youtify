@@ -5,6 +5,7 @@ import * as firebase from 'firebase';
 
 import { Dropdown } from 'semantic-ui-react';
 
+import * as UserActions from '../../Actions/UserActions';
 import * as YoutubeActions from '../../Actions/YoutubeActions';
 
 class Navbar extends React.Component {
@@ -23,7 +24,7 @@ class Navbar extends React.Component {
   }
 
   signOut = () => {
-    firebase.auth().signOut();
+    this.props.dispatch(UserActions.signOut());
   }
 
   render() {

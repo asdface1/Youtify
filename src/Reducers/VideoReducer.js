@@ -2,9 +2,8 @@ const initialState = {
   player: undefined,
   isPlaying: false,
   song: {
-    id: 0,
-    duration: 0,
-    src: 'Um7pMggPnug'
+    id: {},
+    snippet: {}
   },
   volume: 50,
   queue: [],
