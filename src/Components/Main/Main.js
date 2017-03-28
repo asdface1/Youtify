@@ -24,8 +24,8 @@ class Main extends React.Component {
 
   onSignIn = () => {
     const rootRef = firebase.database().ref().child('youtify');
-    const listRef = rootRef.child('playlists');
-    listRef
+    const playlistsRef = rootRef.child('playlists');
+    playlistsRef
         .orderByChild('ownerId')
         .startAt(this.props.user.uid)
         .endAt(this.props.user.uid)
@@ -38,21 +38,21 @@ class Main extends React.Component {
       console.log('playlists', playlists);
       this.props.dispatch(UserActions.setPlaylists(playlists));
 
-      const usersRef = rootRef.child('users').child(this.props.user.uid).child('favorites').on('value', snap => {
-              console.log("main::userFavorites: ", snap.val());
-              const userFavorites = snap.val();
-              var favoriter = userFavorites.map(listId => {
-                rootRef.child('playlists').child(listId).on('value', snap1 => {
-                  console.log("snap1.val()", snap1.val());
-                  snap1.val();
-                })
-              })
-              console.log("favoriter: ", favoriter);
-      });  
-      
-
-
-    })
+      var favorites = [];
+      rootRef
+          .child('users')
+          .child(this.props.user.uid)
+          .child('favorites')
+          .on('value', snap => {
+        console.log("main::userFavorites:", snap.val());
+        snap.val().forEach(id => {
+          playlistsRef.child(id).on('value', snap1 => {
+            favorites.push({ ...snap1.val(), id: id });
+          });
+        });
+      });
+      this.props.dispatch(UserActions.setFavorites(favorites));
+    });
   }
 
   render() {
