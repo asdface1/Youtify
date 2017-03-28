@@ -27,6 +27,8 @@ class Player extends React.Component {
   onStateChange = ({ data }) => {
     if (data === 1) {
       this.props.dispatch(VideoActions.setDuration(this.props.video.player.getDuration()));
+    } else if (data === 5) {
+      this.props.dispatch(VideoActions.play());
     }
   }
 

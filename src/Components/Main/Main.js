@@ -50,8 +50,8 @@ class Main extends React.Component {
             favorites.push({ ...snap1.val(), id: id });
           });
         });
+        this.props.dispatch(UserActions.setFavorites(favorites));
       });
-      this.props.dispatch(UserActions.setFavorites(favorites));
     });
   }
 
