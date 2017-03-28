@@ -16,5 +16,12 @@ export function signIn(user) {
       user: user
     }
   }
-
+}
+export function setPlaylists(array) {
+  return {
+    type: 'SET_PLAYLISTS',
+    payload: {
+      playlists: array
+    }
+  }
 }
