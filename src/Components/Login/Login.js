@@ -3,7 +3,8 @@ import './Login.css';
 import * as firebase from 'firebase';
 
 import * as UserActions from '../../Actions/UserActions';
-export default class Login extends React.Component {
+
+class Login extends React.Component {
   componentDidMount() {
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
@@ -94,3 +95,9 @@ export default class Login extends React.Component {
     )
   }
 }
+
+
+export default connect(store => {
+  return {
+  }
+})(Login);
