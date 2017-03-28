@@ -20,6 +20,9 @@ class Login extends React.Component {
   signInWithEmailAndPassword = (event) => {
     event.preventDefault();
     const { target } = event;
+    const auth = firebase.auth();
+    auth.signInWithEmailAndPassword(target.email.value, target.password.value)
+      .catch(error => console.log('firebase auth error:', error.message));
   }
 
   signInWithGoogle = () => {
