@@ -7,4 +7,14 @@ export function update(name) {
       }
     }
   }
+
+}
+export function signIn(user) {
+  return {
+    type: 'SIGN_IN',
+    payload: {
+      user: user
+    }
+  }
+  
 }
