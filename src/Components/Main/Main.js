@@ -56,7 +56,7 @@ class Main extends React.Component {
   }
 
   render() {
-    if (this.state.user) {
+    if (this.props.user.uid) {
       return (
         <div id="Main">
           <Navbar user={{ name: this.props.user.displayName || this.props.user.email }} />

@@ -1,20 +1,14 @@
-export function update(name) {
-  return {
-    type: 'UPDATE',
-    payload: {
-      user: {
-        name: name
-      }
-    }
-  }
-
-}
 export function signIn(user) {
   return {
     type: 'SIGN_IN',
     payload: {
       user: user
     }
+  }
+}
+export function signOut() {
+  return {
+    type: 'SIGN_OUT'
   }
 }
 export function setPlaylists(array) {
