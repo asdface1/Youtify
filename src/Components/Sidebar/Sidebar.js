@@ -14,7 +14,7 @@ class Sidebar extends React.Component {
     window.addEventListener('mouseup', this.stopDrag);
     const rootRef = firebase.database().ref().child('youtify');
     const listRef = rootRef.child('playlists');
-    listRef.on('value', snap => {
+    listRef.orderBy('ownerId').startAt(this.props.user.uid).endAt(this.props.user.uid).on('value', snap => {
       this.setState({
         list: snap.val()
       })
