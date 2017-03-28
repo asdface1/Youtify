@@ -16,5 +16,5 @@ export function signIn(user) {
       user: user
     }
   }
-  
+
 }

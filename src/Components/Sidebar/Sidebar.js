@@ -7,19 +7,27 @@ import * as firebase from 'firebase';
 class Sidebar extends React.Component {
   constructor() {
     super();
-    this.state = { active: 0, width: 300, list: [] };
+    this.state = { active: 0, width: 300, list: [], listRef: undefined };
   }
 
   componentDidMount() {
     window.addEventListener('mouseup', this.stopDrag);
     const rootRef = firebase.database().ref().child('youtify');
-    const listRef = rootRef.child('playlists');
-    listRef.orderBy('ownerId').startAt(this.props.user.uid).endAt(this.props.user.uid).on('value', snap => {
+    this.setState({ listRef: rootRef.child('playlists') });
+  }
+
+  componentWillReceiveProps(props) {
+    this.state.listRef
+        .orderByChild('ownerId')
+        .startAt(props.user.uid)
+        .endAt(props.user.uid)
+        .on('value', snap => {
+      console.log('snap', snap.val());
       this.setState({
         list: snap.val()
       })
     })
-    }
+  }
 
   startDrag = (e) => {
     e.preventDefault();
@@ -40,13 +48,14 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    console.log("sidebar::lists", this.state.list)
     return (
       <div id='Sidebar' style={{ width: this.state.width + 'px'}}>
         <div className="flex flex-col flex-fill justify-content-between">
           <div style={{ overflowY: 'auto' }}>
-            <Menu header="Playlists" active={this.state.active} setActive={(i) => {this.setState({active: i})}}
-              items={this.state.list.map(i => i.name)} />
+            <Menu header="Playlists"
+              active={this.state.active}
+              setActive={(i) => {this.setState({active: i})}}
+              items={this.state.list} />
           </div>
           <button className="ui large black fluid right labeled icon button" style={{borderRadius: 0}}>
             New playlist
@@ -74,10 +83,10 @@ const Menu = ({ header, items, active, setActive }) => {
       <p></p>
       <div className="header item">{ header }</div>
       {
-        items.map((item, i) => {
+        Object.keys(items).map((key, i) => {
           return (
             <a className={"item " + (i === active ? "active" : "")}
-              onClick={() => setActive(i)} key={i}>{ item }</a>
+              onClick={() => setActive(i)} key={i}>{ items[key].name }</a>
           )
         })
       }
