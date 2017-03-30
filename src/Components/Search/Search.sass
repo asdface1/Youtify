@@ -2,7 +2,7 @@
   display: flex
   flex-direction: column
 
-  .header
+  & > .header
     display: flex
     flex-direction: column
     justify-content: flex-end
@@ -45,7 +45,7 @@
         font-weight: 400
         color: #ccc
 
-  .ui.items
+  & > .ui.items
     margin-top: 0
 
     & > .item
@@ -54,9 +54,6 @@
 
       &:hover
         background-color: rgba(255,255,255,0.05)
-
-      .header
-        color: white
 
       .image
         .overlay
@@ -77,3 +74,9 @@
         &:hover
           .overlay
             opacity: 1
+
+      .content.active
+        color: #1DB954
+
+  .italic
+    font-style: italic

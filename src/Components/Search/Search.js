@@ -28,12 +28,12 @@ class Search extends React.Component {
     this.props.dispatch(VideoActions.addToQueue(item));
   }
 
-  addToPlaylist = (item, playlistId) => {
-    this.props.dispatch(UserActions.addToPlaylist(item, playlistId));
+  addToPlaylist = (item, playlist) => {
+    this.props.dispatch(UserActions.addToPlaylist(item, playlist.id));
     firebase.database().ref()
       .child("youtify")
       .child("playlists")
-      .child(playlistId)
+      .child(playlist.id)
       .child("songs")
       .push(item.id.videoId);
   }
@@ -70,14 +70,20 @@ class Search extends React.Component {
                     <img className="ui small image" src={item.snippet.thumbnails.medium.url} />
                     <div className="overlay"><i className="big play icon"/></div>
                   </div>
-                  <div className="middle aligned content">
+                  <div className={`middle aligned content ${item.id.videoId === this.props.video.song.id.videoId ? 'active' : ''}`}>
                     {item.snippet.title}
                   </div>
                   <div className="flex align-items-center justify-content-center">
                     <Dropdown pointing="right" icon="ellipsis horizontal">
                       <Dropdown.Menu>
                         <Dropdown.Item text='Add to queue' icon="plus" onClick={() => this.addToQueue(item)} />
-                        <Dropdown.Item text='Add to playlist' icon="list" onClick={() => this.addToPlaylist(item, this.props.user.playlists[0].id)} />
+                        <Dropdown.Header icon='list' content='Add to playlist' />
+                        { this.props.user.playlists.map(playlist => {
+                          return (
+                            <Dropdown.Item key={playlist.id} text={playlist.name} icon="plus" className="italic"
+                              onClick={() => this.addToPlaylist(item, playlist)} />
+                          )
+                        }) }
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>
@@ -93,7 +99,8 @@ class Search extends React.Component {
 
 export default connect(store => {
   return {
-    youtube: store.youtube,
     user: store.user,
+    video: store.video,
+    youtube: store.youtube,
   }
 })(Search);
