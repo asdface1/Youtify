@@ -6,6 +6,8 @@ import { Dropdown } from 'semantic-ui-react';
 
 import * as VideoActions from '../../Actions/VideoActions';
 import * as UserActions from '../../Actions/UserActions';
+import * as firebase from 'firebase';
+
 class Search extends React.Component {
   constructor(props) {
     super(props);
@@ -24,9 +26,12 @@ class Search extends React.Component {
   addToQueue = (item) => {
     this.props.dispatch(VideoActions.addToQueue(item));
   }
-  addToPlaylist = (item, playlistId) => {
-    console.log("search.js::item", item);
-    this.props.dispatch(UserActions.addToPlaylist(item, playlistId));
+  addToPlaylist = (item, playlist) => {
+    this.props.dispatch(UserActions.addToPlaylist(item, playlist.id));
+    console.log("search::playlist ", playlist.id);
+    var insertId = {};
+    insertId[playlist.song.length] = item.id.videoId;
+    firebase.database().ref().child("youtify").child("playlists").child(playlist.id).child("song").update(insertId)
   }
 
   render() {
@@ -68,7 +73,7 @@ class Search extends React.Component {
                     <Dropdown pointing="right" icon="ellipsis horizontal">
                       <Dropdown.Menu>
                         <Dropdown.Item text='Add to queue' icon="plus" onClick={() => this.addToQueue(item)} />
-                        <Dropdown.Item text='Add to playlist' icon="list" onClick={() => this.addToPlaylist(item, this.props.user.playlists[0].id)} />
+                        <Dropdown.Item text='Add to playlist' icon="list" onClick={() => this.addToPlaylist(item, this.props.user.playlists[0])} />
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>

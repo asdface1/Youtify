@@ -8,7 +8,7 @@ import Navbar from '../Navbar/Navbar';
 import Search from '../Search/Search';
 
 import * as UserActions from '../../Actions/UserActions';
-
+import * as YoutubeActions from '../../Actions/YoutubeActions';
 class Main extends React.Component {
   constructor() {
     super();
@@ -21,7 +21,11 @@ class Main extends React.Component {
       this.setState({ user: user ? true : false });
     });
   }
+  updateUserPlaylists = () => {
+    console.log("main::youtube", this.props.youtube);
+    this.props.user.playlists[0].song=this.props.youtube.videos.items;
 
+  }
   onSignIn = () => {
     const rootRef = firebase.database().ref().child('youtify');
     const playlistsRef = rootRef.child('playlists');
@@ -35,8 +39,12 @@ class Main extends React.Component {
       const playlists = Object.keys(snapVal).map(key => {
         return { ...snapVal[key], id: key };
       });
-      console.log('playlists', playlists);
-      this.props.dispatch(UserActions.setPlaylists(playlists));
+      var urlString = "";
+      playlists[0].song.forEach(function(id){
+        urlString+=(","+id);
+      });
+      console.log("main::playlists", playlists);
+      this.props.dispatch(YoutubeActions.getVideos(urlString, playlists, this.updateUserPlaylists));
 
       var favorites = [];
       rootRef
@@ -44,7 +52,6 @@ class Main extends React.Component {
           .child(this.props.user.uid)
           .child('favorites')
           .on('value', snap => {
-        console.log("main::userFavorites:", snap.val());
         snap.val().forEach(id => {
           playlistsRef.child(id).on('value', snap1 => {
             favorites.push({ ...snap1.val(), id: id });
