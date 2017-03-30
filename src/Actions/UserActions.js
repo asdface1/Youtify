@@ -2,7 +2,11 @@ export function signIn(user) {
   return {
     type: 'SIGN_IN',
     payload: {
-      user: user
+      user: {
+        uid: user.uid,
+        email: user.email,
+        name: user.displayName
+      }
     }
   }
 }
@@ -19,15 +23,12 @@ export function setPlaylists(array) {
     }
   }
 }
-export function setFavorites(array, callback) {
-  return function(dispatch){
-    dispatch({
-      type: 'SET_FAVORITES',
-      payload: {
-        favorites: array
-      }
-    })
-    if (callback) callback();
+export function setFavorites(favorites) {
+  return {
+    type: 'SET_FAVORITES',
+    payload: {
+      favorites
+    }
   }
 }
 export function addToPlaylist(song, playlistId) {
@@ -40,4 +41,3 @@ export function addToPlaylist(song, playlistId) {
     }
   }
 }
-

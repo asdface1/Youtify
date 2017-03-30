@@ -23,15 +23,19 @@ class Search extends React.Component {
     this.props.dispatch(VideoActions.playSong(item));
     this.props.dispatch(VideoActions.setQueue(this.props.youtube.results.items, i));
   }
+
   addToQueue = (item) => {
     this.props.dispatch(VideoActions.addToQueue(item));
   }
-  addToPlaylist = (item, playlist) => {
-    this.props.dispatch(UserActions.addToPlaylist(item, playlist.id));
-    console.log("search::playlist ", playlist.id);
-    var insertId = {};
-    insertId[playlist.song.length] = item.id.videoId;
-    firebase.database().ref().child("youtify").child("playlists").child(playlist.id).child("song").update(insertId)
+
+  addToPlaylist = (item, playlistId) => {
+    this.props.dispatch(UserActions.addToPlaylist(item, playlistId));
+    firebase.database().ref()
+      .child("youtify")
+      .child("playlists")
+      .child(playlistId)
+      .child("songs")
+      .push(item.id.videoId);
   }
 
   render() {
@@ -73,7 +77,7 @@ class Search extends React.Component {
                     <Dropdown pointing="right" icon="ellipsis horizontal">
                       <Dropdown.Menu>
                         <Dropdown.Item text='Add to queue' icon="plus" onClick={() => this.addToQueue(item)} />
-                        <Dropdown.Item text='Add to playlist' icon="list" onClick={() => this.addToPlaylist(item, this.props.user.playlists[0])} />
+                        <Dropdown.Item text='Add to playlist' icon="list" onClick={() => this.addToPlaylist(item, this.props.user.playlists[0].id)} />
                       </Dropdown.Menu>
                     </Dropdown>
                   </div>

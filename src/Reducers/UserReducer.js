@@ -21,10 +21,10 @@ export default function reducer(state=initialState, action) {
       return {
         ...state,
         playlists: state.playlists.map(playlist => {
-          if(playlist.id===action.payload.playlistId) {
-            return {...playlist, song: playlist.song.concat(action.payload.song)}
+          if (playlist.id === action.payload.playlistId) {
+            return { ...playlist, songs: playlist.songs.concat(action.payload.song) }
           } else {
-            return {...playlist, song: playlist.song};
+            return { ...playlist, songs: playlist.songs };
           }
         })
       }
