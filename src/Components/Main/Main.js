@@ -7,6 +7,7 @@ import Login from '../Login/Login';
 import Navbar from '../Navbar/Navbar';
 import Search from '../Search/Search';
 
+import * as AppActions from '../../Actions/AppActions';
 import * as UserActions from '../../Actions/UserActions';
 import * as YoutubeActions from '../../Actions/YoutubeActions';
 
@@ -78,10 +79,24 @@ class Main extends React.Component {
         <div id="Main">
           <Navbar user={{ name: this.props.user.name || this.props.user.email }} />
           <Search
-            label="Search results for:"
-            title="Katy Perry"
-            image="//yt3.ggpht.com/GPTRffZJ1dgjac5CN90pwxhMzYjZSh5iC5JnlQVPickZiW3gP6B6GiUsGnjoMkbz8kXu1CpZOjs=w2120-fcrop64=1,00005a57ffffa5a8-nd-c0xffffffff-rj-k-no"
-            results={this.props.youtube.results.items} />
+              label="Search results for:"
+              if(this.props.location.pathname==="/search"){
+                title=this.props.app.query
+                results={this.props.youtube.results.items} 
+              }
+              if(this.props.location.pathname==="/playlist"){
+                var url = this.props.location.hash.slice(1);
+                title=this.props.user.playlists[url].name
+                results={this.props.user.playlists[url].songs} 
+              }
+              if(this.props.location.pathname==="/channel"){
+                image="//yt3.ggpht.com/GPTRffZJ1dgjac5CN90pwxhMzYjZSh5iC5JnlQVPickZiW3gP6B6GiUsGnjoMkbz8kXu1CpZOjs=w2120-fcrop64=1,00005a57ffffa5a8-nd-c0xffffffff-rj-k-no"
+
+                title=this.props.youtube.results.item.channelTitle
+                results={this.props.youtube.results.item} 
+              }
+
+             />
         </div>
       )
     } else {
@@ -96,6 +111,7 @@ class Main extends React.Component {
 
 export default connect(store => {
   return {
+    app: store.app,
     user: store.user,
     youtube: store.youtube,
   }

@@ -4,6 +4,7 @@ import './Search.css';
 
 import { Dropdown } from 'semantic-ui-react';
 
+import * as AppActions from '../../Actions/AppActions';
 import * as VideoActions from '../../Actions/VideoActions';
 import * as UserActions from '../../Actions/UserActions';
 import * as firebase from 'firebase';
