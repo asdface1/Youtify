@@ -78,7 +78,9 @@ class Main extends React.Component {
       var url = this.props.location.hash.slice(1);
       return (
         <div id="Main">
-          <Navbar user={{ name: this.props.user.name || this.props.user.email }} />
+          <Navbar
+            user={{ name: this.props.user.name || this.props.user.email }}
+            history={this.props.history} />
             {this.props.location.pathname === "/search" &&
               <Search
                 label="Search results for:"

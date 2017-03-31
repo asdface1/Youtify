@@ -21,6 +21,7 @@ class Navbar extends React.Component {
 
   onSearch = (event) => {
     event.preventDefault();
+    this.props.history.push('search');
     this.props.dispatch(YoutubeActions.search(this.state.query));
     this.props.dispatch(AppActions.search(this.state.query));
   }

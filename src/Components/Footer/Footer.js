@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import './Footer.css';
 import 'react-input-range/lib/css/index.css';
 
@@ -58,7 +59,9 @@ class Footer extends React.Component {
       <div id="Footer">
         <div className="segment justify-content-start">
           <div>{this.props.video.song.snippet.title}</div>
-          <a>{this.props.video.song.snippet.channelTitle}</a>
+          <Link to={`/channel#${this.props.video.song.snippet.channelId}`}>
+            {this.props.video.song.snippet.channelTitle}
+          </Link>
         </div>
         <div className="large segment flex flex-col justify-content-center">
           <div className="controllers">
