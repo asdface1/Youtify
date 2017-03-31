@@ -5,9 +5,24 @@
   position: relative
   justify-content: space-between
 
-  img
-    width: 100%
-    height: auto
+  .menu
+    border-color: transparent
+
+    .header
+      text-transform: uppercase
+      letter-spacing: 0.05em
+
+    .item
+      border-right-color: transparent
+      border-right-width: 0
+      border-left-style: solid
+      border-left-color: transparent
+      border-radius: 0!important
+      margin: 0 0 0 -2px
+      border-left-width: 3px
+
+      &.active
+        border-color: #1DB954
 
   #dragbar
     position: absolute
