@@ -75,36 +75,50 @@ class Main extends React.Component {
 
   render() {
     if (this.props.user.uid) {
-      var url = this.props.location.hash.slice(1);
+      const { user } = this.props;
+      const { pathname, hash } = this.props.location;
+      hash = hash.slice(1);
+      var label, title, results = [], image;
+      switch (pathname) {
+        case '/search':
+          label = "Search results for:";
+          title = `"${this.props.app.query || ''}"`;
+          results = this.props.youtube.results.items;
+          break;
+        case '/playlist':
+          if (user.playlists.length) {
+            label = "Playlist";
+            user.playlists.concat(user.favorites).forEach(playlist => {
+              if (playlist.id === hash) {
+                title = playlist.name;
+              }
+            });
+            title = title || "";
+            results = this.props.youtube.results.items;
+          } else {
+            label = "Playlist not found";
+            results = [];
+          }
+          break;
+        case '/channel':
+          label = "Channel";
+          if (this.props.youtube.results.items.length) {
+            title = this.props.youtube.results.items[0].snippet.channelTitle;
+          }
+          image = "//yt3.ggpht.com/GPTRffZJ1dgjac5CN90pwxhMzYjZSh5iC5JnlQVPickZiW3gP6B6GiUsGnjoMkbz8kXu1CpZOjs=w2120-fcrop64=1,00005a57ffffa5a8-nd-c0xffffffff-rj-k-no";
+          results = this.props.youtube.results.items;
+          break;
+      }
+
       return (
         <div id="Main">
           <Navbar
             user={{ name: this.props.user.name || this.props.user.email }}
             history={this.props.history} />
-            {this.props.location.pathname === "/search" &&
-              <Search
-                label="Search results for:"
-                title={this.props.app.query}
-                results={this.props.youtube.results.items}
-              />
-            }
-           {this.props.location.pathname==="/playlist" &&
-              <Search
-                label="Search results for:"
-                title={this.props.user.playlists[url].name}
-                results={this.props.user.playlists[url].songs}
-              />
-            }
-            {this.props.location.pathname==="/channel" &&
-              <Search
-                label="Search results for:"
-                image="//yt3.ggpht.com/GPTRffZJ1dgjac5CN90pwxhMzYjZSh5iC5JnlQVPickZiW3gP6B6GiUsGnjoMkbz8kXu1CpZOjs=w2120-fcrop64=1,00005a57ffffa5a8-nd-c0xffffffff-rj-k-no"
-                title={this.props.youtube.results.items[0].snippet.channelTitle}
-                results={this.props.youtube.results.items}
-              />
-            }
-
-
+          <Search
+            label={label}
+            title={title}
+            results={results} />
         </div>
       )
     } else {

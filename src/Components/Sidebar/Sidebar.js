@@ -35,17 +35,16 @@ class Sidebar extends React.Component {
   }
 
   render() {
-    console.log('PROPS', this.props);
     return (
       <div id='Sidebar' style={{ width: this.state.width + 'px'}}>
         <div className="flex flex-col flex-fill justify-content-between">
           <div style={{ overflowY: 'auto' }}>
             <Menu header="Playlists"
               items={this.props.user.playlists}
-              active={window.location.hash.slice(1)} />
+              active={this.props.location.hash.slice(1)} />
             <Menu header="Favorites"
               items={this.props.user.favorites}
-              active={window.location.hash.slice(1)} />
+              active={this.props.location.hash.slice(1)} />
           </div>
           <button className="ui large black fluid right labeled icon button" style={{borderRadius: 0}}>
             New playlist
