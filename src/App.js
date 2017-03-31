@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import './App.css';
 
 import Footer from './Components/Footer/Footer';
@@ -12,7 +12,9 @@ class App extends Component {
       <div id="App">
         <div className="flex flex-row flex-fill">
           <Sidebar />
-          <Main />
+          <Router>
+            <Route path="/" component={Main} />
+          </Router>
         </div>
         <Footer />
       </div>
