@@ -2,13 +2,14 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Sidebar.css';
+import * as firebase from 'firebase';
 
 import Player from '../Player/Player';
-import * as firebase from 'firebase';
+
 class Sidebar extends React.Component {
   constructor() {
     super();
-    this.state = { active: 0, width: 300 };
+    this.state = { active: undefined, width: 300 };
   }
 
   componentDidMount() {
@@ -34,16 +35,17 @@ class Sidebar extends React.Component {
   }
 
   render() {
+    console.log('PROPS', this.props);
     return (
       <div id='Sidebar' style={{ width: this.state.width + 'px'}}>
         <div className="flex flex-col flex-fill justify-content-between">
           <div style={{ overflowY: 'auto' }}>
             <Menu header="Playlists"
-              active={this.state.active}
-              setActive={(i) => {this.setState({active: i})}}
-              items={this.props.user.playlists} />
+              items={this.props.user.playlists}
+              active={window.location.hash.slice(1)} />
             <Menu header="Favorites"
-              items={this.props.user.favorites} />
+              items={this.props.user.favorites}
+              active={window.location.hash.slice(1)} />
           </div>
           <button className="ui large black fluid right labeled icon button" style={{borderRadius: 0}}>
             New playlist
@@ -51,7 +53,6 @@ class Sidebar extends React.Component {
           </button>
         </div>
         <Player />
-        {/*<img src='http://www.roadtovr.com/wp-content/uploads/2015/03/youtube-logo2.jpg' alt="" />*/}
         <div id='dragbar' onMouseDown={this.startDrag}></div>
       </div>
     )
@@ -65,7 +66,7 @@ export default connect(store => {
   }
 })(Sidebar);
 
-const Menu = ({ header, items, active, setActive }) => {
+const Menu = ({ header, items, active }) => {
   return (
     <div className="ui secondary vertical fluid inverted pointing menu" style={{ background: 'none' }}>
       <p></p>
@@ -73,8 +74,11 @@ const Menu = ({ header, items, active, setActive }) => {
       {
         items.map((item, i) => {
           return (
-            <a className={"item " + (i === active ? "active" : "")}
-              onClick={() => setActive(i)} key={i}>{ item.name }</a>
+            <Link to={`/playlist#${item.id}`}
+              key={i}
+              className={"item " + (item.id === active ? "active" : "")}>
+                { item.name }
+              </Link>
           )
         })
       }
