@@ -99,8 +99,8 @@ class Main extends React.Component {
               <Search
                 label="Search results for:"
                 image="//yt3.ggpht.com/GPTRffZJ1dgjac5CN90pwxhMzYjZSh5iC5JnlQVPickZiW3gP6B6GiUsGnjoMkbz8kXu1CpZOjs=w2120-fcrop64=1,00005a57ffffa5a8-nd-c0xffffffff-rj-k-no"
-                title={this.props.youtube.results.item.channelTitle}
-                results={this.props.youtube.results.item}
+                title={this.props.youtube.results.items[0].snippet.channelTitle}
+                results={this.props.youtube.results.items}
               />
             }
 
