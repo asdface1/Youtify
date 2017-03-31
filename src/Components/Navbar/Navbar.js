@@ -5,6 +5,7 @@ import * as firebase from 'firebase';
 
 import { Dropdown } from 'semantic-ui-react';
 
+import * as AppActions from '../../Actions/AppActions';
 import * as UserActions from '../../Actions/UserActions';
 import * as YoutubeActions from '../../Actions/YoutubeActions';
 
