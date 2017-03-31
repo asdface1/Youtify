@@ -9,15 +9,15 @@ import Sidebar from './Components/Sidebar/Sidebar';
 class App extends Component {
   render() {
     return (
-      <div id="App">
-        <div className="flex flex-row flex-fill">
-          <Sidebar />
-          <Router>
+      <Router>
+        <div id="App">
+          <div className="flex flex-row flex-fill">
+            <Sidebar />
             <Route path="/" component={Main} />
-          </Router>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
+      </Router>
     );
   }
 }

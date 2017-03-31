@@ -83,14 +83,14 @@ class Main extends React.Component {
               <Search
                 label="Search results for:"
                 title={this.props.app.query}
-                results={this.props.youtube.results.items} 
+                results={this.props.youtube.results.items}
               />
             }
            {this.props.location.pathname==="/playlist" &&
               <Search
                 label="Search results for:"
                 title={this.props.user.playlists[url].name}
-                results={this.props.user.playlists[url].songs} 
+                results={this.props.user.playlists[url].songs}
               />
             }
             {this.props.location.pathname==="/channel" &&
@@ -98,11 +98,11 @@ class Main extends React.Component {
                 label="Search results for:"
                 image="//yt3.ggpht.com/GPTRffZJ1dgjac5CN90pwxhMzYjZSh5iC5JnlQVPickZiW3gP6B6GiUsGnjoMkbz8kXu1CpZOjs=w2120-fcrop64=1,00005a57ffffa5a8-nd-c0xffffffff-rj-k-no"
                 title={this.props.youtube.results.item.channelTitle}
-                results={this.props.youtube.results.item} 
+                results={this.props.youtube.results.item}
               />
             }
 
-             
+
         </div>
       )
     } else {
