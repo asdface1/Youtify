@@ -78,7 +78,7 @@ class Main extends React.Component {
       const { user } = this.props;
       const { pathname, hash } = this.props.location;
       hash = hash.slice(1);
-      var label, title, results = [], image;
+      var label, title, results = [], image = "";
       switch (pathname) {
         case '/search':
           label = "Search results for:";
@@ -118,6 +118,7 @@ class Main extends React.Component {
           <Search
             label={label}
             title={title}
+            image={image}
             results={results} />
         </div>
       )

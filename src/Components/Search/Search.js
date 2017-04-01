@@ -14,7 +14,7 @@ class Search extends React.Component {
     this.state = { top: 0 };
   }
 
-  componentDidMount() {
+  updateBannerHeight = () => {
     const { header, headerContent } = this.refs;
     this.setState({ top: -(header.clientHeight - Math.ceil(headerContent.clientHeight) - 66) });
   }
@@ -45,6 +45,10 @@ class Search extends React.Component {
     }
     return (
       <div id="Search">
+        <img src={this.props.image}
+          style={{ display: 'none', height: 0, width: 0}}
+          onLoad={this.updateBannerHeight}
+          onError={this.updateBannerHeight}/>
         <div className={`header ${this.props.image ? 'large' : ''}`} ref="header" style={headerStyle}>
           <div className="header-content" ref="headerContent">
             <div>
