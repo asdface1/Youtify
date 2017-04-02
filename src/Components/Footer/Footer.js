@@ -2,9 +2,9 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Footer.css';
-import 'react-input-range/lib/css/index.css';
+import 'rc-slider/assets/index.css';
 
-import InputRange from 'react-input-range';
+import Slider from 'rc-slider';
 
 import * as VideoActions from '../../Actions/VideoActions';
 
@@ -16,7 +16,7 @@ class Footer extends React.Component {
 
   componentDidMount() {
     setInterval(() => {
-      if (this.props.video.player && this.props.video.isPlaying && !this.state.dragging){
+      if (this.props.video.player && this.props.video.isPlaying && !this.state.dragging) {
         this.setState({ time: this.props.video.player.getCurrentTime() });
       }
     }, 250);
@@ -32,12 +32,14 @@ class Footer extends React.Component {
   }
 
   handleTimeChange = (value) => {
-    this.setState({ dragging: true, time: value });
+    if (value !== 1) {
+      this.setState({ dragging: true, time: value/4 });
+    }
   }
 
   handleTimeChangeComplete = (value) => {
     this.setState({ dragging: false });
-    this.props.dispatch(VideoActions.seekTo(value))
+    this.props.dispatch(VideoActions.seekTo(value/4));
   }
 
   handleVolumeChange = (value) => {
@@ -79,12 +81,12 @@ class Footer extends React.Component {
           </div>
           <div className="slider">
             <span className="label">{this.format(this.state.time)}</span>
-            <InputRange
-              minValue={0}
-              maxValue={Math.max(1, this.props.video.song.duration)}
-              value={this.state.time}
+            <Slider
+              min={0}
+              max={Math.max(1, (this.props.video.song.duration || 0) * 4)}
+              value={this.state.time * 4}
               onChange={this.handleTimeChange}
-              onChangeComplete={this.handleTimeChangeComplete} />
+              onAfterChange={this.handleTimeChangeComplete} />
             <span className="label">{this.format(this.props.video.song.duration)}</span>
           </div>
         </div>
@@ -93,9 +95,9 @@ class Footer extends React.Component {
             <span className="label">
               <i className={`large volume ${volumeIcon} icon`} />
             </span>
-            <InputRange
-              minValue={0}
-              maxValue={100}
+            <Slider
+              min={0}
+              max={100}
               value={this.props.video.volume}
               onChange={this.handleVolumeChange} />
           </div>

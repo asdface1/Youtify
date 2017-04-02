@@ -49,21 +49,18 @@ class Login extends React.Component {
   render() {
     return (
       <div id="Login">
-        <h1>Youtify</h1>
-        <div className="ui basic segment" style={{width: '500px', maxWidth: '100%'}}>
-          <h2>Sign in</h2>
+        <div className="ui basic segment" style={{ width: '500px', maxWidth: '100%', padding: 0 }}>
           <form onSubmit={this.signInWithEmailAndPassword}>
-            <div className="ui divider"></div>
-            <div className="ui fluid transparent left icon inverted big input">
+            <div className="ui fluid left icon inverted big input">
               <input type="email" name="email" placeholder="Email" />
               <i className="envelope icon"></i>
             </div>
-            <div className="ui divider"></div>
-            <div className="ui fluid transparent left icon inverted big input">
+            <div className="ui inverted divider"></div>
+            <div className="ui fluid left icon inverted big input">
               <input type="password" name="password" placeholder="Password" />
               <i className="lock icon"></i>
             </div>
-            <div className="ui divider"></div>
+            <div className="ui inverted divider"></div>
             <div className="ui equal width grid">
               <div className="row">
                 <div className="column">
@@ -79,7 +76,7 @@ class Login extends React.Component {
                   </button>
                 </div>
               </div>
-              <div className="row">
+              <div className="row" style={{ paddingTop: 0 }}>
                 <div className="column">
                   <button type="button" className="ui fluid large blue left labeled icon button" onClick={this.signInWithGoogle}>
                     <i className="google icon"></i>
