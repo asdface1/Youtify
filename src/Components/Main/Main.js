@@ -65,13 +65,16 @@ class Main extends React.Component {
     });
 
     // Listen to changes to playlist that the user follows
-    rootRef.child('users').child(this.props.user.uid).child('favorites').on('value', snap => {
-      console.log('snapVal', snap.val());
+    rootRef.child('users')
+        .child(this.props.user.uid)
+        .child('favorites')
+        .on('value', snap => {
+
+      // Update song details for all favorite playlists
       snap.val().forEach(id => {
         playlistsRef.child(id).on('value', snap1 => {
           // Convert the songs object of each playlist to an array
           const favorite = { ...snap1.val(), id: id };
-          console.log('favorite', favorite);
           if (!favorite.songs) {
             favorite.songs = [];
           } else {

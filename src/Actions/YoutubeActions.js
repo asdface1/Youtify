@@ -24,6 +24,7 @@ export function search(query) {
 export function fetchSongDetails(playlists, callback) {
   return function(dispatch) {
     // Batch ids from all playlist into one comma-separated string
+    console.log("youtubeactions::", playlists);
     const batchedIds = playlists.map(playlist => {
       return playlist.songs.join();
     }).filter(id => id).join();
@@ -43,7 +44,7 @@ export function fetchSongDetails(playlists, callback) {
         playlist.songs = response.items.slice(currentIndex, currentIndex + playlist.songs.length);
         currentIndex += playlist.songs.length;
       });
-
+      
       if (callback) {
         callback(playlists);
       }
