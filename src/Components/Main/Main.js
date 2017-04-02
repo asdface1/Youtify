@@ -58,18 +58,33 @@ class Main extends React.Component {
       console.log('playlists', playlists);
 
       // Fetch song details for all songs in all playlists with the Youtube API
-      this.props.dispatch(YoutubeActions.fetchSongDetails(playlists));
+      this.props.dispatch(YoutubeActions.fetchSongDetails(
+        playlists,
+        (res) => this.props.dispatch(UserActions.setPlaylists(res))
+      ));
     });
 
     // Listen to changes to playlist that the user follows
-    var favorites = [];
     rootRef.child('users').child(this.props.user.uid).child('favorites').on('value', snap => {
+      console.log('snapVal', snap.val());
       snap.val().forEach(id => {
         playlistsRef.child(id).on('value', snap1 => {
-          favorites.push({ ...snap1.val(), id: id });
+          // Convert the songs object of each playlist to an array
+          const favorite = { ...snap1.val(), id: id };
+          console.log('favorite', favorite);
+          if (!favorite.songs) {
+            favorite.songs = [];
+          } else {
+            favorite.songs = Object.values(favorite.songs).map(id => id);
+          }
+
+          // Fetch song details for all songs in all playlists with the Youtube API
+          this.props.dispatch(YoutubeActions.fetchSongDetails(
+            [favorite],
+            (res) => this.props.dispatch(UserActions.setFavorites(res))
+          ));
         });
       });
-      this.props.dispatch(UserActions.setFavorites(favorites));
     });
   }
 
@@ -91,10 +106,11 @@ class Main extends React.Component {
             user.playlists.concat(user.favorites).forEach(playlist => {
               if (playlist.id === hash) {
                 title = playlist.name;
+                results = playlist.songs;
               }
             });
             title = title || "";
-            results = this.props.youtube.results.items;
+            results = results || [];
           } else {
             label = "Playlist not found";
             results = [];

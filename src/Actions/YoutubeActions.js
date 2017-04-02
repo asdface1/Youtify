@@ -21,7 +21,7 @@ export function search(query) {
   }
 }
 
-export function fetchSongDetails(playlists) {
+export function fetchSongDetails(playlists, callback) {
   return function(dispatch) {
     // Batch ids from all playlist into one comma-separated string
     const batchedIds = playlists.map(playlist => {
@@ -44,17 +44,12 @@ export function fetchSongDetails(playlists) {
         currentIndex += playlist.songs.length;
       });
 
-      dispatch({
-        type: 'SET_PLAYLISTS',
-        payload: {
-          playlists
-        }
-      });
+      if (callback) {
+        callback(playlists);
+      }
     })
     .catch(error => {
       console.log('error', error)
     })
-
   }
-
 }
