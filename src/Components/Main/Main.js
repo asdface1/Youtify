@@ -57,19 +57,25 @@ class Main extends React.Component {
 
       console.log('playlists', playlists);
 
+      //playlists.type = "SET_PLAYLISTS"; 
       // Fetch song details for all songs in all playlists with the Youtube API
-      this.props.dispatch(YoutubeActions.fetchSongDetails(playlists));
+      this.props.dispatch(YoutubeActions.fetchSongDetails(playlists, (res) => this.props.dispatch(UserActions.setPlaylists(res))));
     });
 
     // Listen to changes to playlist that the user follows
-    var favorites = [];
+
     rootRef.child('users').child(this.props.user.uid).child('favorites').on('value', snap => {
       snap.val().forEach(id => {
         playlistsRef.child(id).on('value', snap1 => {
-          favorites.push({ ...snap1.val(), id: id });
+          const favorite = { ...snap1.val(), id: id }
+          if (!favorite.songs) {
+            favorite.songs = [];
+          } else {
+            favorite.songs = Object.values(favorite.songs).map(id => id);
+          }
+          this.props.dispatch(YoutubeActions.fetchSongDetails([favorite], (res) => this.props.dispatch(UserActions.setFavorites(res))))
         });
       });
-      this.props.dispatch(UserActions.setFavorites(favorites));
     });
   }
 
@@ -89,12 +95,14 @@ class Main extends React.Component {
           if (user.playlists.length) {
             label = "Playlist";
             user.playlists.concat(user.favorites).forEach(playlist => {
+              console.log(playlist);
               if (playlist.id === hash) {
                 title = playlist.name;
+                results = playlist.songs;
               }
             });
             title = title || "";
-            results = this.props.youtube.results.items;
+            results = results || [];
           } else {
             label = "Playlist not found";
             results = [];
@@ -109,7 +117,7 @@ class Main extends React.Component {
           results = this.props.youtube.results.items;
           break;
       }
-
+      console.log(results);
       return (
         <div id="Main">
           <Navbar

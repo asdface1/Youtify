@@ -21,9 +21,10 @@ export function search(query) {
   }
 }
 
-export function fetchSongDetails(playlists) {
+export function fetchSongDetails(playlists, callback) {
   return function(dispatch) {
     // Batch ids from all playlist into one comma-separated string
+    console.log("youtubeactions::", playlists);
     const batchedIds = playlists.map(playlist => {
       return playlist.songs.join();
     }).filter(id => id).join();
@@ -43,13 +44,16 @@ export function fetchSongDetails(playlists) {
         playlist.songs = response.items.slice(currentIndex, currentIndex + playlist.songs.length);
         currentIndex += playlist.songs.length;
       });
-
-      dispatch({
-        type: 'SET_PLAYLISTS',
+      //console.log("youtubeactions::dispatch", type)
+     /* dispatch({
+        type: type,
         payload: {
           playlists
         }
-      });
+      });*/
+      if (callback) {
+        callback(playlists);
+      }
     })
     .catch(error => {
       console.log('error', error)
