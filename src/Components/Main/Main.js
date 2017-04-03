@@ -31,9 +31,9 @@ class Main extends React.Component {
 
   onSignIn = () => {
     const rootRef = firebase.database().ref().child('youtify');
-    const playlistsRef = rootRef.child('playlists');
 
     // Listen to changes to the user's own playlists
+    const playlistsRef = rootRef.child('playlists');
     playlistsRef
         .orderByChild('ownerId')
         .startAt(this.props.user.uid)
@@ -48,11 +48,7 @@ class Main extends React.Component {
 
       // Convert the songs object of each playlist to an array
       playlists.forEach(playlist => {
-        if (!playlist.songs) {
-          playlist.songs = [];
-        } else {
-          playlist.songs = Object.values(playlist.songs).map(id => id);
-        }
+        playlist.songs = convertObjectToArray(playlist.songs);
       });
 
       console.log('playlists', playlists);
@@ -65,7 +61,8 @@ class Main extends React.Component {
     });
 
     // Listen to changes to playlist that the user follows
-    rootRef.child('users')
+    const usersRef = rootRef.child('users');
+    usersRef
         .child(this.props.user.uid)
         .child('favorites')
         .on('value', snap => {
@@ -75,11 +72,7 @@ class Main extends React.Component {
         playlistsRef.child(id).on('value', snap1 => {
           // Convert the songs object of each playlist to an array
           const favorite = { ...snap1.val(), id: id };
-          if (!favorite.songs) {
-            favorite.songs = [];
-          } else {
-            favorite.songs = Object.values(favorite.songs).map(id => id);
-          }
+          favorite.songs = convertObjectToArray(favorite.songs);
 
           // Fetch song details for all songs in all playlists with the Youtube API
           this.props.dispatch(YoutubeActions.fetchSongDetails(
@@ -158,3 +151,11 @@ export default connect(store => {
     youtube: store.youtube,
   }
 })(Main);
+
+function convertObjectToArray(object) {
+  object = object || {};
+  return Object.values(object);
+  // return Object.keys(object).map(key => {
+  //   return { id: object[key], key: key };
+  // });
+}
