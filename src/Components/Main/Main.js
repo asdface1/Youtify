@@ -60,8 +60,6 @@ class Main extends React.Component {
         playlist.songs = convertObjectToArray(playlist.songs);
       });
 
-      console.log('playlists', playlists);
-
       // Fetch song details for all songs in all playlists with the Youtube API
       this.props.dispatch(YoutubeActions.fetchSongDetails(
         playlists,
@@ -82,7 +80,6 @@ class Main extends React.Component {
           // Convert the songs object of each playlist to an array
           const favorite = { ...snap1.val(), id: id };
           favorite.songs = convertObjectToArray(favorite.songs);
-
           // Fetch song details for all songs in all playlists with the Youtube API
           this.props.dispatch(YoutubeActions.fetchSongDetails(
             [favorite],
@@ -104,6 +101,17 @@ class Main extends React.Component {
         label = "Search results for:";
         title = `"${this.props.app.query || ''}"`;
         results = this.props.youtube.results.items;
+        break;
+      case '/playlistSearch':
+      console.log("main::playlistSearch", this.props.app.results)
+
+        type = "playlistSearch";
+        label = "Search results for:";
+        title = `"${this.props.app.query || ''}"`;
+        results =  this.props.dispatch(YoutubeActions.fetchSongDetails(
+            this.props.app.results,
+            (res) => this.props.dispatch(AppActions.setPlaylistSongs(res)))
+          );
         break;
       case '/playlist':
         type = "playlist";

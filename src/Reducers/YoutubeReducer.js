@@ -9,7 +9,7 @@ export default function reducer(state=initialState, action) {
     case 'RESULTS':
       return { ...state, results: action.payload.results }
     case 'VIDEOS':
-      return {...state, videos: action.payload.videos};
+      return { ...state, videos: action.payload.videos };
     default:
       return state;
   }

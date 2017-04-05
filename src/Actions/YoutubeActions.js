@@ -23,12 +23,12 @@ export function search(query) {
 
 export function fetchSongDetails(playlists, callback) {
   return function(dispatch) {
+    console.log("youtubeactions::playlists", playlists);
     // Batch ids from all playlist into one comma-separated string
     const batchedIds = playlists.map(playlist => {
       return playlist.songs.join();
     }).filter(id => id).join();
-    console.log('batched ids', batchedIds);
-
+    
     const params = `?part=snippet&id=${batchedIds}&fields=items(id%2Csnippet(channelId%2CchannelTitle%2Cthumbnails%2Fmedium%2Ctitle))&key=${apiKey}`;
     fetch(`https://www.googleapis.com/youtube/v3/videos${params}`, {
       method: 'GET'
