@@ -43,6 +43,9 @@ class Search extends React.Component {
       backgroundImage: `url(${this.props.image})`,
       top: `${this.state.top}px`,
     }
+    console.log("search.js::props.result", {...this.props.results});
+    const copy = { ...this.props.results }
+    console.log("search.js::props.result2", copy);
     return (
       <div id="Search">
         <img src={this.props.image}

@@ -8,13 +8,8 @@ export default function reducer(state=initialState, action) {
       return { ...state, query: action.payload.query }
     case 'PLAYLIST_SEARCH':
       return { ...state, results: action.payload.playlists };
-    case 'PLAYLIST_SEARCH_SONGS':
-      return {
-        ...state,
-        results: state.results.map((result, i) => {
-          result.songs = action.payload[i].songs[i]
-       })
-      }
+    case 'SET_PLAYLIST_SONGS':
+      return { ...state, results: action.payload.playlists };
     default:
       return state;
   }
