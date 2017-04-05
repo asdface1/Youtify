@@ -16,11 +16,10 @@ export function playlistSearch(query) {
   playlistsRef
       .orderByChild('name')
       .startAt(query)
-      .endAt(query)
+      .endAt(query + '~')
       .on('value', snap => {
       console.log(snap.val());
       });
-
 
   return {
     type: 'PLAYLIST_SEARCH',
