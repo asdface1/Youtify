@@ -15,7 +15,7 @@ import * as YoutubeActions from '../../Actions/YoutubeActions';
 class Navbar extends React.Component {
   constructor() {
     super();
-    this.state = { query: '', showModal: false, value: 'videos' };
+    this.state = { query: '', showModal: false, type: 'videos' };
   }
 
   handleChange = ({ target }) => {
@@ -23,23 +23,28 @@ class Navbar extends React.Component {
   }
 
   handleSelectChange = (event, { value }) => {
-    this.setState({ value: value });
+    this.setState({ type: value });
   }
 
   onSearch = (event) => {
     event.preventDefault();
-    if (this.state.value==='videos') {
-      this.props.history.push('search');
+    if (this.state.type === 'videos') {
+      this.props.history.push(`/search#${this.state.query}`);
       this.props.dispatch(YoutubeActions.search(this.state.query));
-      this.props.dispatch(AppActions.search(this.state.query));
-    } else if(this.state.value==='playlists') {
-      this.props.history.push('playlistSearch');
+    } else if(this.state.type === 'playlists') {
+      this.props.history.push(`/playlistSearch#${this.state.query}`);
       this.props.dispatch(AppActions.playlistSearch(
         this.state.query,
-        (res) => this.props.dispatch(YoutubeActions.fetchSongDetails(
-          res,
-          (res1) => this.props.dispatch(AppActions.setPlaylistSongs(res1))
-        ))
+        (res) => {
+          console.log('res', res);
+          this.props.dispatch(YoutubeActions.fetchSongDetails(
+            res,
+            (fullRes) => {
+              console.log('fullRes', fullRes);
+              this.props.dispatch(AppActions.setPlaylistSearchResults(fullRes))
+            }
+          ))
+        }
       ));
     }
   }
@@ -78,7 +83,7 @@ class Navbar extends React.Component {
                 onChange={this.handleChange} value={this.state.query}>
                 <input />
                 <i className="search icon"></i>
-                <Select compact value={this.state.value}
+                <Select compact value={this.state.type}
                   onChange={this.handleSelectChange}
                   options={options} />
                 <Button type='submit'>Search</Button>

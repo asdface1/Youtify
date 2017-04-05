@@ -2,7 +2,7 @@ import * as firebase from 'firebase';
 
 export function search(query) {
   return {
-    type: 'SEARCH_QUERY',
+    type: 'SEARCH',
     payload: {
       query: query
     }
@@ -29,19 +29,26 @@ export function playlistSearch(query, callback) {
         playlists.forEach(playlist => {
           playlist.songs = convertObjectToArray(playlist.songs);
         });
-        console.log("appactions::playlists", {...playlists});
         if (callback) {
           callback(playlists);
         }
       });
   }
 }
-export function setPlaylistSongs(playlists) {
-  console.log("appactions::playlists", playlists);
+export function setPlaylistSearchResults(results) {
   return {
-    type: 'SET_PLAYLIST_SONGS',
+    type: 'SET_PLAYLIST_SEARCH_RESULTS',
     payload: {
-      playlists: playlists
+      results
+    }
+  }
+}
+
+export function setPlaylist(playlist) {
+  return {
+    type: 'SET_PLAYLIST',
+    payload: {
+      playlist
     }
   }
 }

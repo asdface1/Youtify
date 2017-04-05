@@ -1,17 +1,17 @@
 const initialState = {
   results: [],
+  playlist: {}
 };
 
 export default function reducer(state=initialState, action) {
   switch (action.type) {
-    case 'SEARCH_QUERY':
-      return { ...state, query: action.payload.query }
-    case 'PLAYLIST_SEARCH':
-      return { ...state, results: action.payload.playlists };
-    case 'SET_PLAYLIST_SONGS':
-      return { ...state, results: action.payload.playlists };
+    case 'SEARCH':
+      return { ...state, query: action.payload.query };
+    case 'SET_PLAYLIST_SEARCH_RESULTS':
+      return { ...state, results: action.payload.results };
+    case 'SET_PLAYLIST':
+      return { ...state, playlist: action.payload.playlist };
     default:
       return state;
   }
 }
-

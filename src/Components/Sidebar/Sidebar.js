@@ -54,7 +54,8 @@ class Sidebar extends React.Component {
             <Menu header="Playlists"
               items={this.props.user.playlists}
               active={this.props.location.hash.slice(1)} />
-            { this.props.user.favorites.length && 
+            {
+              this.props.user.favorites.length > 0 && 
               <Menu header="Favorites"
                 items={this.props.user.favorites}
                 active={this.props.location.hash.slice(1)} />

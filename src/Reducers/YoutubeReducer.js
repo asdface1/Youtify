@@ -6,7 +6,7 @@ const initialState = {
 
 export default function reducer(state=initialState, action) {
   switch (action.type) {
-    case 'RESULTS':
+    case 'SEARCH':
       return { ...state, results: action.payload.results }
     case 'VIDEOS':
       return { ...state, videos: action.payload.videos };
@@ -14,5 +14,3 @@ export default function reducer(state=initialState, action) {
       return state;
   }
 }
-
-

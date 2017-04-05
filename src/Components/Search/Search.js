@@ -21,21 +21,11 @@ class Search extends React.Component {
     this.setState({ top: -(header.clientHeight - Math.ceil(headerContent.clientHeight) - 66) });
   }
 
-  play = (item, i) => {
-    this.props.dispatch(VideoActions.playSong(item));
-    this.props.dispatch(VideoActions.setQueue(this.props.results, i));
-  }
-
-  addToQueue = (item) => {
-    this.props.dispatch(VideoActions.addToQueue(item));
-  }
-
-  addToPlaylist = (item, playlist) => {
-    this.props.dispatch(UserActions.addToPlaylist(item, playlist.id));
-    this.playlistsRef
-      .child(playlist.id)
-      .child("songs")
-      .push(item.id.videoId);
+  playAll = () => {
+    if (this.props.results.length) {
+      this.props.dispatch(VideoActions.playSong(this.props.results[0]));
+      this.props.dispatch(VideoActions.setQueue(this.props.results, 0));
+    }
   }
 
   deletePlaylist = (id) => {
@@ -81,7 +71,7 @@ class Search extends React.Component {
             </div>
             <div>
               <button className="ui green labeled icon button"
-                onClick={() => this.play(this.props.results[0])}>
+                onClick={this.playAll}>
                 <i className="play icon" />Play
               </button>
               { this.props.type === 'playlist' && !ownPlaylist &&
@@ -101,37 +91,8 @@ class Search extends React.Component {
             </div>
           </div>
         </div>
-        <div className="ui inverted divided items" style={{ padding: '2em', color: 'lightgrey' }}>
-          {
-            this.props.results.map((item, i) => {
-              return (
-                <div className="item justify-content-center" key={item.id.videoId} draggable onDoubleClick={() => this.play(item, i)}>
-                  <div className="ui tiny image" onClick={() => this.play(item, i)}>
-                    <img className="ui small image" src={item.snippet.thumbnails.medium.url} />
-                    <div className="overlay"><i className="big play icon"/></div>
-                  </div>
-                  <div className={`middle aligned content ${item.id.videoId === this.props.video.song.id.videoId ? 'active' : ''}`}>
-                    {item.snippet.title}
-                  </div>
-                  <div className="flex align-items-center justify-content-center">
-                    <Dropdown pointing="right" icon="ellipsis horizontal">
-                      <Dropdown.Menu>
-                        <Dropdown.Item text='Add to queue' icon="plus" onClick={() => this.addToQueue(item)} />
-                        <Dropdown.Header icon='list' content='Add to playlist' />
-                        { this.props.user.playlists.map(playlist => {
-                          return (
-                            <Dropdown.Item key={playlist.id} text={playlist.name} icon="plus" className="italic"
-                              onClick={() => this.addToPlaylist(item, playlist)} />
-                          )
-                        }) }
-                      </Dropdown.Menu>
-                    </Dropdown>
-                  </div>
-                </div>
-              )
-            })
-          }
-        </div>
+        {this.props.children}
+        {/* RESULTS HERE */}
       </div>
     )
   }

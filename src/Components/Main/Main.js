@@ -5,6 +5,7 @@ import * as firebase from 'firebase';
 
 import Login from '../Login/Login';
 import Navbar from '../Navbar/Navbar';
+import Results from '../Results/Results';
 import Search from '../Search/Search';
 
 import * as AppActions from '../../Actions/AppActions';
@@ -17,6 +18,10 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
+    this.rootRef = firebase.database().ref().child('youtify');
+    this.playlistsRef = this.rootRef.child('playlists');
+    this.usersRef = this.rootRef.child('users');
+
     firebase.auth().onAuthStateChanged(user => {
       console.log('user', user);
       if (user) {
@@ -39,11 +44,8 @@ class Main extends React.Component {
   }
 
   onSignIn = () => {
-    const rootRef = firebase.database().ref().child('youtify');
-
     // Listen to changes to the user's own playlists
-    const playlistsRef = rootRef.child('playlists');
-    playlistsRef
+    this.playlistsRef
         .orderByChild('ownerId')
         .startAt(this.props.user.uid)
         .endAt(this.props.user.uid)
@@ -68,16 +70,16 @@ class Main extends React.Component {
     });
 
     // Listen to changes to playlist that the user follows
-    const usersRef = rootRef.child('users');
-    usersRef
+    this.usersRef
         .child(this.props.user.uid)
         .child('favorites')
         .on('value', snap => {
 
       // Update song details for all favorite playlists
-      const favorites = snap.val() || [];
+      console.log('favorite snap', snap.val());
+      const favorites = Object.values(snap.val() || {});
       favorites.forEach(id => {
-        playlistsRef.child(id).on('value', snap1 => {
+        this.playlistsRef.child(id).on('value', snap1 => {
           // Convert the songs object of each playlist to an array
           const favorite = { ...snap1.val(), id: id };
           favorite.songs = convertObjectToArray(favorite.songs);
@@ -104,7 +106,6 @@ class Main extends React.Component {
         results = this.props.youtube.results.items;
         break;
       case '/playlistSearch':
-        console.log("main::playlistsearch", {...this.props.app.results});
         type = "playlistSearch";
         label = "Search results for:";
         title = `"${this.props.app.query || ''}"`;
@@ -112,20 +113,37 @@ class Main extends React.Component {
         break;
       case '/playlist':
         type = "playlist";
-        if (user.playlists.length) {
-          label = "Playlist";
-          user.playlists.concat(user.favorites).forEach(playlist => {
-            if (playlist.id === hash) {
-              title = playlist.name;
-              results = playlist.songs;
-            }
-          });
-          title = title || "";
-          results = results || [];
+        label = "Playlist";
+        const playlist = user.playlists.concat(user.favorites).find(playlist => {
+          if (playlist.id === hash) {
+            return playlist;
+          }
+        });
+        if (playlist) {
+          title = playlist.name;
+          results = playlist.songs;
         } else {
-          label = "Playlist not found";
-          results = [];
+          // Fetch the playlist from firebase
+          this.playlistsRef
+            .child(hash)
+            .once('value', snap => {
+              console.log('the playlist i want:', snap.val());
+              const playlistsObject = snap.val() || {};
+              const playlistToFetch = [ {
+                ...playlistsObject,
+                id: hash,
+                songs: Object.values(playlistsObject.songs || {})
+              } ];
+              console.log('prepared playlist:', playlistToFetch);
+              this.props.dispatch(YoutubeActions.fetchSongDetails(
+                playlistToFetch,
+                (res) => { console.log('ASDASDASD', res); results = res[0].songs }
+              ));
+            });
         }
+        console.log('found:', playlist);
+        title = title || "Not found";
+        results = results || [];
         break;
       case '/channel':
         type = "channel";
@@ -149,7 +167,12 @@ class Main extends React.Component {
           label={label}
           title={title}
           image={image}
-          results={results} />
+          results={results}>
+          <Results
+            songs={type === 'playlistSearch' ? false : true}
+            playlists={type === 'playlistSearch' ? true : false}
+            items={results} />
+        </Search>
       </div>
     )
   }

@@ -10,8 +10,9 @@ export function search(query) {
       .then(response => {
         //console.log('response', response);
         dispatch({
-          type: 'RESULTS',
+          type: 'SEARCH',
           payload: {
+            query,
             results: response
           }
         });
