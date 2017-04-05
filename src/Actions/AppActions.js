@@ -1,3 +1,5 @@
+import * as firebase from 'firebase';
+
 export function search(query) {
   return {
     type: 'SEARCH_QUERY',
@@ -7,22 +9,20 @@ export function search(query) {
   }
 }
 export function playlistSearch(query) {
-  return {
-    const rootRef = firebase.database().ref().child('youtify');
-    const playlistsRef = rootRef.child('playlists');
-
-    // Listen to changes to the user's own playlists
-    playlistsRef
-        .orderByChild('ownerId')
-        .startAt(this.props.user.uid)
-        .endAt(this.props.user.uid)
-        .on('value', snap => {
-
-      // The playlists are returned as an object; convert it to an array
-      const playlistsObject = snap.val();
-      const playlists = Object.keys(playlistsObject).map(key => {
-        return { ...playlistsObject[key], id: key };
+  const rootRef = firebase.database().ref().child('youtify');
+  const playlistsRef = rootRef.child('playlists');
+  console.log("appactions::query", query);
+  // Listen to changes to the user's own playlists
+  playlistsRef
+      .orderByChild('name')
+      .startAt(query)
+      .endAt(query)
+      .on('value', snap => {
+      console.log(snap.val());
       });
+
+
+  return {
     type: 'PLAYLIST_SEARCH',
     payload: {
       query: query

@@ -4,7 +4,7 @@ export default function reducer(state={}, action) {
     case 'SEARCH_QUERY':
       return { ...state, query: action.payload.query }
     case 'PLAYLIST_SEARCH':
-      return { ...state, query: action.payload.query }
+      return state;
     default:
       return state;
   }

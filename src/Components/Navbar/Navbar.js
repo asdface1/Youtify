@@ -15,18 +15,27 @@ import * as YoutubeActions from '../../Actions/YoutubeActions';
 class Navbar extends React.Component {
   constructor() {
     super();
-    this.state = { query: '', showModal: false };
+    this.state = { query: '', showModal: false, value: 'videos' };
   }
 
   handleChange = ({ target }) => {
     this.setState({ query: target.value });
+
+  }
+  handleSelectChange = (event, { value }) => {
+    this.setState({ value: value });
   }
 
   onSearch = (event) => {
     event.preventDefault();
-    this.props.history.push('search');
-    this.props.dispatch(YoutubeActions.search(this.state.query));
-    this.props.dispatch(AppActions.search(this.state.query));
+    if(this.state.value==='videos'){
+      this.props.history.push('search');
+      this.props.dispatch(YoutubeActions.search(this.state.query));
+      this.props.dispatch(AppActions.search(this.state.query));
+    }
+    else if(this.state.value==='playlists'){
+      this.props.dispatch(AppActions.playlistSearch(this.state.query));
+    }
   }
 
   signOut = () => {
@@ -57,7 +66,7 @@ class Navbar extends React.Component {
             <div className="ui inverted left icon action input">
               <input type="text" placeholder="Search..." onChange={this.handleChange} value={this.state.query} />
               <i className="search icon" />
-              <Select compact options={options} defaultValue='videos' />
+              <Select value={this.state.value} onChange={this.handleSelectChange} compact options={options} defaultValue={this.state.value} />
               {/*
               <select className="ui compact selection dropdown">
                 <option selected="" value="video">Videos</option>
