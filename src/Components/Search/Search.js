@@ -21,7 +21,7 @@ class Search extends React.Component {
 
   play = (item, i) => {
     this.props.dispatch(VideoActions.playSong(item));
-    this.props.dispatch(VideoActions.setQueue(this.props.youtube.results.items, i));
+    this.props.dispatch(VideoActions.setQueue(this.props.results, i));
   }
 
   addToQueue = (item) => {
@@ -56,12 +56,15 @@ class Search extends React.Component {
               <h1>{this.props.title}</h1>
             </div>
             <div>
-              <button className="ui green labeled icon button">
+              <button className="ui green labeled icon button"
+                onClick={() => this.play(this.props.results[0])}>
                 <i className="play icon" />Play
               </button>
-              <button className="ui right labeled icon button">
-                <i className="plus icon" />Follow
-              </button>
+              { this.props.type === 'playlist' &&
+                <button className="ui right labeled icon button">
+                  <i className="plus icon" />Follow
+                </button>
+              }
             </div>
           </div>
         </div>

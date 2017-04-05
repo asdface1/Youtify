@@ -58,7 +58,7 @@ export function playSong(song) {
     }
   }
 }
-export function setQueue(queue, current) {
+export function setQueue(queue, current = 0) {
   return {
     type: 'SET_QUEUE',
     payload: {
