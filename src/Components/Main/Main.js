@@ -143,6 +143,7 @@ class Main extends React.Component {
           user={{ name: this.props.user.name || this.props.user.email }}
           history={this.props.history} />
         <Search
+          {...this.props}
           type={type}
           label={label}
           title={title}

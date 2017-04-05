@@ -1,17 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './Search.css';
+import * as firebase from 'firebase';
 
 import { Dropdown } from 'semantic-ui-react';
 
 import * as VideoActions from '../../Actions/VideoActions';
 import * as UserActions from '../../Actions/UserActions';
-import * as firebase from 'firebase';
 
 class Search extends React.Component {
   constructor(props) {
     super(props);
     this.state = { top: 0 };
+    this.rootRef = firebase.database().ref().child("youtify");
+    this.playlistsRef = this.rootRef.child('playlists');
   }
 
   updateBannerHeight = () => {
@@ -30,12 +32,31 @@ class Search extends React.Component {
 
   addToPlaylist = (item, playlist) => {
     this.props.dispatch(UserActions.addToPlaylist(item, playlist.id));
-    firebase.database().ref()
-      .child("youtify")
-      .child("playlists")
+    this.playlistsRef
       .child(playlist.id)
       .child("songs")
       .push(item.id.videoId);
+  }
+
+  deletePlaylist = (id) => {
+    this.playlistsRef
+      .child(id)
+      .remove();
+  }
+
+  follow = (id, isFollowing) => {
+    const favoritesRef = this.rootRef
+      .child('users')
+      .child(this.props.user.uid)
+      .child('favorites');
+
+    if (isFollowing) {
+      favoritesRef.once('value', snap => {
+        favoritesRef.set(Object.values(snap.val()).filter(fav => fav !== id))
+      })
+    } else {
+      favoritesRef.push({ id });
+    }
   }
 
   render() {
@@ -43,6 +64,9 @@ class Search extends React.Component {
       backgroundImage: `url(${this.props.image})`,
       top: `${this.state.top}px`,
     }
+    const id = this.props.location.hash.slice(1);
+    const isFollowing = this.props.user.favorites.find(f => f.id === id) ? true : false;
+    const ownPlaylist = this.props.user.playlists.find(p => p.id === id) ? true : false;
     return (
       <div id="Search">
         <img src={this.props.image}
@@ -56,13 +80,22 @@ class Search extends React.Component {
               <h1>{this.props.title}</h1>
             </div>
             <div>
+              { ownPlaylist &&
+                <Dropdown pointing='top' icon='ellipsis vertical' button className='icon'>
+                  <Dropdown.Menu>
+                    <Dropdown.Item text='Delete' onClick={() => this.deletePlaylist(id)} />
+                  </Dropdown.Menu>
+                </Dropdown>
+              }
               <button className="ui green labeled icon button"
                 onClick={() => this.play(this.props.results[0])}>
                 <i className="play icon" />Play
               </button>
               { this.props.type === 'playlist' &&
-                <button className="ui right labeled icon button">
-                  <i className="plus icon" />Follow
+                <button className={`ui ${isFollowing && 'active'} right labeled icon button`}
+                  onClick={() => this.follow(id, isFollowing)}>
+                  <i className={`${isFollowing ? 'remove' : 'plus'} icon`} />
+                  { isFollowing ? 'Unfollow' : 'Follow' }
                 </button>
               }
             </div>
