@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './Navbar.css';
 import * as firebase from 'firebase';
 
-import { Dropdown } from 'semantic-ui-react';
+import { Dropdown, Select } from 'semantic-ui-react';
 
 import Login from '../Login/Login';
 import Modal from '../Modal/Modal';
@@ -39,6 +39,10 @@ class Navbar extends React.Component {
         <i className="large user circle outline icon" size="big" /> {this.props.user.name}
       </span>
     )
+  const options = [
+    { key: 'videos', text: 'Videos', value: 'videos' },
+    { key: 'playlists', text: 'Playlists', value: 'playlists' },
+  ]
 
     return (
       <nav id="Navbar">
@@ -53,6 +57,13 @@ class Navbar extends React.Component {
             <div className="ui inverted left icon action input">
               <input type="text" placeholder="Search..." onChange={this.handleChange} value={this.state.query} />
               <i className="search icon" />
+              <Select compact options={options} defaultValue='videos' />
+              {/*
+              <select className="ui compact selection dropdown">
+                <option selected="" value="video">Videos</option>
+                <option value="playlists">Playlists</option>
+              </select>
+            */}
               <button className="ui button">Search</button>
             </div>
           </form>
