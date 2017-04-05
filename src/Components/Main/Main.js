@@ -38,11 +38,6 @@ class Main extends React.Component {
     });
   }
 
-  updateUserPlaylists = () => {
-    console.log("main::youtube", this.props.youtube);
-    this.props.user.playlists[0].song=this.props.youtube.videos.items;
-  }
-
   onSignIn = () => {
     const rootRef = firebase.database().ref().child('youtify');
 
