@@ -11,12 +11,14 @@ class Login extends React.Component {
     const { target } = event;
     const auth = firebase.auth();
     auth.signInWithEmailAndPassword(target.email.value, target.password.value)
+      .then(() => this.props.onSignIn())
       .catch(error => console.log('firebase auth error:', error.message));
   }
 
   signInWithGoogle = () => {
     var provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider);
+    firebase.auth().signInWithPopup(provider)
+      .then(() => this.props.onSignIn());
   }
 
   render() {

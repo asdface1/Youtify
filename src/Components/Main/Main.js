@@ -21,9 +21,18 @@ class Main extends React.Component {
       console.log('user', user);
       if (user) {
         console.log('signed in');
-        this.props.dispatch(UserActions.signIn(user));
-      } else {
-        firebase.auth().signInAnonymously();
+//        if (user.isAnonymous) {
+          this.props.dispatch(UserActions.signIn(user));
+//        } else {
+//          var credential = firebase.auth.GoogleAuthProvider.credential(firebase.auth.currentUser.getAuthResponse().id_token);
+//          firebase.auth.currentUser.link(credential).then(function(user) {
+//            console.log("Anonymous account successfully upgraded", user);
+//          }, function(error) {
+//            console.log("Error upgrading anonymous account", error);
+//          });
+//        }
+//      } else {
+//        firebase.auth().signInAnonymously();
       }
     });
   }
