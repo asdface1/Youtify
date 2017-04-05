@@ -31,9 +31,9 @@ class Main extends React.Component {
 
   onSignIn = () => {
     const rootRef = firebase.database().ref().child('youtify');
-    const playlistsRef = rootRef.child('playlists');
 
     // Listen to changes to the user's own playlists
+    const playlistsRef = rootRef.child('playlists');
     playlistsRef
         .orderByChild('ownerId')
         .startAt(this.props.user.uid)
@@ -48,32 +48,37 @@ class Main extends React.Component {
 
       // Convert the songs object of each playlist to an array
       playlists.forEach(playlist => {
-        if (!playlist.songs) {
-          playlist.songs = [];
-        } else {
-          playlist.songs = Object.values(playlist.songs).map(id => id);
-        }
+        playlist.songs = convertObjectToArray(playlist.songs);
       });
 
       console.log('playlists', playlists);
 
-      //playlists.type = "SET_PLAYLISTS"; 
       // Fetch song details for all songs in all playlists with the Youtube API
-      this.props.dispatch(YoutubeActions.fetchSongDetails(playlists, (res) => this.props.dispatch(UserActions.setPlaylists(res))));
+      this.props.dispatch(YoutubeActions.fetchSongDetails(
+        playlists,
+        (res) => this.props.dispatch(UserActions.setPlaylists(res))
+      ));
     });
 
     // Listen to changes to playlist that the user follows
+    const usersRef = rootRef.child('users');
+    usersRef
+        .child(this.props.user.uid)
+        .child('favorites')
+        .on('value', snap => {
 
-    rootRef.child('users').child(this.props.user.uid).child('favorites').on('value', snap => {
+      // Update song details for all favorite playlists
       snap.val().forEach(id => {
         playlistsRef.child(id).on('value', snap1 => {
-          const favorite = { ...snap1.val(), id: id }
-          if (!favorite.songs) {
-            favorite.songs = [];
-          } else {
-            favorite.songs = Object.values(favorite.songs).map(id => id);
-          }
-          this.props.dispatch(YoutubeActions.fetchSongDetails([favorite], (res) => this.props.dispatch(UserActions.setFavorites(res))))
+          // Convert the songs object of each playlist to an array
+          const favorite = { ...snap1.val(), id: id };
+          favorite.songs = convertObjectToArray(favorite.songs);
+
+          // Fetch song details for all songs in all playlists with the Youtube API
+          this.props.dispatch(YoutubeActions.fetchSongDetails(
+            [favorite],
+            (res) => this.props.dispatch(UserActions.setFavorites(res))
+          ));
         });
       });
     });
@@ -95,7 +100,6 @@ class Main extends React.Component {
           if (user.playlists.length) {
             label = "Playlist";
             user.playlists.concat(user.favorites).forEach(playlist => {
-              console.log(playlist);
               if (playlist.id === hash) {
                 title = playlist.name;
                 results = playlist.songs;
@@ -117,7 +121,7 @@ class Main extends React.Component {
           results = this.props.youtube.results.items;
           break;
       }
-      console.log(results);
+
       return (
         <div id="Main">
           <Navbar
@@ -147,3 +151,11 @@ export default connect(store => {
     youtube: store.youtube,
   }
 })(Main);
+
+function convertObjectToArray(object) {
+  object = object || {};
+  return Object.values(object);
+  // return Object.keys(object).map(key => {
+  //   return { id: object[key], key: key };
+  // });
+}

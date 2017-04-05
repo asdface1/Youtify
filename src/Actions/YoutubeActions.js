@@ -24,13 +24,12 @@ export function search(query) {
 export function fetchSongDetails(playlists, callback) {
   return function(dispatch) {
     // Batch ids from all playlist into one comma-separated string
-    console.log("youtubeactions::", playlists);
     const batchedIds = playlists.map(playlist => {
       return playlist.songs.join();
     }).filter(id => id).join();
     console.log('batched ids', batchedIds);
 
-    const params = `?part=snippet&id=${batchedIds}&key=${apiKey}`;
+    const params = `?part=snippet&id=${batchedIds}&fields=items(id%2Csnippet(channelId%2CchannelTitle%2Cthumbnails%2Fmedium%2Ctitle))&key=${apiKey}`;
     fetch(`https://www.googleapis.com/youtube/v3/videos${params}`, {
       method: 'GET'
     })
@@ -38,19 +37,18 @@ export function fetchSongDetails(playlists, callback) {
     .then(response => {
       console.log('response', response);
 
+      // Update 'id' field of response to match response from youtube/v3/search
+      response.items.forEach(item => {
+        item.id = { videoId: item.id };
+      });
+
       // Update each playlist with song information
       var currentIndex = 0;
       playlists.forEach(playlist => {
         playlist.songs = response.items.slice(currentIndex, currentIndex + playlist.songs.length);
         currentIndex += playlist.songs.length;
       });
-      //console.log("youtubeactions::dispatch", type)
-     /* dispatch({
-        type: type,
-        payload: {
-          playlists
-        }
-      });*/
+
       if (callback) {
         callback(playlists);
       }
@@ -58,7 +56,5 @@ export function fetchSongDetails(playlists, callback) {
     .catch(error => {
       console.log('error', error)
     })
-
   }
-
 }

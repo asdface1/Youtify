@@ -1,0 +1,6 @@
+var config = {};
+
+config.apiKey = '<YOUTUBE_API_KEY>';
+config.firebaseConfig = '<FIREBASE_CONFIG_OBJECT>';
+
+module.exports = config;
