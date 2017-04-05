@@ -36,6 +36,10 @@ class Navbar extends React.Component {
     else if(this.state.value==='playlists'){
       this.props.history.push('playlistSearch');
       this.props.dispatch(AppActions.playlistSearch(this.state.query));
+      this.props.dispatch(YoutubeActions.fetchSongDetails(
+          this.props.app.results,
+          (res) => this.props.dispatch(AppActions.setPlaylistSongs(res)))
+      );
     }
   }
 
@@ -97,6 +101,7 @@ class Navbar extends React.Component {
 
 export default connect(store => {
   return {
+    app: store.app,
     user: store.user,
     youtube: store.youtube
   }
