@@ -75,7 +75,8 @@ class Main extends React.Component {
         .on('value', snap => {
 
       // Update song details for all favorite playlists
-      snap.val().forEach(id => {
+      const favorites = snap.val() || [];
+      favorites.forEach(id => {
         playlistsRef.child(id).on('value', snap1 => {
           // Convert the songs object of each playlist to an array
           const favorite = { ...snap1.val(), id: id };

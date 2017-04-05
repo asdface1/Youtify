@@ -54,9 +54,11 @@ class Sidebar extends React.Component {
             <Menu header="Playlists"
               items={this.props.user.playlists}
               active={this.props.location.hash.slice(1)} />
-            <Menu header="Favorites"
-              items={this.props.user.favorites}
-              active={this.props.location.hash.slice(1)} />
+            { this.props.user.favorites.length && 
+              <Menu header="Favorites"
+                items={this.props.user.favorites}
+                active={this.props.location.hash.slice(1)} />
+            }
           </div>
           <button className="ui large black fluid right labeled icon button"
             style={{borderRadius: 0}}

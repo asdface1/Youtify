@@ -11,12 +11,11 @@ export function search(query) {
 
 export function playlistSearch(query, callback) {
   return function(dispatch) {
-  const rootRef = firebase.database().ref().child('youtify');
-  const playlistsRef = rootRef.child('playlists');
-  var playlists = [];
+    const rootRef = firebase.database().ref().child('youtify');
+    const playlistsRef = rootRef.child('playlists');
 
-  // Listen to changes to the user's own playlists
-  playlistsRef
+    // Listen to changes to the user's own playlists
+    playlistsRef
       .orderByChild('nameLowerCase')
       .startAt(query)
       .endAt(query + '~')
@@ -24,20 +23,16 @@ export function playlistSearch(query, callback) {
 
         // The playlists are returned as an object; convert it to an array
         const playlistsObject = snap.val();
-        playlists = Object.keys(playlistsObject).map(key => {
+        const playlists = Object.keys(playlistsObject).map(key => {
           return { ...playlistsObject[key], id: key };
         });
         playlists.forEach(playlist => {
           playlist.songs = convertObjectToArray(playlist.songs);
         });
         console.log("appactions::playlists", {...playlists});
-        /*dispatch({
-          type: 'PLAYLIST_SEARCH',
-          payload: {
-            playlists: playlists
-          }
-        });*/
-        if(callback) callback(playlists);
+        if (callback) {
+          callback(playlists);
+        }
       });
   }
 }

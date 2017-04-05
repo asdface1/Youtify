@@ -80,23 +80,23 @@ class Search extends React.Component {
               <h1>{this.props.title}</h1>
             </div>
             <div>
-              { ownPlaylist &&
-                <Dropdown pointing='top' icon='ellipsis vertical' button className='icon'>
-                  <Dropdown.Menu>
-                    <Dropdown.Item text='Delete' onClick={() => this.deletePlaylist(id)} />
-                  </Dropdown.Menu>
-                </Dropdown>
-              }
               <button className="ui green labeled icon button"
                 onClick={() => this.play(this.props.results[0])}>
                 <i className="play icon" />Play
               </button>
-              { this.props.type === 'playlist' &&
+              { this.props.type === 'playlist' && !ownPlaylist &&
                 <button className={`ui ${isFollowing && 'active'} right labeled icon button`}
                   onClick={() => this.follow(id, isFollowing)}>
                   <i className={`${isFollowing ? 'remove' : 'plus'} icon`} />
                   { isFollowing ? 'Unfollow' : 'Follow' }
                 </button>
+              }
+              { ownPlaylist &&
+                <Dropdown pointing='top right' icon='ellipsis vertical' button className='icon'>
+                  <Dropdown.Menu>
+                    <Dropdown.Item text='Delete' icon='trash' onClick={() => this.deletePlaylist(id)} />
+                  </Dropdown.Menu>
+                </Dropdown>
               }
             </div>
           </div>

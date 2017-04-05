@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import './Navbar.css';
 import * as firebase from 'firebase';
 
-import { Dropdown, Select } from 'semantic-ui-react';
+import { Dropdown, Select, Input, Button } from 'semantic-ui-react';
 
 import Login from '../Login/Login';
 import Modal from '../Modal/Modal';
@@ -28,19 +28,19 @@ class Navbar extends React.Component {
 
   onSearch = (event) => {
     event.preventDefault();
-    if(this.state.value==='videos'){
+    if (this.state.value==='videos') {
       this.props.history.push('search');
       this.props.dispatch(YoutubeActions.search(this.state.query));
       this.props.dispatch(AppActions.search(this.state.query));
-    }
-    else if(this.state.value==='playlists'){
+    } else if(this.state.value==='playlists') {
       this.props.history.push('playlistSearch');
       this.props.dispatch(AppActions.playlistSearch(
-        this.state.query, 
-        (res) => this.props.dispatch(YoutubeActions.fetchSongDetails(res,
-          (res1) => this.props.dispatch(AppActions.setPlaylistSongs(res1)))
-      )));
-
+        this.state.query,
+        (res) => this.props.dispatch(YoutubeActions.fetchSongDetails(
+          res,
+          (res1) => this.props.dispatch(AppActions.setPlaylistSongs(res1))
+        ))
+      ));
     }
   }
 
@@ -74,10 +74,15 @@ class Navbar extends React.Component {
         <div className="content">
           <form id="search" onSubmit={this.onSearch}>
             <div className="ui inverted left icon action input">
-              <input type="text" placeholder="Search..." onChange={this.handleChange} value={this.state.query} />
-              <i className="search icon" />
-              <Select value={this.state.value} onChange={this.handleSelectChange} compact options={options} defaultValue={this.state.value} />
-              <button className="ui button">Search</button>
+              <Input type='text' placeholder='Search...' action className='left icon'
+                onChange={this.handleChange} value={this.state.query}>
+                <input />
+                <i className="search icon"></i>
+                <Select compact value={this.state.value}
+                  onChange={this.handleSelectChange}
+                  options={options} />
+                <Button type='submit'>Search</Button>
+              </Input>
             </div>
           </form>
           { this.props.user.uid ?
