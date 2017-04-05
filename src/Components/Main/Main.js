@@ -103,7 +103,7 @@ class Main extends React.Component {
         results = this.props.youtube.results.items;
         break;
       case '/playlistSearch':
-
+        console.log("main::playlistsearch", {...this.props.app.results});
         type = "playlistSearch";
         label = "Search results for:";
         title = `"${this.props.app.query || ''}"`;

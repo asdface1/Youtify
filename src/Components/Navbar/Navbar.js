@@ -35,11 +35,12 @@ class Navbar extends React.Component {
     }
     else if(this.state.value==='playlists'){
       this.props.history.push('playlistSearch');
-      this.props.dispatch(AppActions.playlistSearch(this.state.query));
-      this.props.dispatch(YoutubeActions.fetchSongDetails(
-          this.props.app.results,
-          (res) => this.props.dispatch(AppActions.setPlaylistSongs(res)))
-      );
+      this.props.dispatch(AppActions.playlistSearch(
+        this.state.query, 
+        (res) => this.props.dispatch(YoutubeActions.fetchSongDetails(res,
+          (res1) => this.props.dispatch(AppActions.setPlaylistSongs(res1)))
+      )));
+
     }
   }
 
