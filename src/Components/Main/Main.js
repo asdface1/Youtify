@@ -97,14 +97,16 @@ class Main extends React.Component {
     const { user } = this.props;
     var { pathname, hash } = this.props.location;
     hash = hash.slice(1);
-    var label, title, results = [], image = "";
+    var type, label, title, results = [], image = "";
     switch (pathname) {
       case '/search':
+        type = "search";
         label = "Search results for:";
         title = `"${this.props.app.query || ''}"`;
         results = this.props.youtube.results.items;
         break;
       case '/playlist':
+        type = "playlist";
         if (user.playlists.length) {
           label = "Playlist";
           user.playlists.concat(user.favorites).forEach(playlist => {
@@ -121,6 +123,7 @@ class Main extends React.Component {
         }
         break;
       case '/channel':
+        type = "channel";
         label = "Channel";
         if (this.props.youtube.results.items.length) {
           title = this.props.youtube.results.items[0].snippet.channelTitle;
@@ -136,6 +139,7 @@ class Main extends React.Component {
           user={{ name: this.props.user.name || this.props.user.email }}
           history={this.props.history} />
         <Search
+          type={type}
           label={label}
           title={title}
           image={image}
