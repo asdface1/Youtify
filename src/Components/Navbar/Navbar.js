@@ -20,8 +20,8 @@ class Navbar extends React.Component {
 
   handleChange = ({ target }) => {
     this.setState({ query: target.value });
-
   }
+
   handleSelectChange = (event, { value }) => {
     this.setState({ value: value });
   }
@@ -38,6 +38,10 @@ class Navbar extends React.Component {
     }
   }
 
+  showSignInModal = () => this.setState({ showModal: true });
+
+  hideSignInModal = () => this.setState({ showModal: false });
+
   signOut = () => {
     this.props.dispatch(UserActions.signOut());
   }
@@ -47,19 +51,19 @@ class Navbar extends React.Component {
       <span>
         <i className="large user circle outline icon" size="big" /> {this.props.user.name}
       </span>
-    )
-  const options = [
-    { key: 'videos', text: 'Videos', value: 'videos' },
-    { key: 'playlists', text: 'Playlists', value: 'playlists' },
-  ]
-
+    );
+    const options = [
+      { key: 'videos', text: 'Videos', value: 'videos' },
+      { key: 'playlists', text: 'Playlists', value: 'playlists' },
+    ];
     return (
       <nav id="Navbar">
         <Modal
           title={'Sign in'}
           show={this.state.showModal}
-          onHide={() => this.setState({ showModal: false })}>
-          <Login onSignIn={() => {}}/>
+          onHide={this.hideSignInModal}>
+          <Login
+            onSignIn={this.hideSignInModal} />
         </Modal>
         <div className="content">
           <form id="search" onSubmit={this.onSearch}>
@@ -67,23 +71,23 @@ class Navbar extends React.Component {
               <input type="text" placeholder="Search..." onChange={this.handleChange} value={this.state.query} />
               <i className="search icon" />
               <Select value={this.state.value} onChange={this.handleSelectChange} compact options={options} defaultValue={this.state.value} />
-              {/*
-              <select className="ui compact selection dropdown">
-                <option selected="" value="video">Videos</option>
-                <option value="playlists">Playlists</option>
-              </select>
-            */}
               <button className="ui button">Search</button>
             </div>
           </form>
-          <Dropdown trigger={trigger} pointing>
-            <Dropdown.Menu>
-              <Dropdown.Item
-                text="Settings" icon="settings" onClick={() => this.setState({ showModal: true })} />
-              <Dropdown.Item
-                text="Sign out" icon="sign out" onClick={this.signOut}/>
-            </Dropdown.Menu>
-          </Dropdown>
+          { this.props.user.uid ?
+            <Dropdown trigger={trigger} pointing>
+              <Dropdown.Menu>
+                <Dropdown.Item
+                  text="Settings" icon="settings" />
+                <Dropdown.Item
+                  text="Sign out" icon="sign out" onClick={this.signOut}/>
+              </Dropdown.Menu>
+            </Dropdown> :
+            <button className="ui blue labeled icon button" onClick={this.showSignInModal}>
+              <i className="sign in icon"></i>
+              Sign in
+            </button>
+          }
         </div>
       </nav>
     )
@@ -92,6 +96,7 @@ class Navbar extends React.Component {
 
 export default connect(store => {
   return {
-    youtube: store.youtube,
+    user: store.user,
+    youtube: store.youtube
   }
 })(Navbar);

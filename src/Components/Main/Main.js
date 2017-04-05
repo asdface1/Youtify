@@ -23,6 +23,7 @@ class Main extends React.Component {
         console.log('signed in');
 //        if (user.isAnonymous) {
           this.props.dispatch(UserActions.signIn(user));
+          this.onSignIn();
 //        } else {
 //          var credential = firebase.auth.GoogleAuthProvider.credential(firebase.auth.currentUser.getAuthResponse().id_token);
 //          firebase.auth.currentUser.link(credential).then(function(user) {
