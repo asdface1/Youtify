@@ -4,16 +4,22 @@ import { Link } from 'react-router-dom';
 import './Sidebar.css';
 import * as firebase from 'firebase';
 
+import Modal from '../Modal/Modal';
+import NewPlaylist from '../NewPlaylist/NewPlaylist';
 import Player from '../Player/Player';
 
 class Sidebar extends React.Component {
   constructor() {
     super();
-    this.state = { active: undefined, width: 300 };
+    this.state = { width: 300, showModal: false };
   }
 
   componentDidMount() {
     window.addEventListener('mouseup', this.stopDrag);
+  }
+
+  pos = (x, min, max) => {
+    return Math.max(min, Math.min(x, max))
   }
 
   startDrag = (e) => {
@@ -26,17 +32,23 @@ class Sidebar extends React.Component {
     window.removeEventListener('mousemove', this.drag);
   }
 
-  pos = (x, min, max) => {
-    return Math.max(min, Math.min(x, max))
+  drag = (e) => {
+    this.setState({ width: this.pos(e.pageX, 200, 600) });
   }
 
-  drag = (e) => {
-    this.setState({ width: this.pos(e.pageX, 200, 600) })
-  }
+  showNewPlaylistModal = () => this.setState({ showModal: true });
+
+  hideNewPlaylistModal = () => this.setState({ showModal: false });
 
   render() {
     return (
       <div id='Sidebar' style={{ width: this.state.width + 'px'}}>
+        <Modal
+          title={'New playlist'}
+          show={this.state.showModal}
+          onHide={this.hideNewPlaylistModal}>
+          <NewPlaylist />
+        </Modal>
         <div className="flex flex-col flex-fill justify-content-between">
           <div style={{ overflowY: 'auto' }}>
             <Menu header="Playlists"
@@ -46,7 +58,9 @@ class Sidebar extends React.Component {
               items={this.props.user.favorites}
               active={this.props.location.hash.slice(1)} />
           </div>
-          <button className="ui large black fluid right labeled icon button" style={{borderRadius: 0}}>
+          <button className="ui large black fluid right labeled icon button"
+            style={{borderRadius: 0}}
+            onClick={this.showNewPlaylistModal}>
             New playlist
             <i className="ui large plus circle icon" />
           </button>

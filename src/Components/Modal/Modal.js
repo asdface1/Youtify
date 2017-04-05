@@ -37,7 +37,13 @@ export default class Modal extends React.Component {
                   <div className="header">{this.props.title}</div>
                 </div>
                 <div className="content">
-                  {this.props.children}
+                  {
+                    React.Children.map(this.props.children, child => {
+                      return React.cloneElement(child, {
+                        onHide: this.props.onHide
+                      })
+                    })
+                  }
                 </div>
               </div>
             </div>
