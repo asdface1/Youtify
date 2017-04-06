@@ -25,7 +25,7 @@ export function setPlaylists(array) {
 }
 export function addToFavorites(favorite) {
   return {
-    type: 'ADD_FAVORITES',
+    type: 'ADD_TO_FAVORITES',
     payload: {
       favorite
     }
