@@ -14,8 +14,10 @@ export default function reducer(state=initialState, action) {
       return initialState;
     case 'SET_PLAYLISTS':
       return { ...state, playlists: action.payload.playlists };
-    case 'SET_FAVORITES':
-      return { ...state, favorites: action.payload.favorites };
+    case 'EMPTY_FAVORITES':
+      return { ...state, favorites: [] };
+    case 'ADD_TO_FAVORITES':
+      return { ...state, favorites: [ ...state.favorites, action.payload.favorites ] };
     case 'ADD_TO_PLAYLIST':
       console.log(action.payload.song);
       return {
