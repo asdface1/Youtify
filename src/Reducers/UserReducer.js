@@ -29,7 +29,7 @@ export default function reducer(state=initialState, action) {
       })
       if(!found)
         return { ...state, favorites: [ ...state.favorites, action.payload.favorite ] };
-      else 
+      else
         return { ...state, favorites: newFavorites };
     case 'ADD_TO_PLAYLIST':
       console.log(action.payload.song);

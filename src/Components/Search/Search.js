@@ -45,21 +45,26 @@ class Search extends React.Component {
 
     if (isFollowing) {
       favoritesRef.once('value', snap => {
-        favoritesRef.set(Object.values(snap.val()).filter(fav => fav !== id))
+        favoritesRef.set(Object.values(snap.val()).filter(fav => fav.id !== id))
       })
     } else {
-      favoritesRef.push(id);
+      favoritesRef.push({ id: id });
     }
   }
 
   render() {
+    this.id = this.props.location.hash.slice(1);
+    var isFavorite = (id) => {
+      return this.props.user.favorites.filter(fav => fav.id === id).length > 0;
+    }
+    var ownPlaylist = (id = this.id) => {
+      return this.props.user.playlists.filter(p => p.id === id).length > 0;
+    }
+    const isFollowing = this.props.user.favorites.find(f => f.id === this.id) ? true : false;
     const headerStyle = {
       backgroundImage: `url(${this.props.image})`,
       top: `${this.state.top}px`,
     }
-    const id = this.props.location.hash.slice(1);
-    const isFollowing = this.props.user.favorites.find(f => f.id === id) ? true : false;
-    const ownPlaylist = this.props.user.playlists.find(p => p.id === id) ? true : false;
     return (
       <div id="Search">
         <img src={this.props.image}
@@ -79,17 +84,17 @@ class Search extends React.Component {
                   <i className="play icon" />Play
                 </button>
               }
-              { this.props.type === 'playlist' && !ownPlaylist &&
+              { this.props.type === 'playlist' && !ownPlaylist() &&
                 <button className={`ui ${isFollowing && 'active'} right labeled icon button`}
-                  onClick={() => this.follow(id, isFollowing)}>
+                  onClick={() => this.follow(this.id, isFollowing)}>
                   <i className={`${isFollowing ? 'remove' : 'plus'} icon`} />
                   { isFollowing ? 'Unfollow' : 'Follow' }
                 </button>
               }
-              { ownPlaylist &&
+              { ownPlaylist() &&
                 <Dropdown pointing='top right' icon='ellipsis vertical' button className='icon'>
                   <Dropdown.Menu>
-                    <Dropdown.Item text='Delete' icon='trash' onClick={() => this.deletePlaylist(id)} />
+                    <Dropdown.Item text='Delete' icon='trash' onClick={() => this.deletePlaylist(this.id)} />
                   </Dropdown.Menu>
                 </Dropdown>
               }
@@ -103,11 +108,13 @@ class Search extends React.Component {
               <div className="playlist" key={item.id}>
                 <div className="header">
                   {item.name}
-                  <button className={`ui right labeled icon button`}
-                    onClick={() => this.follow(item.id)}>
-                    <i className={`plus icon`} />
-                    Follow
-                  </button>
+                  { !ownPlaylist(item.id) &&
+                    <button className={`ui ${isFavorite(item.id) ? 'active' : ''} right labeled icon button`}
+                      onClick={() => this.follow(item.id, isFavorite(item.id))}>
+                      <i className={`plus icon`} />
+                      {isFavorite(item.id) ? 'Unfollow' : 'Follow'}
+                    </button>
+                  }
                 </div>
                 <div className="item">
                   <Results

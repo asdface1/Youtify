@@ -68,6 +68,10 @@ class Main extends React.Component {
       ));
     });
 
+    window.ref = this.usersRef
+      .child(this.props.user.uid)
+      .child('favorites');
+
     // Listen to changes to playlist that the user follows
     this.usersRef
         .child(this.props.user.uid)
@@ -76,10 +80,11 @@ class Main extends React.Component {
 
       // Update song details for all favorite playlists
       console.log('favorite snap', snap.val());
-      const favorites = Object.values(snap.val() || {});
+      const favorites = Object.values(snap.val() || {}).map(fav => fav.id);
       this.props.dispatch(UserActions.emptyFavorites());
       favorites.forEach(id => {
         this.playlistsRef.child(id).on('value', snap1 => {
+          if (!snap1.val()) return;
           // Convert the songs object of each playlist to an array
           const favorite = { ...snap1.val(), id: id };
           favorite.songs = convertObjectToArray(favorite.songs);
@@ -88,6 +93,28 @@ class Main extends React.Component {
             [favorite],
             (res) => this.props.dispatch(UserActions.addToFavorites(res[0]))
           ));
+        });
+        this.playlistsRef.child(id).on('child_removed', snap1 => {
+          console.log('snap1', snap1.ref.parent.key);
+          // const newFavorites = this.props.user.favorites
+          //   .filter(fav => fav.id !== snap1.ref.parent.key)
+          //   .map(fav => fav.id);
+          //
+          // console.log('newFavorites', newFavorites);
+          // console.log('other', ['asd', 'aijsij']);
+          this.usersRef
+            .child(this.props.user.uid)
+            .child('favorites')
+            .orderByChild('id')
+            .startAt(snap1.ref.parent.key)
+            .endAt(snap1.ref.parent.key)
+            .once('value', snap => {
+              const favoriteToRemove = snap.val();
+              console.log('favorite to remove', favoriteToRemove);
+              if (Object.keys(favoriteToRemove || {}).length > 0) {
+                snap.child(Object.keys(favoriteToRemove)[0]).child('id').ref.remove();
+              }
+            });
         });
       });
     });
