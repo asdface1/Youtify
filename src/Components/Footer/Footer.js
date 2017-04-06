@@ -6,6 +6,7 @@ import 'rc-slider/assets/index.css';
 
 import Slider from 'rc-slider';
 
+import * as YoutubeActions from '../../Actions/YoutubeActions';
 import * as VideoActions from '../../Actions/VideoActions';
 
 class Footer extends React.Component {
@@ -54,14 +55,18 @@ class Footer extends React.Component {
     sec = sec < 10 ? '0' + sec : sec;
     return min + ':' + sec
   }
-
+  displayChannel = (event) => {
+      var query = {text: this.props.video.song.snippet.channelId, req: "channel"};
+      console.log("footer:displaychannel", query);
+      this.props.dispatch(YoutubeActions.search(query));
+  }
   render() {
     const volumeIcon = this.props.video.volume > 0 ? (this.props.video.volume >= 50 ? 'up' : 'down') : 'off';
     return (
       <div id="Footer">
         <div className="segment justify-content-start">
           <div>{this.props.video.song.snippet.title}</div>
-          <Link to={`/channel#${this.props.video.song.snippet.channelId}`}>
+          <Link to={`/channel#${this.props.video.song.snippet.channelId}`} onClick={this.displayChannel}>
             {this.props.video.song.snippet.channelTitle}
           </Link>
         </div>
