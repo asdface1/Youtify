@@ -1,15 +1,16 @@
 const initialState = {
   results: {
-    items: []
+    items: [],
+    fetching: false
   }
 };
 
 export default function reducer(state=initialState, action) {
   switch (action.type) {
     case 'SEARCH':
-      return { ...state, results: action.payload.results }
-    case 'VIDEOS':
-      return { ...state, videos: action.payload.videos };
+      return { ...state, results: action.payload.results, fetching: false }
+    case 'FETCH':
+      return { ...state, results: initialState.results, fetching: true };
     default:
       return state;
   }

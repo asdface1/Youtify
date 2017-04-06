@@ -55,11 +55,13 @@ class Footer extends React.Component {
     sec = sec < 10 ? '0' + sec : sec;
     return min + ':' + sec
   }
-  displayChannel = (event) => {
+
+  displayChannel = () => {
       var query = {text: this.props.video.song.snippet.channelId, req: "channel"};
-      console.log("footer:displaychannel", query);
       this.props.dispatch(YoutubeActions.search(query));
+      //this.props.dispatch(YoutubeActions.getChannel(this.props.location.hash.slice(1)));
   }
+
   render() {
     const volumeIcon = this.props.video.volume > 0 ? (this.props.video.volume >= 50 ? 'up' : 'down') : 'off';
     return (

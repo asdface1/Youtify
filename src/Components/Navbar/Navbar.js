@@ -30,9 +30,9 @@ class Navbar extends React.Component {
     event.preventDefault();
     if (this.state.type === 'videos') {
       this.props.history.push(`/search#${this.state.query}`);
-      var query = {text: this.state.query, req: "songs"};
+      var query = { text: this.state.query, req: "songs" };
       this.props.dispatch(YoutubeActions.search(query));
-    } else if(this.state.type === 'playlists') {
+    } else if (this.state.type === 'playlists') {
       this.props.history.push(`/playlistSearch#${this.state.query}`);
       this.props.dispatch(AppActions.playlistSearch(
         this.state.query,
@@ -48,8 +48,8 @@ class Navbar extends React.Component {
         }
       ));
     }
-    else if(this.state.type === '/channel'){
-      var query = {text: this.state.hash.slice(0), req: "channel"};
+    else if (this.state.type === '/channel') {
+      var query = { text: this.state.hash.slice(0), req: "channel" };
       this.props.dispatch(YoutubeActions.search(this.state.query));
     }
   }

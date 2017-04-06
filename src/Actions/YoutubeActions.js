@@ -1,14 +1,19 @@
 const { apiKey } = require('../../config.js');
+const baseUrl = 'https://www.googleapis.com/youtube/v3';
 
 export function search(query) {
   return function(dispatch) {
     console.log("youtubeactions::query", query);
+    dispatch({
+      type: 'FETCH'
+    });
     var params = "";
-    if(query.req === "songs")
-      params = `?part=snippet&maxResults=40&q=${query.text}&type=video&fields=items(id%2FvideoId%2Csnippet(channelId%2CchannelTitle%2CpublishedAt%2Cthumbnails%2Fmedium%2Ctitle))%2CnextPageToken%2CpageInfo%2CprevPageToken%2CtokenPagination&key=${apiKey}`;
-    else if(query.req === "channel")
-      params = `?part=snippet&channelId=${query.text}&maxResults=10&fields=items(id%2Csnippet(thumbnails(high%2Cmaxres%2Cmedium%2Cstandard)%2Ctitle))%2CnextPageToken%2CprevPageToken%2CtokenPagination&key=${apiKey}`;
-    fetch(`https://www.googleapis.com/youtube/v3/search${params}`, {
+    if (query.req === "songs") {
+      params = `part=snippet&q=${query.text}&maxResults=40&type=video&fields=items(id%2FvideoId%2Csnippet(channelId%2CchannelTitle%2CpublishedAt%2Cthumbnails%2Fmedium%2Ctitle))%2CnextPageToken%2CpageInfo%2CprevPageToken%2CtokenPagination&key=${apiKey}`;
+    } else if(query.req === "channel") {
+      params = `part=snippet&channelId=${query.text}&maxResults=40&type=video&fields=items(id%2FvideoId%2Csnippet(channelId%2CchannelTitle%2CpublishedAt%2Cthumbnails%2Fmedium%2Ctitle))%2CnextPageToken%2CpageInfo%2CprevPageToken%2CtokenPagination&key=${apiKey}`;
+    }
+    fetch(`${baseUrl}/search?${params}`, {
         method: 'GET'
       })
       .then(response => response.json())
@@ -28,7 +33,26 @@ export function search(query) {
   }
 }
 
-
+export function getChannel(id) {
+  return function(dispatch) {
+    const params = `part=contentDetails&id=${id}=${apiKey}`
+    fetch(`${baseUrl}/channels?${params}`)
+      .then(response => response.json())
+      .then(response => {
+        console.log('response', response);
+        // dispatch({
+        //   type: 'SEARCH',
+        //   payload: {
+        //     query: query.text,
+        //     results: response
+        //   }
+        // });
+      })
+      .catch(error => {
+        console.log('error', error);
+      });
+  }
+}
 
 export function fetchSongDetails(playlists, callback) {
   return function(dispatch) {

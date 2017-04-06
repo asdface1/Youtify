@@ -42,10 +42,10 @@ class Results extends React.Component {
   }
 
   render() {
-    if (this.props.items.length === 0) {
+    if (this.props.items.length === 0 && this.props.youtube.fetching === true) {
       return (
         <div id="Results" style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-          <div className="ui large active centered inline loader"></div>
+          <div className="ui massive active centered inline inverted loader"></div>
         </div>
       )
     } else {
@@ -91,6 +91,7 @@ class Results extends React.Component {
 export default connect(store => {
   return {
     user: store.user,
-    video: store.video
+    video: store.video,
+    youtube: store.youtube
   }
 })(Results)
