@@ -78,6 +78,7 @@ class Main extends React.Component {
       console.log('favorite snap', snap.val());
       const favorites = Object.values(snap.val() || {});
       favorites.forEach(id => {
+        this.props.dispatch(UserActions.emptyFavorites());
         this.playlistsRef.child(id).on('value', snap1 => {
           // Convert the songs object of each playlist to an array
           const favorite = { ...snap1.val(), id: id };
@@ -85,7 +86,7 @@ class Main extends React.Component {
           // Fetch song details for all songs in all playlists with the Youtube API
           this.props.dispatch(YoutubeActions.fetchSongDetails(
             [favorite],
-            (res) => this.props.dispatch(UserActions.setFavorites(res))
+            (res) => this.props.dispatch(UserActions.addToFavorites(res[0]))
           ));
         });
       });
