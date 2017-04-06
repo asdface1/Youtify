@@ -17,7 +17,7 @@ export default function reducer(state=initialState, action) {
     case 'EMPTY_FAVORITES':
       return { ...state, favorites: [] };
     case 'ADD_TO_FAVORITES':
-      return { ...state, favorites: [ ...state.favorites, action.payload.favorites ] };
+      return { ...state, favorites: [ ...state.favorites, action.payload.favorite ] };
     case 'ADD_TO_PLAYLIST':
       console.log(action.payload.song);
       return {
