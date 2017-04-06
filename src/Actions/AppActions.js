@@ -44,15 +44,6 @@ export function setPlaylistSearchResults(results) {
   }
 }
 
-export function setPlaylist(playlist) {
-  return {
-    type: 'SET_PLAYLIST',
-    payload: {
-      playlist
-    }
-  }
-}
-
 function convertObjectToArray(object) {
   object = object || {};
   return Object.values(object);

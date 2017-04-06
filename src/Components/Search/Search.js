@@ -1,9 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import './Search.css';
 import * as firebase from 'firebase';
 
 import { Dropdown } from 'semantic-ui-react';
+
+import Results from '../Results/Results';
 
 import * as VideoActions from '../../Actions/VideoActions';
 import * as UserActions from '../../Actions/UserActions';
@@ -18,7 +21,7 @@ class Search extends React.Component {
 
   updateBannerHeight = () => {
     const { header, headerContent } = this.refs;
-    this.setState({ top: -(header.clientHeight - Math.ceil(headerContent.clientHeight) - 66) });
+    this.setState({ top: -(header.clientHeight - headerContent.clientHeight - 68 - 5) });
   }
 
   playAll = () => {
@@ -45,7 +48,7 @@ class Search extends React.Component {
         favoritesRef.set(Object.values(snap.val()).filter(fav => fav !== id))
       })
     } else {
-      favoritesRef.push({ id });
+      favoritesRef.push(id);
     }
   }
 
@@ -70,10 +73,12 @@ class Search extends React.Component {
               <h1>{this.props.title}</h1>
             </div>
             <div>
-              <button className="ui green labeled icon button"
-                onClick={this.playAll}>
-                <i className="play icon" />Play
-              </button>
+              { this.props.type !== 'playlistSearch' &&
+                <button className="ui green labeled icon button"
+                  onClick={this.playAll}>
+                  <i className="play icon" />Play
+                </button>
+              }
               { this.props.type === 'playlist' && !ownPlaylist &&
                 <button className={`ui ${isFollowing && 'active'} right labeled icon button`}
                   onClick={() => this.follow(id, isFollowing)}>
@@ -91,8 +96,30 @@ class Search extends React.Component {
             </div>
           </div>
         </div>
-        {this.props.children}
-        {/* RESULTS HERE */}
+        {
+          this.props.type === 'playlistSearch' ?
+          <div className="playlists">
+            { this.props.results.map(item => (
+              <div className="playlist" key={item.id}>
+                <div className="header">
+                  {item.name}
+                  <button className={`ui right labeled icon button`}
+                    onClick={() => this.follow(item.id)}>
+                    <i className={`plus icon`} />
+                    Follow
+                  </button>
+                </div>
+                <div className="item">
+                  <Results
+                    items={item.songs} />
+                </div>
+              </div>
+            )) }
+          </div>
+          :
+          <Results
+            items={this.props.results} />
+        }
       </div>
     )
   }
@@ -100,6 +127,7 @@ class Search extends React.Component {
 
 export default connect(store => {
   return {
+    app: store.app,
     user: store.user,
     video: store.video,
     youtube: store.youtube,

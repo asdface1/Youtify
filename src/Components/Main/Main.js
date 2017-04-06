@@ -5,7 +5,6 @@ import * as firebase from 'firebase';
 
 import Login from '../Login/Login';
 import Navbar from '../Navbar/Navbar';
-import Results from '../Results/Results';
 import Search from '../Search/Search';
 
 import * as AppActions from '../../Actions/AppActions';
@@ -113,37 +112,20 @@ class Main extends React.Component {
         break;
       case '/playlist':
         type = "playlist";
-        label = "Playlist";
-        const playlist = user.playlists.concat(user.favorites).find(playlist => {
-          if (playlist.id === hash) {
-            return playlist;
-          }
-        });
-        if (playlist) {
-          title = playlist.name;
-          results = playlist.songs;
+        if (user.playlists.length) {
+          label = "Playlist";
+          user.playlists.concat(user.favorites).forEach(playlist => {
+            if (playlist.id === hash) {
+              title = playlist.name;
+              results = playlist.songs;
+            }
+          });
+          title = title || "";
+          results = results || [];
         } else {
-          // Fetch the playlist from firebase
-          this.playlistsRef
-            .child(hash)
-            .once('value', snap => {
-              console.log('the playlist i want:', snap.val());
-              const playlistsObject = snap.val() || {};
-              const playlistToFetch = [ {
-                ...playlistsObject,
-                id: hash,
-                songs: Object.values(playlistsObject.songs || {})
-              } ];
-              console.log('prepared playlist:', playlistToFetch);
-              this.props.dispatch(YoutubeActions.fetchSongDetails(
-                playlistToFetch,
-                (res) => { console.log('ASDASDASD', res); results = res[0].songs }
-              ));
-            });
+          label = "Playlist not found";
+          results = [];
         }
-        console.log('found:', playlist);
-        title = title || "Not found";
-        results = results || [];
         break;
       case '/channel':
         type = "channel";
@@ -168,10 +150,6 @@ class Main extends React.Component {
           title={title}
           image={image}
           results={results}>
-          <Results
-            songs={type === 'playlistSearch' ? false : true}
-            playlists={type === 'playlistSearch' ? true : false}
-            items={results} />
         </Search>
       </div>
     )

@@ -44,9 +44,8 @@ class Results extends React.Component {
   render() {
     return (
       <div id="Results">
-        <div className="ui inverted divided items" style={{ padding: '2em', color: 'lightgrey' }}>
+        <div className="ui inverted divided items" style={{ padding: '20px', color: 'lightgrey' }}>
           {
-            this.props.songs &&
             this.props.items.map((item, i) => {
               return (
                 <div className="item justify-content-center" key={item.id.videoId} draggable onDoubleClick={() => this.play(item, i)}>
@@ -75,26 +74,6 @@ class Results extends React.Component {
               )
             })
           }
-          {
-            this.props.playlists &&
-            this.props.items.map((item, i) => {
-              return (
-                <div className="item justify-content-center" key={item.id}>
-                  <div className="ui tiny image">
-                    <img className="ui small image" src="" />
-                  </div>
-                  <div className="middle aligned content">
-                    <Link to={`/playlist#${item.id}`}>{item.name}</Link>
-                  </div>
-                  <button className={`ui right labeled icon button`}
-                    onClick={() => this.follow(item.id)}>
-                    <i className={`plus icon`} />
-                    Follow
-                  </button>
-                </div>
-              )
-            })
-          }
         </div>
       </div>
     )
@@ -107,8 +86,3 @@ export default connect(store => {
     video: store.video
   }
 })(Results)
-
-Results.defaultProps = {
-  songs: false,
-  playlists: false
-}

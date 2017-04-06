@@ -1,6 +1,5 @@
 const initialState = {
-  results: [],
-  playlist: {}
+  results: []
 };
 
 export default function reducer(state=initialState, action) {
@@ -9,8 +8,6 @@ export default function reducer(state=initialState, action) {
       return { ...state, query: action.payload.query };
     case 'SET_PLAYLIST_SEARCH_RESULTS':
       return { ...state, results: action.payload.results };
-    case 'SET_PLAYLIST':
-      return { ...state, playlist: action.payload.playlist };
     default:
       return state;
   }
