@@ -23,12 +23,17 @@ export function setPlaylists(array) {
     }
   }
 }
-export function setFavorites(favorites) {
+export function addToFavorites(favorites) {
   return {
     type: 'SET_FAVORITES',
     payload: {
       favorites
     }
+  }
+}
+export function emptyFavorites() {
+  return {
+    type: 'SET_FAVORITES'
   }
 }
 export function addToPlaylist(song, playlistId) {
