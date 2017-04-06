@@ -3,16 +3,10 @@ const baseUrl = 'https://www.googleapis.com/youtube/v3';
 
 export function search(query) {
   return function(dispatch) {
-    console.log("youtubeactions::query", query);
     dispatch({
       type: 'FETCH'
     });
-    var params = "";
-    if (query.req === "songs") {
-      params = `part=snippet&q=${query.text}&maxResults=40&type=video&fields=items(id%2FvideoId%2Csnippet(channelId%2CchannelTitle%2CpublishedAt%2Cthumbnails%2Fmedium%2Ctitle))%2CnextPageToken%2CpageInfo%2CprevPageToken%2CtokenPagination&key=${apiKey}`;
-    } else if(query.req === "channel") {
-      params = `part=snippet&channelId=${query.text}&maxResults=40&type=video&fields=items(id%2FvideoId%2Csnippet(channelId%2CchannelTitle%2CpublishedAt%2Cthumbnails%2Fmedium%2Ctitle))%2CnextPageToken%2CpageInfo%2CprevPageToken%2CtokenPagination&key=${apiKey}`;
-    }
+    var params = `part=snippet&q=${query}&maxResults=50&type=video&fields=items(id%2FvideoId%2Csnippet(channelId%2CchannelTitle%2CpublishedAt%2Cthumbnails%2Fmedium%2Ctitle))%2CnextPageToken%2CpageInfo%2CprevPageToken%2CtokenPagination&key=${apiKey}`;
     fetch(`${baseUrl}/search?${params}`, {
         method: 'GET'
       })
@@ -22,7 +16,7 @@ export function search(query) {
         dispatch({
           type: 'SEARCH',
           payload: {
-            query: query.text,
+            query: query,
             results: response
           }
         });
@@ -35,18 +29,40 @@ export function search(query) {
 
 export function getChannel(id) {
   return function(dispatch) {
-    const params = `part=contentDetails&id=${id}=${apiKey}`
-    fetch(`${baseUrl}/channels?${params}`)
+    dispatch({
+      type: 'FETCH'
+    });
+    // Fetch the channel for banner image and playlist
+    const channelParams = `part=snippet%2CcontentDetails%2CbrandingSettings&id=${id}&fields=items(brandingSettings(image(bannerImageUrl%2CbannerTvHighImageUrl))%2CcontentDetails%2FrelatedPlaylists%2Fuploads%2Csnippet(thumbnails(maxres%2Furl%2Cmedium%2Furl)))&key=${apiKey}`;
+    fetch(`${baseUrl}/channels?${channelParams}`)
       .then(response => response.json())
       .then(response => {
-        console.log('response', response);
-        // dispatch({
-        //   type: 'SEARCH',
-        //   payload: {
-        //     query: query.text,
-        //     results: response
-        //   }
-        // });
+        const playlistId = response.items[0].contentDetails.relatedPlaylists.uploads;
+        const bannerImage = response.items[0].brandingSettings.image.bannerTvHighImageUrl || response.items[0].brandingSettings.image.bannerImageUrl;
+        const thumbnail = response.items[0].snippet.thumbnails.medium.url;
+        // Fetch the playlistItems api for songs in the playlist
+        const playlistItemsParams = `part=snippet&playlistId=${playlistId}&maxResults=50&fields=items(contentDetails%2Cid%2Csnippet(channelId%2CchannelTitle%2CpublishedAt%2CresourceId%2FvideoId%2Cthumbnails%2Fmedium%2Ctitle))%2CnextPageToken%2CpageInfo%2CprevPageToken&key=${apiKey}`;
+        fetch(`${baseUrl}/playlistItems?${playlistItemsParams}`)
+          .then(response => response.json())
+          .then(response => {
+            console.log('response', response);
+            response.bannerImage = bannerImage;
+            response.thumbnail = thumbnail;
+            // Need to rearrange keys so they fit our scheme
+            response.items = response.items.map(item => {
+              return { snippet: item.snippet, id: item.snippet.resourceId };
+            });
+            console.log('response', response);
+            dispatch({
+              type: 'SEARCH',
+              payload: {
+                results: response
+              }
+            })
+          })
+          .catch(error => {
+            console.log('error', error);
+          });
       })
       .catch(error => {
         console.log('error', error);

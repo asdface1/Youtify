@@ -124,7 +124,7 @@ class Main extends React.Component {
     const { user } = this.props;
     var { pathname, hash } = this.props.location;
     hash = hash.slice(1);
-    var type, label, title, results = [], image = "";
+    var type, label, title, results = [], bannerImage = "", thumbnail = "";
     switch (pathname) {
       case '/search':
         type = "search";
@@ -160,8 +160,9 @@ class Main extends React.Component {
         label = "Channel";
         if (this.props.youtube.results.items.length) {
           title = this.props.youtube.results.items[0].snippet.channelTitle;
+          bannerImage = this.props.youtube.results.bannerImage;
+          thumbnail = this.props.youtube.results.thumbnail;
         }
-        image = "//yt3.ggpht.com/GPTRffZJ1dgjac5CN90pwxhMzYjZSh5iC5JnlQVPickZiW3gP6B6GiUsGnjoMkbz8kXu1CpZOjs=w2120-fcrop64=1,00005a57ffffa5a8-nd-c0xffffffff-rj-k-no";
         results = this.props.youtube.results.items;
         break;
     }
@@ -176,7 +177,8 @@ class Main extends React.Component {
           type={type}
           label={label}
           title={title}
-          image={image}
+          bannerImage={bannerImage}
+          thumbnail={thumbnail}
           results={results}>
         </Search>
       </div>

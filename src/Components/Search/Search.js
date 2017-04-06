@@ -62,16 +62,17 @@ class Search extends React.Component {
     }
     const isFollowing = this.props.user.favorites.find(f => f.id === this.id) ? true : false;
     const headerStyle = {
-      backgroundImage: `url(${this.props.image})`,
+      backgroundImage: `url(${this.props.bannerImage})`,
       top: `${this.state.top}px`,
     }
     return (
       <div id="Search">
-        <img src={this.props.image}
+        <img src={this.props.bannerImage}
           style={{ display: 'none', height: 0, width: 0}}
           onLoad={this.updateBannerHeight}
           onError={this.updateBannerHeight}/>
-        <div className={`header ${this.props.image ? 'large' : ''}`} ref="header" style={headerStyle}>
+        <div className={`header ${this.props.bannerImage ? 'large' : ''}`} ref="header" style={headerStyle}>
+          <img src={this.props.thumbnail} />
           <div className="header-content" ref="headerContent">
             <div>
               <h3>{this.props.label}</h3>
@@ -111,7 +112,7 @@ class Search extends React.Component {
                   { !ownPlaylist(item.id) &&
                     <button className={`ui ${isFavorite(item.id) ? 'active' : ''} right labeled icon button`}
                       onClick={() => this.follow(item.id, isFavorite(item.id))}>
-                      <i className={`plus icon`} />
+                      <i className={`${isFavorite(item.id) ? 'remove' : 'plus'} icon`} />
                       {isFavorite(item.id) ? 'Unfollow' : 'Follow'}
                     </button>
                   }

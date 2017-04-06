@@ -56,10 +56,8 @@ class Footer extends React.Component {
     return min + ':' + sec
   }
 
-  displayChannel = () => {
-      var query = {text: this.props.video.song.snippet.channelId, req: "channel"};
-      this.props.dispatch(YoutubeActions.search(query));
-      //this.props.dispatch(YoutubeActions.getChannel(this.props.location.hash.slice(1)));
+  displayChannel = (channelId) => {
+    this.props.dispatch(YoutubeActions.getChannel(channelId));
   }
 
   render() {
@@ -68,7 +66,7 @@ class Footer extends React.Component {
       <div id="Footer">
         <div className="segment justify-content-start">
           <div>{this.props.video.song.snippet.title}</div>
-          <Link to={`/channel#${this.props.video.song.snippet.channelId}`} onClick={this.displayChannel}>
+          <Link to={`/channel#${this.props.video.song.snippet.channelId}`} onClick={() => this.displayChannel(this.props.video.song.snippet.channelId)}>
             {this.props.video.song.snippet.channelTitle}
           </Link>
         </div>

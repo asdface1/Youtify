@@ -8,6 +8,7 @@ import { Dropdown } from 'semantic-ui-react';
 
 import * as UserActions from '../../Actions/UserActions';
 import * as VideoActions from '../../Actions/VideoActions';
+import * as YoutubeActions from '../../Actions/YoutubeActions';
 
 class Results extends React.Component {
   constructor() {
@@ -17,6 +18,7 @@ class Results extends React.Component {
   }
 
   play = (item, i) => {
+    console.log('play', item);
     this.props.dispatch(VideoActions.playSong(item));
     this.props.dispatch(VideoActions.setQueue(this.props.items, i));
   }
@@ -41,6 +43,10 @@ class Results extends React.Component {
       .push(id)
   }
 
+  displayChannel = (channelId) => {
+    this.props.dispatch(YoutubeActions.getChannel(channelId));
+  }
+
   render() {
     if (this.props.items.length === 0 && this.props.youtube.fetching === true) {
       return (
@@ -61,7 +67,10 @@ class Results extends React.Component {
                       <div className="overlay"><i className="big play icon"/></div>
                     </div>
                     <div className={`middle aligned content ${item.id.videoId === this.props.video.song.id.videoId ? 'active' : ''}`}>
-                      {item.snippet.title}
+                      {item.snippet.title}<br/>
+                      <Link to={`/channel#${item.snippet.channelId}`} onClick={() => this.displayChannel(item.snippet.channelId)}>
+                        {item.snippet.channelTitle}
+                      </Link>
                     </div>
                     <div className="flex align-items-center justify-content-center">
                       <Dropdown pointing="right" icon="ellipsis horizontal">

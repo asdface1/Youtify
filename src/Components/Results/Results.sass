@@ -1,5 +1,5 @@
 #Results
-  
+
   & > .ui.items
     margin-top: 0
 
@@ -30,8 +30,14 @@
           .overlay
             opacity: 1
 
-      .content.active
-        color: #1DB954
+      .content
+        &.active
+          color: #1DB954
 
+        a
+          color: rgba(255,255,255,.4)
+
+          &:hover
+            text-decoration: underline
   .italic
     font-style: italic
