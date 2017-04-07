@@ -165,6 +165,15 @@ class Main extends React.Component {
         }
         results = this.props.youtube.results.items;
         break;
+      case '/queue':
+        type = "queue";
+        label = "Queue";
+        title = "Now playing";
+        if (this.props.video.song && this.props.video.song.id && this.props.video.song.id.videoId) {
+          results = [this.props.video.song].concat(this.props.video.prioQueue).concat(this.props.video.queue.slice(this.props.video.song.current + 1));
+        }
+        results = results || [];
+        break;
     }
 
     return (
@@ -189,6 +198,7 @@ export default connect(store => {
   return {
     app: store.app,
     user: store.user,
+    video: store.video,
     youtube: store.youtube,
   }
 })(Main);

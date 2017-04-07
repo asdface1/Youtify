@@ -75,3 +75,11 @@ export function addToQueue(item) {
     }
   }
 }
+export function setShuffle(shuffle = true) {
+  return {
+    type: 'SET_SHUFFLE',
+    payload: {
+      shuffle
+    }
+  }
+}

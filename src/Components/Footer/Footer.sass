@@ -69,6 +69,28 @@
       &:last-child
         margin-left: 12px
 
+      a
+        margin: 0 10px
+        color: #A0A0A0
+        transition: 0.1s
+
+        &.active
+          color: #1DB954
+
+        &:hover
+          color: white
+        &:active
+          color: #A0A0A0
+
+        &.scale
+          &:hover
+            transform: scale(1.05)
+          &:active
+            transform: none
+
+        i
+          margin: 0
+
     .rc-slider
       margin-top: -2px
       padding: 10px 0

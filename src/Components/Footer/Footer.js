@@ -72,7 +72,9 @@ class Footer extends React.Component {
         </div>
         <div className="large segment flex flex-col justify-content-center">
           <div className="controllers">
-            <a><i className="large random icon" /></a>
+            <a onClick={() => this.props.dispatch(VideoActions.setShuffle(!this.props.video.shuffle))}>
+              <i className={`large ${this.props.video.shuffle ? 'green' : ''} random icon`} />
+            </a>
             <a onClick={() => this.props.dispatch(VideoActions.prev())}>
               <i className="large step backward icon" />
             </a>
@@ -97,6 +99,9 @@ class Footer extends React.Component {
         </div>
         <div className="segment flex-row justify-content-end">
           <div className="volume slider flex-fill">
+            <span className="label">
+              <Link to='/queue'><i className="large list ul icon" /></Link>
+            </span>
             <span className="label">
               <i className={`large volume ${volumeIcon} icon`} />
             </span>

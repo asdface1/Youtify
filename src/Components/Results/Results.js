@@ -54,6 +54,14 @@ class Results extends React.Component {
           <div className="ui massive active centered inline inverted loader"></div>
         </div>
       )
+    } else if (this.props.items.length === 0) {
+      return (
+        <div id="Results" style={{ display: 'flex', flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+          <h1 style={{ color: 'rgba(255,255,255,.9)', fontWeight: '400', fontSize: '2em' }}>
+            No results found
+          </h1>
+        </div>
+      )
     } else {
       return (
         <div id="Results">
