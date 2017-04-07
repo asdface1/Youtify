@@ -54,6 +54,10 @@ class Search extends React.Component {
 
   publicSetting = (event) => {
     console.log("search::onchange event", event.target.value);
+    var id = this.props.location.hash.slice(1);
+    const rootRef = firebase.database().ref().child('youtify');
+
+    const playlistsRef = rootRef.child('playlists').child(id).update({'public': event.target.checked});
   }
 
   render() {
@@ -63,6 +67,11 @@ class Search extends React.Component {
     }
     var ownPlaylist = (id = this.id) => {
       return this.props.user.playlists.filter(p => p.id === id).length > 0;
+    }
+    var isPublic = (id = this.id) => {
+      var playlist = this.props.user.playlists.find(p => p.id === id);
+      console.log(playlist.public);
+      return (playlist || {}).public;
     }
     const isFollowing = this.props.user.favorites.find(f => f.id === this.id) ? true : false;
     const headerStyle = {
@@ -85,7 +94,7 @@ class Search extends React.Component {
             <div>
               { ownPlaylist() &&
                 <div className="ui toggle red checkbox">
-                  <input type="checkbox" name="public" onChange={this.publicSetting} />
+                  <input type="checkbox" name="public" onChange={this.publicSetting} checked={isPublic()} />
                   <label>Make public</label>
                 </div>
               }
