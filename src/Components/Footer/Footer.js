@@ -85,7 +85,7 @@ class Footer extends React.Component {
               <i className="large step forward icon" />
             </a>
             <a onClick={() => this.props.dispatch(VideoActions.setRepeat(!this.props.video.repeat))}>
-              <i className={`large ${this.props.video.repeat} refresh icon`} />
+              <i className={`large ${this.props.video.repeat ? 'green' : ''} refresh icon`} />
             </a>
           </div>
           <div className="slider">
