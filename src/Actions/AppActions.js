@@ -17,20 +17,27 @@ export function playlistSearch(query, callback) {
     // Listen to changes to the user's own playlists
     playlistsRef
       .orderByChild('nameLowerCase')
-      .startAt(query)
-      .endAt(query + '~')
+      .startAt(query.toLowerCase())
+      .endAt(query.toLowerCase() + '~')
       .once('value', snap => {
 
         // The playlists are returned as an object; convert it to an array
         const playlistsObject = snap.val();
-        const playlists = Object.keys(playlistsObject).map(key => {
+        const playlists = Object.keys(playlistsObject || {}).map(key => {
           return { ...playlistsObject[key], id: key };
         });
-        playlists.forEach(playlist => {
+        const publicPlaylists = playlists.filter((playlist) =>  playlist.public);
+        publicPlaylists.forEach(playlist => {
           playlist.songs = convertObjectToArray(playlist.songs);
         });
+        dispatch({
+          type: 'SEARCH',
+          payload: {
+            query
+          }
+        });
         if (callback) {
-          callback(playlists);
+          callback(publicPlaylists);
         }
       });
   }
