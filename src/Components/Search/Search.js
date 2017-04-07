@@ -70,7 +70,6 @@ class Search extends React.Component {
     }
     var isPublic = (id = this.id) => {
       var playlist = this.props.user.playlists.find(p => p.id === id);
-      console.log(playlist.public);
       return (playlist || {}).public;
     }
     const isFollowing = this.props.user.favorites.find(f => f.id === this.id) ? true : false;

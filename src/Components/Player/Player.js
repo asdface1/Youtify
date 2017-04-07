@@ -7,13 +7,23 @@ import Youtube from 'react-youtube';
 import * as VideoActions from '../../Actions/VideoActions';
 
 class Player extends React.Component {
+  constructor() {
+    super();
+    this.state = { shouldPlay: true };
+  }
   _onReady(event) {
   	this.props.dispatch(VideoActions.setPlayer(event.target));
     console.log(event.target)
   }
 
   onPlay = () => {
-    this.props.dispatch(VideoActions.play());
+    if (this.state.shouldPlay) {
+      this.props.dispatch(VideoActions.play());
+    }
+    const { video } = this.props;
+    if (video.song.current === video.queue.length - 1 && !video.repeat) {
+      this.setState({ shouldPlay: false });
+    }
   }
 
   onPause = () => {
@@ -25,10 +35,15 @@ class Player extends React.Component {
   }
 
   onStateChange = ({ data }) => {
+    console.log(data);
     if (data === 1) {
       this.props.dispatch(VideoActions.setDuration(this.props.video.player.getDuration()));
     } else if (data === 5) {
-      this.props.dispatch(VideoActions.play());
+      if (this.state.shouldPlay) {
+        this.props.dispatch(VideoActions.play());
+      } else {
+        this.setState({ shouldPlay: true });
+      }
     }
   }
 
