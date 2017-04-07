@@ -172,6 +172,9 @@ class Main extends React.Component {
         if (this.props.video.song && this.props.video.song.id && this.props.video.song.id.videoId) {
           results = [this.props.video.song].concat(this.props.video.prioQueue).concat((this.props.video.queue || []).slice(this.props.video.song.current + 1));
         }
+        if (this.props.video.repeat) {
+          results = results.concat(this.props.video.queue.slice(0, this.props.video.song.current))
+        }
         results = results || [];
         break;
     }

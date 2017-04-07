@@ -84,7 +84,9 @@ class Footer extends React.Component {
             <a onClick={() => this.props.dispatch(VideoActions.next())}>
               <i className="large step forward icon" />
             </a>
-            <a><i className="large refresh icon" /></a>
+            <a onClick={() => this.props.dispatch(VideoActions.setRepeat(!this.props.video.repeat))}>
+              <i className={`large ${this.props.video.repeat} refresh icon`} />
+            </a>
           </div>
           <div className="slider">
             <span className="label">{this.format(this.state.time)}</span>
@@ -100,7 +102,9 @@ class Footer extends React.Component {
         <div className="segment flex-row justify-content-end">
           <div className="volume slider flex-fill">
             <span className="label">
-              <Link to='/queue'><i className="large list ul icon" /></Link>
+              <Link to='/queue'>
+                <i className={`large ${this.props.location.pathname === '/queue' ? 'green' : ''} list ul icon`} />
+              </Link>
             </span>
             <span className="label">
               <i className={`large volume ${volumeIcon} icon`} />
