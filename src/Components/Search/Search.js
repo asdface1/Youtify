@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 import './Search.css';
 import * as firebase from 'firebase';
 
-import { Dropdown } from 'semantic-ui-react';
+import { Dropdown, Checkbox } from 'semantic-ui-react';
 
 import Results from '../Results/Results';
 
@@ -52,6 +52,10 @@ class Search extends React.Component {
     }
   }
 
+  publicSetting = (event) => {
+    console.log("search::onchange event", event.target.value);
+  }
+
   render() {
     this.id = this.props.location.hash.slice(1);
     var isFavorite = (id) => {
@@ -79,6 +83,12 @@ class Search extends React.Component {
               <h1>{this.props.title}</h1>
             </div>
             <div>
+              { ownPlaylist() &&
+                <div className="ui toggle red checkbox">
+                  <input type="checkbox" name="public" onChange={this.publicSetting} />
+                  <label>Make public</label>
+                </div>
+              }
               { this.props.type !== 'playlistSearch' &&
                 <button className="ui green labeled icon button"
                   onClick={this.playAll}>
