@@ -83,3 +83,11 @@ export function setShuffle(shuffle = true) {
     }
   }
 }
+export function setRepeat(repeat = true) {
+  return {
+    type: 'SET_REPEAT',
+    payload: {
+      repeat
+    }
+  }
+}

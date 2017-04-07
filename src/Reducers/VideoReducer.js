@@ -48,9 +48,13 @@ export default function reducer(state=initialState, action) {
         var currentSong = (state.song.current + 1) % state.queue.length;
         var song = state.queue[currentSong];
         song.current = currentSong;
-        state.player.loadVideoById(song.id.videoId);
+        if(state.repeat) {
+          state.player.loadVideoById(song.id.videoId);
+        }
+        else if(!state.repeat) {
+          state.player.cueVideoById(song.id.videoId);
+        }
         return { ...state, song: song, isPlaying: false};
-
       }
     case 'PLAY_SONG':
       state.player.loadVideoById(action.payload.song);
@@ -76,6 +80,11 @@ export default function reducer(state=initialState, action) {
         ...state,
         shuffle: action.payload.shuffle,
         queue: action.payload.shuffle ? shuffle(state.queue || []) : state.queue
+      }
+    case 'SET_REPEAT':
+      return {
+        ...state,
+        repeat: action.payload.repeat
       }
     default:
       return state;
