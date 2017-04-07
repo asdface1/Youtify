@@ -22,8 +22,7 @@ function createWindow () {
   //   protocol: 'file:',
   //   slashes: true
   // }))
-  //mainWindow.loadURL('http://localhost:3000')
-  mainWindow.loadURL('https://flock-prod1.herokuapp.com')
+  mainWindow.loadURL('http://localhost:3000')
   // const startUrl = process.env.ELECTRON_START_URL || url.format({
   //     pathname: path.join(__dirname, '/../build/index.html'),
   //     protocol: 'file:',
