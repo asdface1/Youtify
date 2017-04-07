@@ -10,6 +10,8 @@ const initialState = {
   prioQueue: []
 };
 
+
+
 export default function reducer(state=initialState, action) {
   Number.prototype.mod = function(n) {
     return ((this % n) + n) % n;
@@ -49,6 +51,7 @@ export default function reducer(state=initialState, action) {
         song.current = currentSong;
         state.player.loadVideoById(song.id.videoId);
         return { ...state, song: song, isPlaying: false};
+
       }
     case 'PLAY_SONG':
       state.player.loadVideoById(action.payload.song);
@@ -57,16 +60,32 @@ export default function reducer(state=initialState, action) {
         song: { ...action.payload.song, current: 0 }
       }
     case 'SET_QUEUE':
+      if(state.shuffle) {
+        var shuffledQueue = shuffle(action.payload.queue);
+      }
       return {
         ...state,
-        queue: action.payload.queue,
+        queue: state.shuffle ? shuffledQueue : action.payload.queue,
         song: {
           ...state.song, current: action.payload.current
         }
       };
     case 'ADD_TO_QUEUE':
       return { ...state, prioQueue: [ ...state.prioQueue, action.payload.item ] };
+    case 'SET_SHUFFLE':
+      return { ...state, shuffle: action.payload.shuffle}
     default:
       return state;
   }
+}
+
+/**
+ * Shuffles array in place. ES6 version
+ * @param {Array} a items The array containing the items.
+ */
+function shuffle(a) {
+    for (let i = a.length; i; i--) {
+        let j = Math.floor(Math.random() * i);
+        [a[i - 1], a[j]] = [a[j], a[i - 1]];
+    }
 }
