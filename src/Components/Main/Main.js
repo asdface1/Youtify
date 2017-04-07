@@ -52,7 +52,7 @@ class Main extends React.Component {
 
       // The playlists are returned as an object; convert it to an array
       const playlistsObject = snap.val();
-      const playlists = Object.keys(playlistsObject).map(key => {
+      const playlists = Object.keys(playlistsObject || {}).map(key => {
         return { ...playlistsObject[key], id: key };
       });
 
@@ -170,8 +170,7 @@ class Main extends React.Component {
     return (
       <div id="Main">
         <Navbar
-          user={{ name: this.props.user.name || this.props.user.email }}
-          history={this.props.history} />
+          {...this.props} />
         <Search
           {...this.props}
           type={type}

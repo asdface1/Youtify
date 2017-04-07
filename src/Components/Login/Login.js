@@ -18,7 +18,8 @@ class Login extends React.Component {
   signInWithGoogle = () => {
     var provider = new firebase.auth.GoogleAuthProvider();
     firebase.auth().signInWithPopup(provider)
-      .then(() => this.props.onSignIn());
+      .then(() => this.props.onSignIn())
+      .catch(error => console.log('google auth error:', error.message));
   }
 
   render() {

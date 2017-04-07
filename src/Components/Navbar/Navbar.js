@@ -64,7 +64,8 @@ class Navbar extends React.Component {
   render() {
     const trigger = (
       <span>
-        <i className="large user circle outline icon" size="big" /> {this.props.user.name}
+        <i className="large user circle outline icon" size="big" />
+        &nbsp;{this.props.user.name || this.props.user.email}
       </span>
     );
     const options = [
@@ -116,7 +117,6 @@ class Navbar extends React.Component {
 
 export default connect(store => {
   return {
-    app: store.app,
     user: store.user,
     youtube: store.youtube
   }
