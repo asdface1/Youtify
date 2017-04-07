@@ -170,7 +170,7 @@ class Main extends React.Component {
         label = "Queue";
         title = "Now playing";
         if (this.props.video.song && this.props.video.song.id && this.props.video.song.id.videoId) {
-          results = [this.props.video.song].concat(this.props.video.prioQueue).concat(this.props.video.queue.slice(this.props.video.song.current + 1));
+          results = [this.props.video.song].concat(this.props.video.prioQueue).concat((this.props.video.queue || []).slice(this.props.video.song.current + 1));
         }
         results = results || [];
         break;

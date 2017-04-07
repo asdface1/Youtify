@@ -7,10 +7,9 @@ const initialState = {
   },
   volume: 50,
   queue: [],
-  prioQueue: []
+  prioQueue: [],
+  shuffle: false
 };
-
-
 
 export default function reducer(state=initialState, action) {
   Number.prototype.mod = function(n) {
@@ -60,7 +59,7 @@ export default function reducer(state=initialState, action) {
         song: { ...action.payload.song, current: 0 }
       }
     case 'SET_QUEUE':
-      if(state.shuffle) {
+      if (state.shuffle) {
         var shuffledQueue = shuffle(action.payload.queue);
       }
       return {
@@ -73,7 +72,11 @@ export default function reducer(state=initialState, action) {
     case 'ADD_TO_QUEUE':
       return { ...state, prioQueue: [ ...state.prioQueue, action.payload.item ] };
     case 'SET_SHUFFLE':
-      return { ...state, shuffle: action.payload.shuffle}
+      return {
+        ...state,
+        shuffle: action.payload.shuffle,
+        queue: action.payload.shuffle ? shuffle(state.queue || []) : state.queue
+      }
     default:
       return state;
   }
@@ -84,8 +87,10 @@ export default function reducer(state=initialState, action) {
  * @param {Array} a items The array containing the items.
  */
 function shuffle(a) {
-    for (let i = a.length; i; i--) {
-        let j = Math.floor(Math.random() * i);
-        [a[i - 1], a[j]] = [a[j], a[i - 1]];
-    }
+  var b = [ ...a ];
+  for (let i = b.length; i; i--) {
+    let j = Math.floor(Math.random() * i);
+    [b[i - 1], b[j]] = [b[j], b[i - 1]];
+  }
+  return b;
 }
