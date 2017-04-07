@@ -48,11 +48,12 @@ export default function reducer(state=initialState, action) {
         var currentSong = (state.song.current + 1) % state.queue.length;
         var song = state.queue[currentSong];
         song.current = currentSong;
-        if(state.repeat) {
-          state.player.loadVideoById(song.id.videoId);
-        }
-        else if(!state.repeat) {
+        if(!state.repeat && song.current===state.queue.length-1) {
+          console.log("videoreducer::cueVideoById");
           state.player.cueVideoById(song.id.videoId);
+        }
+        else {
+          state.player.loadVideoById(song.id.videoId);
         }
         return { ...state, song: song, isPlaying: false};
       }
