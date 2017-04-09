@@ -3,8 +3,6 @@ import { connect } from 'react-redux';
 import './Login.css';
 import * as firebase from 'firebase';
 
-import * as UserActions from '../../Actions/UserActions';
-
 class Login extends React.Component {
   signInWithEmailAndPassword = (event) => {
     event.preventDefault();

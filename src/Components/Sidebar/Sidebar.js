@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Sidebar.css';
-import * as firebase from 'firebase';
 
 import Modal from '../Modal/Modal';
 import NewPlaylist from '../NewPlaylist/NewPlaylist';
@@ -55,7 +54,7 @@ class Sidebar extends React.Component {
               items={this.props.user.playlists}
               active={this.props.location.hash.slice(1)} />
             {
-              this.props.user.favorites.length > 0 && 
+              this.props.user.favorites.length > 0 &&
               <Menu header="Favorites"
                 items={this.props.user.favorites}
                 active={this.props.location.hash.slice(1)} />

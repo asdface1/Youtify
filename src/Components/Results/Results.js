@@ -71,7 +71,7 @@ class Results extends React.Component {
                 return (
                   <div className="item justify-content-center" key={i} draggable onDoubleClick={() => this.play(item, i)}>
                     <div className="ui tiny image" onClick={() => this.play(item, i)}>
-                      <img className="ui small image" src={item.snippet.thumbnails.medium.url} />
+                      <img className="ui small image" src={item.snippet.thumbnails.medium.url} alt='' />
                       <div className="overlay"><i className="big play icon"/></div>
                     </div>
                     <div className={`middle aligned content ${item.id.videoId === this.props.video.song.id.videoId ? 'active' : ''}`}>

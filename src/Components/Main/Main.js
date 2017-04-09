@@ -3,19 +3,13 @@ import { connect } from 'react-redux';
 import './Main.css';
 import * as firebase from 'firebase';
 
-import Login from '../Login/Login';
 import Navbar from '../Navbar/Navbar';
 import Search from '../Search/Search';
 
-import * as AppActions from '../../Actions/AppActions';
 import * as UserActions from '../../Actions/UserActions';
 import * as YoutubeActions from '../../Actions/YoutubeActions';
 
 class Main extends React.Component {
-  constructor() {
-    super();
-  }
-
   componentDidMount() {
     this.rootRef = firebase.database().ref().child('youtify');
     this.playlistsRef = this.rootRef.child('playlists');
@@ -177,6 +171,7 @@ class Main extends React.Component {
         }
         results = results || [];
         break;
+      default:
     }
 
     return (

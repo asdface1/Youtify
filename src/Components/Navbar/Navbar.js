@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import './Navbar.css';
-import * as firebase from 'firebase';
 
 import { Dropdown, Select, Input, Button } from 'semantic-ui-react';
 
@@ -48,7 +47,6 @@ class Navbar extends React.Component {
       ));
     }
     else if (this.state.type === '/channel') {
-      var query = this.state.hash.slice(0);
       this.props.dispatch(YoutubeActions.search(this.state.query));
     }
   }

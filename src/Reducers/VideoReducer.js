@@ -17,6 +17,8 @@ export default function reducer(state=initialState, action) {
     return ((this % n) + n) % n;
   }
 
+  var song, currentSong;
+
   switch (action.type) {
     case 'SET_PLAYER':
       return { ...state, player: action.payload.player };
@@ -35,8 +37,8 @@ export default function reducer(state=initialState, action) {
       state.player.seekTo(action.payload.time);
       return state;
     case 'PREV':
-      var currentSong = (state.song.current - 1).mod(state.queue.length);
-      var song = state.queue[currentSong];
+      currentSong = (state.song.current - 1).mod(state.queue.length);
+      song = state.queue[currentSong];
       state.player.loadVideoById(song.id.videoId);
       return { ...state, song: song, isPlaying: false };
     case 'NEXT':
@@ -46,8 +48,8 @@ export default function reducer(state=initialState, action) {
         state.player.loadVideoById(song.id.videoId);
         return { ...state, song: song, isPlaying: false, prioQueue: state.prioQueue.slice(1) };
       } else {
-        var currentSong = (state.song.current + 1) % state.queue.length;
-        var song = state.queue[currentSong];
+        currentSong = (state.song.current + 1) % state.queue.length;
+        song = state.queue[currentSong];
         song.current = currentSong;
         state.player.loadVideoById(song.id.videoId);
         return { ...state, song: song, isPlaying: false};

@@ -1,8 +1,6 @@
 import React from 'react';
 import './Modal.css';
 
-import { Dimmer } from 'semantic-ui-react';
-import OnClickOutside from 'react-onclickoutside';
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 export default class Modal extends React.Component {

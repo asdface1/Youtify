@@ -1,15 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
 import './Search.css';
 import * as firebase from 'firebase';
 
-import { Dropdown, Checkbox } from 'semantic-ui-react';
+import { Dropdown } from 'semantic-ui-react';
 
 import Results from '../Results/Results';
 
 import * as VideoActions from '../../Actions/VideoActions';
-import * as UserActions from '../../Actions/UserActions';
 
 class Search extends React.Component {
   constructor(props) {
@@ -53,11 +51,8 @@ class Search extends React.Component {
   }
 
   publicSetting = (event) => {
-    console.log("search::onchange event", event.target.value);
     var id = this.props.location.hash.slice(1);
-    const rootRef = firebase.database().ref().child('youtify');
-
-    const playlistsRef = rootRef.child('playlists').child(id).update({'public': event.target.checked});
+    this.rootRef.child('playlists').child(id).update({ public: event.target.checked });
   }
 
   render() {
@@ -79,12 +74,12 @@ class Search extends React.Component {
     }
     return (
       <div id="Search">
-        <img src={this.props.bannerImage}
+        <img src={this.props.bannerImage} alt=''
           style={{ display: 'none', height: 0, width: 0}}
           onLoad={this.updateBannerHeight}
           onError={this.updateBannerHeight}/>
         <div className={`header ${this.props.bannerImage ? 'large' : ''}`} ref="header" style={headerStyle}>
-          <img src={this.props.thumbnail} />
+          <img src={this.props.thumbnail} alt='' />
           <div className="header-content" ref="headerContent">
             <div>
               <h3>{this.props.label}</h3>
