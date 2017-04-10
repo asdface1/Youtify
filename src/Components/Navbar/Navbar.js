@@ -77,7 +77,7 @@ class Navbar extends React.Component {
           show={this.state.showModal}
           onHide={this.hideSignInModal}>
           <Login
-            onSignIn={this.hideSignInModal} />
+            onSignIn={() => { this.props.onSignIn(); this.hideSignInModal(); }} />
         </Modal>
         <div className="content">
           <form id="search" onSubmit={this.onSearch}>
@@ -93,7 +93,7 @@ class Navbar extends React.Component {
               </Input>
             </div>
           </form>
-          { this.props.user.uid ?
+          { this.props.user.uid && !this.props.user.isAnonymous ?
             <Dropdown trigger={trigger} pointing>
               <Dropdown.Menu>
                 <Dropdown.Item

@@ -15,23 +15,14 @@ class Main extends React.Component {
     this.playlistsRef = this.rootRef.child('playlists');
     this.usersRef = this.rootRef.child('users');
 
-    firebase.auth().onAuthStateChanged(user => {
+    const auth = firebase.auth();
+    auth.onAuthStateChanged(user => {
       console.log('user', user);
       if (user) {
-        console.log('signed in');
-//        if (user.isAnonymous) {
-          this.props.dispatch(UserActions.signIn(user));
-          this.onSignIn();
-//        } else {
-//          var credential = firebase.auth.GoogleAuthProvider.credential(firebase.auth.currentUser.getAuthResponse().id_token);
-//          firebase.auth.currentUser.link(credential).then(function(user) {
-//            console.log("Anonymous account successfully upgraded", user);
-//          }, function(error) {
-//            console.log("Error upgrading anonymous account", error);
-//          });
-//        }
-//      } else {
-//        firebase.auth().signInAnonymously();
+        this.props.dispatch(UserActions.signIn(user));
+        this.onSignIn();
+      } else {
+        auth.signInAnonymously();
       }
     });
   }
@@ -177,7 +168,8 @@ class Main extends React.Component {
     return (
       <div id="Main">
         <Navbar
-          {...this.props} />
+          {...this.props}
+          onSignIn={this.onSignIn}/>
         <Search
           {...this.props}
           type={type}

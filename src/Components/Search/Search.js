@@ -86,10 +86,10 @@ class Search extends React.Component {
               <h1>{this.props.title}</h1>
             </div>
             <div>
-              { ownPlaylist() &&
+              { ownPlaylist() && !this.props.user.isAnonymous &&
                 <div className="ui toggle red checkbox">
                   <input type="checkbox" name="public" onChange={this.publicSetting} checked={isPublic()} />
-                  <label>Make public</label>
+                  <label>Public</label>
                 </div>
               }
               { this.props.type !== 'playlistSearch' &&

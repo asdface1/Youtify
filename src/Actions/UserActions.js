@@ -5,7 +5,8 @@ export function signIn(user) {
       user: {
         uid: user.uid,
         email: user.email,
-        name: user.displayName
+        name: user.displayName,
+        isAnonymous: user.isAnonymous
       }
     }
   }
