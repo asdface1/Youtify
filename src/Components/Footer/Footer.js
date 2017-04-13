@@ -90,24 +90,15 @@ class Footer extends React.Component {
         <div className="segment flex-row justify-content-start">
           <div className="flex flex-col">
             <div>{this.props.video.song.snippet.title}</div>
-            <Link to={`/channel#${this.props.video.song.snippet.channelId}`} onClick={() => this.displayChannel(this.props.video.song.snippet.channelId)}>
+            <Link id='channelId' to={`/channel#${this.props.video.song.snippet.channelId}`} onClick={() => this.displayChannel(this.props.video.song.snippet.channelId)}>
               {this.props.video.song.snippet.channelTitle}
             </Link>
           </div>
-            <Dropdown pointing="bottom left" icon="ellipsis horizontal" style={{ zIndex: '100' }}>
-              <Dropdown.Menu>
-                <Dropdown.Header icon='list' content='Add to playlist' />
-                { this.props.user.playlists.map(playlist => {
-                  return (
-                    <Dropdown.Item key={playlist.id} text={playlist.name} icon="plus" className="italic"
-                      onClick={() => this.addToPlaylist(this.props.video.song, playlist)} />
-                  )
-                }) }
-              </Dropdown.Menu>
-            </Dropdown>
-            <a onClick={() => this.fullScreen()}>
-                <i className="large step expand icon" />
+          <div className="flex flex-row align-items-center" style={{ marginLeft: '8px' }}>
+            <a id='fullscreen' onClick={this.fullScreen}>
+              <i className="large step expand icon" />
             </a>
+          </div>
         </div>
         <div className="large segment flex flex-col justify-content-center">
           <div className="controllers">
@@ -154,7 +145,7 @@ class Footer extends React.Component {
               value={this.props.video.volume}
               onChange={this.handleVolumeChange} />
           </div>
-          
+
         </div>
       </div>
     )

@@ -16,12 +16,11 @@
     &.large
       flex: 1
 
-    &:first-child
-      a
-        color: rgba(255,255,255,.4)
+    a#channelId
+      color: rgba(255,255,255,.4)
 
-        &:hover
-          text-decoration: underline
+      &:hover
+        text-decoration: underline
 
   .controllers
     display: flex
@@ -118,3 +117,15 @@
 
         .rc-slider-handle
           display: block
+
+  a#fullscreen
+    color: #A0A0A0
+    transition: 0.1s
+
+    &.active
+      color: #1DB954
+
+    &:hover
+      color: white
+    &:active
+      color: #A0A0A0

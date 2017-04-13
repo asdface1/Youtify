@@ -52,7 +52,8 @@ class Player extends React.Component {
       playerVars: {
         autoplay: 0,
         showinfo: 0,
-        controls: 0
+        controls: 0,
+        wmode: 'Opaque'
       }
     };
     return (
