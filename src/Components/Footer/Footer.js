@@ -94,17 +94,7 @@ class Footer extends React.Component {
               {this.props.video.song.snippet.channelTitle}
             </Link>
           </div>
-            <Dropdown pointing="bottom left" icon="ellipsis horizontal" style={{ zIndex: '100' }}>
-              <Dropdown.Menu>
-                <Dropdown.Header icon='list' content='Add to playlist' />
-                { this.props.user.playlists.map(playlist => {
-                  return (
-                    <Dropdown.Item key={playlist.id} text={playlist.name} icon="plus" className="italic"
-                      onClick={() => this.addToPlaylist(this.props.video.song, playlist)} />
-                  )
-                }) }
-              </Dropdown.Menu>
-            </Dropdown>
+            
             <a onClick={() => this.fullScreen()}>
                 <i className="large step expand icon" />
             </a>
@@ -140,6 +130,19 @@ class Footer extends React.Component {
         </div>
         <div className="segment flex-row justify-content-end">
           <div className="volume slider flex-fill">
+          <span className="label">
+            <Dropdown pointing="bottom left" icon="ellipsis horizontal">
+              <Dropdown.Menu>
+                <Dropdown.Header icon='list' content='Add to playlist' />
+                { this.props.user.playlists.map(playlist => {
+                  return (
+                    <Dropdown.Item key={playlist.id} text={playlist.name} icon="plus" className="italic"
+                      onClick={() => this.addToPlaylist(this.props.video.song, playlist)} />
+                  )
+                }) }
+              </Dropdown.Menu>
+            </Dropdown>
+            </span>
             <span className="label">
               <Link to='/queue'>
                 <i className={`large ${this.props.location.pathname === '/queue' ? 'green' : ''} list ul icon`} />
