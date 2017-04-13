@@ -17,7 +17,7 @@ npm start
 Accessed at [localhost:3000](localhost:3000)
 
 ## Electron
-To run the application in an Electron app, run
+To run the application as an Electron app, run
 ```sh
 npm start
 ```
