@@ -11,6 +11,8 @@ import * as YoutubeActions from '../../Actions/YoutubeActions';
 
 class Main extends React.Component {
   componentDidMount() {
+    this.props.dispatch(YoutubeActions.getTrends());
+
     this.rootRef = firebase.database().ref().child('youtify');
     this.playlistsRef = this.rootRef.child('playlists');
     this.usersRef = this.rootRef.child('users');
@@ -111,6 +113,12 @@ class Main extends React.Component {
     hash = hash.slice(1);
     var type, label, title, results = [], bannerImage = "", thumbnail = "";
     switch (pathname) {
+      case '/':
+        type = "welcome";
+        label = "Welcome";
+        title = "Trending";
+        results = this.props.youtube.results.items;
+        break;
       case '/search':
         type = "search";
         label = "Search results for:";

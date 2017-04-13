@@ -7,6 +7,8 @@ import Modal from '../Modal/Modal';
 import NewPlaylist from '../NewPlaylist/NewPlaylist';
 import Player from '../Player/Player';
 
+import * as YoutubeActions from '../../Actions/YoutubeActions';
+
 class Sidebar extends React.Component {
   constructor() {
     super();
@@ -50,6 +52,9 @@ class Sidebar extends React.Component {
         </Modal>
         <div className="flex flex-col flex-fill justify-content-between">
           <div style={{ overflowY: 'auto' }}>
+            <Link to='' onClick={() => this.props.dispatch(YoutubeActions.getTrends())}>
+              <h2 style={{ color: 'white', margin: '24px 18px 0' }}>Home</h2>
+            </Link>
             <Menu header="Playlists"
               items={this.props.user.playlists}
               active={this.props.location.hash.slice(1)} />
