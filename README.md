@@ -9,7 +9,7 @@ Jakob Olsson
 
 Viktor Yberg
 
-## In the browser
+## Run in the browser
 Run
 ```sh
 npm start
