@@ -3,11 +3,16 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import './Footer.css';
 import 'rc-slider/assets/index.css';
+import * as firebase from 'firebase';
 
+import { Dropdown } from 'semantic-ui-react';
 import Slider from 'rc-slider';
 
-import * as YoutubeActions from '../../Actions/YoutubeActions';
+import * as UserActions from '../../Actions/UserActions';
 import * as VideoActions from '../../Actions/VideoActions';
+import * as YoutubeActions from '../../Actions/YoutubeActions';
+
+
 
 class Footer extends React.Component {
   constructor() {
@@ -16,6 +21,8 @@ class Footer extends React.Component {
   }
 
   componentDidMount() {
+    this.rootRef = firebase.database().ref().child('youtify');
+    this.playlistsRef = this.rootRef.child('playlists');
     setInterval(() => {
       if (this.props.video.player && this.props.video.isPlaying && !this.state.dragging) {
         this.setState({ time: this.props.video.player.getCurrentTime() });
@@ -68,6 +75,14 @@ class Footer extends React.Component {
     }
   }
 
+  addToPlaylist = (item, playlist) => {
+    this.props.dispatch(UserActions.addToPlaylist(item, playlist.id));
+    this.playlistsRef
+      .child(playlist.id)
+      .child("songs")
+      .push(item.id.videoId);
+  }
+
   render() {
     const volumeIcon = this.props.video.volume > 0 ? (this.props.video.volume >= 50 ? 'up' : 'down') : 'off';
     return (
@@ -79,6 +94,17 @@ class Footer extends React.Component {
               {this.props.video.song.snippet.channelTitle}
             </Link>
           </div>
+            <Dropdown pointing="bottom left" icon="ellipsis horizontal" style={{ zIndex: '100' }}>
+              <Dropdown.Menu>
+                <Dropdown.Header icon='list' content='Add to playlist' />
+                { this.props.user.playlists.map(playlist => {
+                  return (
+                    <Dropdown.Item key={playlist.id} text={playlist.name} icon="plus" className="italic"
+                      onClick={() => this.addToPlaylist(this.props.video.song, playlist)} />
+                  )
+                }) }
+              </Dropdown.Menu>
+            </Dropdown>
             <a onClick={() => this.fullScreen()}>
                 <i className="large step expand icon" />
             </a>
@@ -137,6 +163,7 @@ class Footer extends React.Component {
 
 export default connect(store => {
   return {
-    video: store.video
+    video: store.video,
+    user: store.user,
   }
 })(Footer);
