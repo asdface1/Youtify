@@ -6,6 +6,7 @@ The Github repository is available at:
 
 ## Participants
 Jakob Olsson
+
 Viktor Yberg
 
 ## In the browser
