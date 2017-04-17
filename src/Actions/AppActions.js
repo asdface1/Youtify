@@ -9,6 +9,11 @@ export function search(query) {
   }
 }
 
+/**
+ * Searches for playlists in Firebase.
+ * @param query    - Search query
+ * @param callback - Function to call after the search is done.
+ */
 export function playlistSearch(query, callback) {
   return function(dispatch) {
     const rootRef = firebase.database().ref().child('youtify');
@@ -42,6 +47,7 @@ export function playlistSearch(query, callback) {
       });
   }
 }
+
 export function setPlaylistSearchResults(results) {
   return {
     type: 'SET_PLAYLIST_SEARCH_RESULTS',
@@ -51,6 +57,10 @@ export function setPlaylistSearchResults(results) {
   }
 }
 
+/**
+ * Converts an object to an array.
+ * @param object - The object to convert.
+ */
 function convertObjectToArray(object) {
   object = object || {};
   return Object.values(object);

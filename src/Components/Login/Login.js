@@ -112,7 +112,6 @@ class Login extends React.Component {
   }
 }
 
-
 export default connect(store => {
   return {
   }

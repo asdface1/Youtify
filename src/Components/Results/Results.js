@@ -18,7 +18,6 @@ class Results extends React.Component {
   }
 
   play = (item, i) => {
-    console.log('play', item);
     this.props.dispatch(VideoActions.playSong(item));
     this.props.dispatch(VideoActions.setQueue(this.props.items, i));
   }

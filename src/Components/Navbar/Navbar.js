@@ -35,11 +35,9 @@ class Navbar extends React.Component {
       this.props.dispatch(AppActions.playlistSearch(
         this.state.query,
         (res) => {
-          console.log('res', res);
           this.props.dispatch(YoutubeActions.fetchSongDetails(
             res,
             (fullRes) => {
-              console.log('fullRes', fullRes);
               this.props.dispatch(AppActions.setPlaylistSearchResults(fullRes))
             }
           ))

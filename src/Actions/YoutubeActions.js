@@ -1,6 +1,10 @@
 const { apiKey } = require('../../config.js');
 const baseUrl = 'https://www.googleapis.com/youtube/v3';
 
+/**
+ * Searches the Youtube API with a given query.
+ * @param query - The search query.
+ */
 export function search(query) {
   return function(dispatch) {
     dispatch({
@@ -26,6 +30,10 @@ export function search(query) {
   }
 }
 
+/**
+ * Gets video from a Youtube channel.
+ * @param id - The channel id.
+ */
 export function getChannel(id) {
   return function(dispatch) {
     dispatch({
@@ -44,14 +52,12 @@ export function getChannel(id) {
         fetch(`${baseUrl}/playlistItems?${playlistItemsParams}`)
           .then(response => response.json())
           .then(response => {
-            console.log('response', response);
             response.bannerImage = bannerImage;
             response.thumbnail = thumbnail;
             // Need to rearrange keys so they fit our scheme
             response.items = response.items.map(item => {
               return { snippet: item.snippet, id: item.snippet.resourceId };
             });
-            console.log('response', response);
             dispatch({
               type: 'SEARCH',
               payload: {
@@ -69,6 +75,9 @@ export function getChannel(id) {
   }
 }
 
+/**
+ * Gets trending videos from Youtube.
+ */
 export function getTrends() {
   return function(dispatch) {
     dispatch({
@@ -96,9 +105,14 @@ export function getTrends() {
   }
 }
 
+/**
+ * Fetches video details from Youtube based on video ids. Batches ids
+ * to fetch all details in one request.
+ * @param playlists - A list of playlists containing video ids.
+ * @param callback  - Function to call after the fetching is done.
+ */
 export function fetchSongDetails(playlists, callback) {
   return function(dispatch) {
-    console.log("youtubeactions::playlists", playlists);
     // Batch ids from all playlist into one comma-separated string
     const batchedIds = playlists.map(playlist => {
       return playlist.songs.join();

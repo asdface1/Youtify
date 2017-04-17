@@ -8,8 +8,6 @@ class NewPlaylist extends React.Component {
     e.preventDefault();
     const playlistName = e.target.playlist.value;
     const makePublic = e.target.public.checked;
-    console.log('adding playlist:', playlistName);
-    console.log('public:', makePublic);
 
     const rootRef = firebase.database().ref().child('youtify');
     const playlistsRef = rootRef.child('playlists');
@@ -29,7 +27,6 @@ class NewPlaylist extends React.Component {
   }
 
   render() {
-    console.log('props', this.props)
     return (
       <div id="NewPlaylist">
         <div className="ui basic segment" style={{ width: '500px', maxWidth: '100%', padding: 0 }}>

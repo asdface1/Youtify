@@ -12,12 +12,10 @@ import * as UserActions from '../../Actions/UserActions';
 import * as VideoActions from '../../Actions/VideoActions';
 import * as YoutubeActions from '../../Actions/YoutubeActions';
 
-
-
 class Footer extends React.Component {
   constructor() {
     super();
-    this.state = {dragging: false, time: 0};
+    this.state = { dragging: false, time: 0 };
   }
 
   componentDidMount() {
