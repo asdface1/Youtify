@@ -129,7 +129,7 @@ class Footer extends React.Component {
         </div>
         <div className="segment flex-row justify-content-end">
           <div className="volume slider flex-fill">
-          <span className="label">
+          <span className="label options">
             <Dropdown pointing="bottom left" icon="large ellipsis horizontal">
               <Dropdown.Menu>
                 <Dropdown.Header icon='list' content='Add to playlist' />

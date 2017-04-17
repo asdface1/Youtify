@@ -91,5 +91,6 @@ body, #root {
 
 ::-webkit-scrollbar-thumb {
   background: #282828; }
-  ::-webkit-scrollbar-thumb:hover {
-    background: #353535; }
+
+::-webkit-scrollbar-thumb:hover {
+  background: #353535; }
