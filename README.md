@@ -25,3 +25,8 @@ followed by
 ```sh
 npm run electron
 ```
+
+## Component overview
+Here is a simple overview of most of the components of the app.
+
+<img src="https://raw.githubusercontent.com/asdface1/youtify/master/public/overview.jpg" height="400" />
